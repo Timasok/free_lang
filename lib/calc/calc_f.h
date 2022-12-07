@@ -7,13 +7,13 @@
 const char * deleteSpaces(const char * str);
 bool stringEquals(const char *s_1, const char * s_2);
 
-Exp_node * getGeneral(const char * str);
-Exp_node * getExpression();
-Exp_node * getT();
-Exp_node * getDegree();
-Exp_node * getPolice();
-Exp_node * getVariable();
-Exp_node * getUnarOperation();
-Exp_node * getNumber();
+Node * getGeneral(const char * str);
+Node * getExpression();
+Node * getT();
+Node * getDegree();
+Node * getPolice();
+Node * getVariable();
+Node * getUnarOperation();
+Node * getNumber();
 
 #endif

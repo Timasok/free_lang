@@ -1,0 +1,98 @@
+asmCtor at lib/ASM/src/inout_ASM.cpp(18)
+CODE OF ERROR: 1057
+asmCtor at lib/ASM/src/inout_ASM.cpp(42)
+CODE OF ERROR: 1057
+compile at lib/ASM/src/funcs_ASM.cpp(47)
+CODE OF ERROR: 1057
+COMAND - push COMAND_LENGTH - 4 ARG - 17
+getArgs at lib/ASM/src/funcs_ASM.cpp(187)
+CODE OF ERROR: 1057
+17
+17
+ARGUMENT: 17 REGISTER: 0 MEMORY: 0
+getArgs at lib/ASM/src/funcs_ASM.cpp(221)
+CODE OF ERROR: 1057
+line - 0 comand - push argument - 1
+COMAND - push COMAND_LENGTH - 4 ARG - 2
+getArgs at lib/ASM/src/funcs_ASM.cpp(187)
+CODE OF ERROR: 1057
+2
+2
+ARGUMENT: 2 REGISTER: 0 MEMORY: 0
+getArgs at lib/ASM/src/funcs_ASM.cpp(221)
+CODE OF ERROR: 1057
+line - 1 comand - push argument - 1
+COMAND - MUL COMAND_LENGTH - 3 ARG - (null)
+line - 2 comand - MUL
+COMAND - push COMAND_LENGTH - 4 ARG - 12
+getArgs at lib/ASM/src/funcs_ASM.cpp(187)
+CODE OF ERROR: 1057
+12
+12
+ARGUMENT: 12 REGISTER: 0 MEMORY: 0
+getArgs at lib/ASM/src/funcs_ASM.cpp(221)
+CODE OF ERROR: 1057
+line - 3 comand - push argument - 1
+COMAND - SUB COMAND_LENGTH - 3 ARG - (null)
+line - 4 comand - SUB
+COMAND - push COMAND_LENGTH - 4 ARG - 1000
+getArgs at lib/ASM/src/funcs_ASM.cpp(187)
+CODE OF ERROR: 1057
+1000
+1000
+ARGUMENT: 1000 REGISTER: 0 MEMORY: 0
+getArgs at lib/ASM/src/funcs_ASM.cpp(221)
+CODE OF ERROR: 1057
+line - 5 comand - push argument - 1
+COMAND - mul COMAND_LENGTH - 3 ARG - (null)
+line - 6 comand - mul
+COMAND - out COMAND_LENGTH - 3 ARG - (null)
+line - 7 comand - out
+COMAND - hlt COMAND_LENGTH - 3 ARG - (null)
+line - 8 comand - hlt
+	Label[0] = {-1, imp}
+	Label[1] = {-1, imp}
+	Label[2] = {-1, imp}
+	Label[3] = {-1, imp}
+	Label[4] = {-1, imp}
+	Label[5] = {-1, imp}
+	Label[6] = {-1, imp}
+	Label[7] = {-1, imp}
+	Label[8] = {-1, imp}
+	Label[9] = {-1, imp}
+	Label[10] = {-1, imp}
+	Label[11] = {-1, imp}
+	Label[12] = {-1, imp}
+	Label[13] = {-1, imp}
+	Label[14] = {-1, imp}
+	Label[15] = {-1, imp}
+	Label[16] = {-1, imp}
+	Label[17] = {-1, imp}
+	Label[18] = {-1, imp}
+	Label[19] = {-1, imp}
+	Label[20] = {-1, imp}
+	Label[21] = {-1, imp}
+	Label[22] = {-1, imp}
+	Label[23] = {-1, imp}
+	Label[24] = {-1, imp}
+	Label[25] = {-1, imp}
+	Label[26] = {-1, imp}
+	Label[27] = {-1, imp}
+	Label[28] = {-1, imp}
+	Label[29] = {-1, imp}
+	Label[30] = {-1, imp}
+	Label[31] = {-1, imp}
+	Label[32] = {-1, imp}
+	Label[33] = {-1, imp}
+	Label[34] = {-1, imp}
+	Label[35] = {-1, imp}
+	Label[36] = {-1, imp}
+	Label[37] = {-1, imp}
+	Label[38] = {-1, imp}
+	Label[39] = {-1, imp}
+compile at lib/ASM/src/funcs_ASM.cpp(96)
+CODE OF ERROR: 1057
+33	17	33	2	5	33	12	4	33	1000	5	7	0	writeAssemblerInFile at lib/ASM/src/inout_ASM.cpp(48)
+CODE OF ERROR: 1057
+asmDtor at lib/ASM/src/inout_ASM.cpp(85)
+CODE OF ERROR: 1057

@@ -12,24 +12,24 @@
 #define PRINT_ERROR(error_specifier)                                        \
         fprintf(log, "%s", #error_specifier);
         
-int dumpExpNode(const Exp_node * node);
-int getPriority(const Exp_node *node);
+int dumpExpNode(const Node * node);
+int getPriority(const Node *node);
 
 int printIntroInTex();
 int openPDF();
 
-int saveMicroTransform(const Exp_node *node);
+int saveMicroTransform(const Node *node);
 
 int openLogs();
 int closeLogs();
 int getDumpNumber();
 
-int findNext(const Exp_node* node, int (*oper)(const Node *));
-int makeDot(const Exp_node * node);
+int findNext(const Node* node, int (*oper)(const Node *));
+int makeDot(const Node * node);
 
-int treeDump(const Exp_node *node, const char * operation_info, const char *name_of_file, const char *name_of_func, int number_of_line);
+int treeDump(const Node *node, const char * operation_info, const char *name_of_file, const char *name_of_func, int number_of_line);
 
-int printInOrderTex(const Exp_node * node);
+int printInOrderTex(const Node * node);
 
 #define TREE_DUMP(nodePtr)                                                  \
         treeDump(nodePtr, "", __FILE__, __PRETTY_FUNCTION__,__LINE__)

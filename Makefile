@@ -13,6 +13,7 @@ I_FLAG := -I./lib/stack/include/ -I./lib/ASM/include/ -I./lib/CPU/include/ -I./l
 
 CC := g++
 CFLAGS := -Wno-format -g -fsanitize=address
+CFLAGS_NO_SANITIZER := -Wno-format -g
 
 LANG_EXE := free_lang
 ASM_EXE  := assembler
@@ -35,20 +36,13 @@ LANG_OBJ := $(patsubst $(LANG_DIR)%.cpp, $(OBJ_DIR)%.o, $(LANG_SRC))
 all : $(ASM_EXE) $(CPU_EXE) $(LANG_EXE)
 
 $(ASM_EXE) : $(ASM_OBJ) $(STK_OBJ) $(LIB_OBJ)
-	@$(CC) $(CFLAGS) $(ASM_OBJ) $(STK_OBJ) $(LIB_OBJ) -o $(ASM_EXE)
+	@$(CC) $(CFLAGS_NO_SANITIZER) $(ASM_OBJ) $(STK_OBJ) $(LIB_OBJ) -o $(ASM_EXE)
 
 $(CPU_EXE) : $(CPU_OBJ) $(STK_OBJ) $(LIB_OBJ)
 	@$(CC) $(CFLAGS) $(CPU_OBJ) $(STK_OBJ) $(LIB_OBJ) -o $(CPU_EXE)
 
 $(LANG_EXE) : $(LANG_OBJ) $(CALC_OBJ) $(LIB_OBJ)
 	@$(CC) $(CFLAGS) $(LANG_OBJ) $(CALC_OBJ) $(LIB_OBJ) -o $(LANG_EXE)
-
-# $(OBJ_DIR)%.o : $(STK_DIR)%.cpp $(ASM_OBJ)%.cpp $(LIB_OBJ)%.cpp $(LANG_OBJ)%.cpp $(CALC_OBJ)%.cpp $(CPU_OBJ)%.cpp
-# 	@$(CC) $(I_FLAG) -c $< -o $@ 
-
-# $(TARGET) : $(STK_OBJ) $(ASM_OBJ) $(CPU_OBJ) $(CALC_OBJ) $(LIB_OBJ) $(LANG_OBJ)
-# 	@$(CC) $(CFLAGS) $(STK_OBJ) $(ASM_OBJ) $(CPU_OBJ) $(CALC_OBJ) $(LIB_OBJ) $(LANG_OBJ) -o $(TARGET)
-
 
 $(OBJ_DIR)%.o : $(STK_DIR)%.cpp
 	@$(CC) $(I_FLAG) -c $< -o $@

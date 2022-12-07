@@ -40,7 +40,8 @@ int textCtor(Text_info * text, const char * file_name)
     ASSERT((file_name != nullptr));
     openTextLogs();
 
-    text->source_file = fopen(file_name, "r");   
+    text->source_file = fopen(file_name, "r");
+    
     ASSERT((text->source_file != nullptr));
 
     struct stat data = {};

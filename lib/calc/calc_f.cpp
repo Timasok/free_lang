@@ -65,19 +65,19 @@ bool stringEquals(const char *s_1, const char * s_2)
 
 }
 
-Exp_node * getGeneral(const char * str)
+Node * getGeneral(const char * str)
 {
     input = deleteSpaces(str);
-    Exp_node * result = getExpression();
+    Node * result = getExpression();
 
     assert(*input == '\0');
 
     return result;
 }
 
-Exp_node * getDegree()
+Node * getDegree()
 {
-    Exp_node * result = getPolice();
+    Node * result = getPolice();
     Value value = {};
 
     while (*input == '^')
@@ -85,7 +85,7 @@ Exp_node * getDegree()
         int op = *input;
         input++;
         
-        Exp_node * tmp_result = getPolice();
+        Node * tmp_result = getPolice();
 
         if (op == '^')
         {            
@@ -103,9 +103,9 @@ Exp_node * getDegree()
 
 }
 
-Exp_node * getExpression( )
+Node * getExpression( )
 {
-    Exp_node * result = getT(); // TODO T -> term
+    Node * result = getT(); // TODO T -> term
 
     Value value = {};
 
@@ -114,7 +114,7 @@ Exp_node * getExpression( )
         int op = *input;
         input++;
 
-        Exp_node * tmp_result = getT();
+        Node * tmp_result = getT();
 
         if  (op == '+')
         {
@@ -137,9 +137,9 @@ Exp_node * getExpression( )
     return result;
 }
 
-Exp_node * getT()
+Node * getT()
 {
-    Exp_node * result = getDegree();
+    Node * result = getDegree();
 
     Value value = {};
 
@@ -148,7 +148,7 @@ Exp_node * getT()
         int op = *input;
         input++;
 
-        Exp_node * tmp_result = getDegree();
+        Node * tmp_result = getDegree();
 
         if  (op == '*')
         {
@@ -173,9 +173,9 @@ Exp_node * getT()
 
 }
 
-Exp_node * getPolice() // TODO rename
+Node * getPolice() // TODO rename
 {
-    Exp_node * result = nullptr;
+    Node * result = nullptr;
 
     if (*input == '(')
     {
@@ -199,9 +199,9 @@ Exp_node * getPolice() // TODO rename
     return result;
 }
 
-Exp_node * getUnarOperation()
+Node * getUnarOperation()
 {
-    Exp_node * result = nullptr;
+    Node * result = nullptr;
 
     size_t shift = 0;
 
@@ -263,7 +263,7 @@ Exp_node * getUnarOperation()
     return result;
 }
 
-Exp_node * getVariable()
+Node * getVariable()
 {
     char value = 0;
     const char * s_old = input;
@@ -311,7 +311,7 @@ Exp_node * getVariable()
 
 }
 
-Exp_node * getNumber()
+Node * getNumber()
 {
     double value = 0;
     const char * s_old = input;

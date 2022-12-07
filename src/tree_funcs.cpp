@@ -71,7 +71,7 @@ int LexDtor(Lex_sub *lex)
 
 #undef DEF_OP
 
-Exp_node * nodeConnect(Exp_node *parent, const char dest)
+Node * nodeConnect(Node *parent, const char dest)
 {
     ASSERT((parent != nullptr));
 
@@ -79,7 +79,7 @@ Exp_node * nodeConnect(Exp_node *parent, const char dest)
     printf("\e[0;31mconnect_called to %p dest %d\e[0m\n", parent, dest);
 #endif
 
-    Exp_node * new_node = (Exp_node *)calloc(1, sizeof(Exp_node));
+    Node * new_node = (Node *)calloc(1, sizeof(Node));
     
     switch(dest)
     {
@@ -98,12 +98,12 @@ Exp_node * nodeConnect(Exp_node *parent, const char dest)
 
 }
 
-Exp_node * nodeCtor()
+Node * nodeCtor()
 {
-    return (Exp_node *)calloc(1, sizeof(Exp_node));
+    return (Node *)calloc(1, sizeof(Node));
 }
 
-int copySingle(const Exp_node * node, Exp_node *new_node)
+int copySingle(const Node * node, Node *new_node)
 {
     if (!node)
         return -1;
@@ -122,12 +122,12 @@ int copySingle(const Exp_node * node, Exp_node *new_node)
 
 }
 
-Exp_node * copy(const Exp_node * node)
+Node * copy(const Node * node)
 {
     if (!node)
         return nullptr;
     
-    Exp_node *new_node = nodeCtor();
+    Node *new_node = nodeCtor();
 
     copyNodeData(node, new_node);
 
@@ -139,7 +139,7 @@ Exp_node * copy(const Exp_node * node)
 
 }
 
-int copyNodeData(const Exp_node *src_node, Exp_node *dest_node)
+int copyNodeData(const Node *src_node, Node *dest_node)
 {
     if (src_node == nullptr || dest_node == nullptr)
         return -1;
@@ -179,7 +179,7 @@ int copyNodeData(const Exp_node *src_node, Exp_node *dest_node)
 
 }
 
-int fillVarArray(Var v_arr[], Exp_node * node, size_t free_index)
+int fillVarArray(Var v_arr[], Node * node, size_t free_index)
 {
     if (!node)
         return 0;
@@ -335,7 +335,7 @@ int dumpVarArray(Var v_arr[])
     return 0;
 }
 
-int processVarNode(Exp_node *node, Var v_arr[], const char * var_name)
+int processVarNode(Node *node, Var v_arr[], const char * var_name)
 {
     double possible_replace = getVarValue(v_arr, var_name);
 
@@ -351,7 +351,7 @@ int processVarNode(Exp_node *node, Var v_arr[], const char * var_name)
     return 0;
 }
 
-int substitudeVariables(Exp_node *node, Var v_arr[], const char * name_of_not_replaced_var)
+int substitudeVariables(Node *node, Var v_arr[], const char * name_of_not_replaced_var)
 {
     if (!node)
         return 0;
@@ -391,7 +391,7 @@ int fillVarValues(Var v_arr[])
     return 0;
 }
 
-Exp_node * createNode(Node_type type, Value value, Exp_node * l_son, Exp_node * r_son)
+Node * createNode(Node_type type, Value value, Node * l_son, Node * r_son)
 {
     int error_code = 0;
     PARSE_ERROR(error_code, type == NUL, MATAN_KILLER_ERROR_INVALID_TYPE);
@@ -400,7 +400,7 @@ Exp_node * createNode(Node_type type, Value value, Exp_node * l_son, Exp_node * 
     if (error_code != 0)
         return nullptr;
 
-    Exp_node * new_node = nodeCtor(); 
+    Node * new_node = nodeCtor(); 
 
     new_node->type = type;
     new_node->value = value;
@@ -412,9 +412,9 @@ Exp_node * createNode(Node_type type, Value value, Exp_node * l_son, Exp_node * 
 
 }
 
-Exp_node * nodeConnect(Node_type type, Value value, Exp_node * l_son, Exp_node * r_son)
+Node * nodeConnect(Node_type type, Value value, Node * l_son, Node * r_son)
 {
-    Exp_node * result = createNode(type, value, l_son, r_son);
+    Node * result = createNode(type, value, l_son, r_son);
     linkToParent(result, l_son);
     linkToParent(result, r_son);
 
@@ -422,28 +422,28 @@ Exp_node * nodeConnect(Node_type type, Value value, Exp_node * l_son, Exp_node *
 
 }
 
-Exp_node * createNum(double number)
+Node * createNum(double number)
 {
     Value val = {};
     val.dbl_value = number;
     return createNode(NUM, val, nullptr, nullptr);
 }
 
-Exp_node * createVar(char var)
+Node * createVar(char var)
 {
     Value val = {};
     val.var.value = var;
     return createNode(VAR, val, nullptr, nullptr);
 }
 
-Exp_node * createVar(char * var_name)
+Node * createVar(char * var_name)
 {
     Value val = {};
     val.var.name = var_name;
     return createNode(VAR, val, nullptr, nullptr);
 }
 
-Exp_node * createOp(Operator op)
+Node * createOp(Operator op)
 {
     Value val = {};
     val.op_value = op;
@@ -456,7 +456,7 @@ Exp_node * createOp(Operator op)
                 val.op_value = op_name;                     \
             }                                               \
 
-Exp_node * createOp(int operation)
+Node * createOp(int operation)
 {
     Value val = {};
     val.op_value = NOT_OP;
@@ -470,7 +470,7 @@ Exp_node * createOp(int operation)
 
 #undef DEF_OP
 
-bool isTerminal(Exp_node *node)
+bool isTerminal(Node *node)
 {
     if (!node)
         return false;
@@ -486,7 +486,7 @@ bool isTerminal(Exp_node *node)
 
 }
 
-bool hasSons(Exp_node *node)
+bool hasSons(Node *node)
 {
     if (node->l_son && node->r_son)
     {
@@ -498,7 +498,7 @@ bool hasSons(Exp_node *node)
     }
 }
 
-int linkToParent(Exp_node *parent, Exp_node *orphan)
+int linkToParent(Node *parent, Node *orphan)
 {
     if (parent == nullptr || orphan == nullptr)
         return -1;
@@ -509,7 +509,7 @@ int linkToParent(Exp_node *parent, Exp_node *orphan)
 
 }
 
-int linkSonsToParent(Exp_node *node)
+int linkSonsToParent(Node *node)
 {
     if (node->l_son)
         node->l_son->parent = node;
@@ -520,7 +520,7 @@ int linkSonsToParent(Exp_node *node)
     return 0;
 }
 
-int pickCubs(Exp_node * prev_parent, Exp_node * new_parent)
+int pickCubs(Node * prev_parent, Node * new_parent)
 {
     if (!hasSons(prev_parent))
         return -1;
@@ -537,7 +537,7 @@ int pickCubs(Exp_node * prev_parent, Exp_node * new_parent)
     return 0;
 }
 
-void printIn(const Exp_node * node)
+void printIn(const Node * node)
 {
     if (!node)
         return;        
@@ -577,7 +577,7 @@ void printIn(const Exp_node * node)
     return;
 }
 
-int nodeDtor(Exp_node *node)
+int nodeDtor(Node *node)
 {
     if (!node)
         return 0;
@@ -637,183 +637,10 @@ int nodeDtor(Exp_node *node)
     return 0;
 }
 
-int nodeDtor(Exp_node **node)
+int nodeDtor(Node **node)
 {
     nodeDtor(*node);
     free(*node);
-
-    return 0;
-}
-
-////////////////////////////////////////////////////////////
-
-int nodeCtor(Node **node)
-{
-    *node = (Node *)calloc(1, sizeof(Node));
-    return 0;
-}
-
-/*
-// Node * nodeConnect(Node *parent, const char dest)
-// {
-//     assert(parent != NULL);
-    
-//     Node * new_node = (Node *)calloc(1, sizeof(Node));
-    
-//     switch(dest)
-//     {
-//         case LEFT_SON:
-//                 parent->l_son = new_node;
-//                 break;
-//         case RIGHT_SON:
-//                 parent->r_son = new_node;
-//                 break;
-//         default:
-//                 //letim
-//                 break;
-//     }
-
-//     new_node->parent = parent;
-//     return new_node;
-// }
-*/
-
-void printPre(const Node * node)
-{
-    if (!node) 
-        return;
-
-    printf("( ");
-    printf("%s ", node->data);
-
-    if (node->l_son)
-    {
-        printPre(node->l_son);
-        printf(") ");
-    }
-
-    if (node->r_son)
-    {
-        printPre(node->r_son);
-        printf(") "); 
-    }
-
-    return;
-}
-
-void printIn(const Node * node)
-{
-    if (!node) 
-        return;
-
-    printf("( ");
-
-    if (node->l_son)
-    {
-        printIn(node->l_son);
-        printf(") ");
-    }
-
-    printf("%s ", node->data);
-
-    if (node->r_son)
-    {
-        printIn(node->r_son);
-        printf(") "); 
-    }
-
-    return;
-}
-
-void printPost(const Node * node)
-{
-    if (!node) 
-        return;
-
-    printf("( ");
-
-    if (node->l_son)
-    {
-        printPost(node->l_son);
-        printf(") ");
-    }
-
-    if (node->r_son)
-    {
-        printPost(node->r_son);
-        printf(") "); 
-    }
-
-    printf("%s ", node->data);
-
-    return;
-}
-
-Node * findNode(Node *node, const char *string)
-{
-
-    Node *result = nullptr;
-
-    if (!node) 
-        return result;
-
-    if (strcmp(string, node->data) == 0)
-    {
-        result = node;
-        return result;
-    }
-
-    if (node->l_son)
-    {
-        result = findNode(node->l_son, string);
-    }
-
-    if (node->r_son && result == nullptr)
-    {
-        result = findNode(node->r_son, string);
-    }
-
-    return result;
-
-}
-
-int nodeDtor(Node *node)
-{
-    if (!node)
-        return 0;
-
-    while(1)
-    {
-        
-        // printf("\e[0;32mдолжны были зафришеть - \e[0m\n");
-        // nodeDump(node);
-        if (node->l_son == nullptr && node->r_son == nullptr)
-        {
-            if (node->parent == nullptr)
-                return 0;
-
-            if (node->parent->l_son == node)
-            {
-                node->parent->l_son = nullptr;
-                    
-            }
-            else if(node->parent->r_son == node)
-            {
-                node->parent->r_son = nullptr;
-            }
-
-            // printf("\e[0;31mзафришен - \e[0m\n");
-            // nodeDump(node);
-            free((void *)node->data);
-            free(node);
-            return 0;
-
-        }
-
-        nodeDtor(node->l_son);
-
-        nodeDtor(node->r_son);
-    }
 
     return 0;
 }

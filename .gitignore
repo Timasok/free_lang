@@ -34,6 +34,9 @@
 assembler
 cpu
 free_lang
+Make
+
+*.code
 
 input
 

@@ -164,7 +164,7 @@ bool checkSignature(CPU_info * cpu, FILE * asm_source)
 
 int CPU_Ctor(CPU_info * cpu, FILE * asm_source)
 {
-    DBG_OUT;
+    // DBG_OUT;
 
     cpu->code_of_error = 0;
 
@@ -174,19 +174,14 @@ int CPU_Ctor(CPU_info * cpu, FILE * asm_source)
         return EXIT_FAILURE;
     } 
 
-    DBG_OUT;
+    // DBG_OUT;
     fread(&cpu->quantity, sizeof(int), 1, asm_source);    
-    DBG_OUT;    
+    // DBG_OUT;    
     fread(&cpu->number_of_comands, sizeof(int), 1, asm_source);
-    DBG_OUT;
+    // DBG_OUT;
 
-#ifdef USING_INT
     cpu->code = (int *)calloc(cpu->quantity, sizeof(int));
     fread(cpu->code, sizeof(int), cpu->quantity, asm_source);
-#elif defined USING_DOUBLE
-    cpu->code = (double *)calloc(cpu->quantity, sizeof(double));
-    fread(cpu->code, sizeof(double), cpu->quantity, asm_source);
-#endif
 
     stackCtor(cpu->stack, REG_CAPACITY);
     stackCtor(cpu->funcs_stack, MAX_NUM_OF_FUNCS);

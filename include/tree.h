@@ -17,15 +17,6 @@ const int MAX_FUNC_NUMBER = 20;
         }                                                               \
     } while(0)                                                          \
 
-struct Node
-{
-    const char *data;
-    Node * l_son = nullptr;
-    Node * r_son = nullptr;
-    Node * parent = nullptr;
-
-};
-
 enum son
 {
     LEFT_SON   = 0,
@@ -68,12 +59,12 @@ union Value
 
 };
 
-struct Exp_node
+struct Node
 {
 
-    Exp_node * l_son = nullptr;
-    Exp_node * r_son = nullptr;
-    Exp_node * parent = nullptr;
+    Node * l_son = nullptr;
+    Node * r_son = nullptr;
+    Node * parent = nullptr;
 
     Node_type type = NUL;
 
@@ -92,9 +83,9 @@ int LexDtor(Lex_sub *lex);
 Lex_sub * getLexicalSubstitusions();
 
 
-Exp_node * nodeConnect(Exp_node *parent, const char dest);
-Exp_node * nodeConnect(Node_type type, Value value, Exp_node * l_son, Exp_node * r_son);
-Exp_node * nodeCtor();
+Node * nodeConnect(Node *parent, const char dest);
+Node * nodeConnect(Node_type type, Value value, Node * l_son, Node * r_son);
+Node * nodeCtor();
 
 
 int getVarIndex(Var v_arr[], const char * name);
@@ -103,59 +94,48 @@ int addValueToVarArray(Var v_arr[], double value, const char *name);
 int addVarValueByIndex(Var v_arr[], double value, size_t index);
 int addVarNameByIndex(Var v_arr[], char * name, size_t index);
 
-int fillVarArray(Var v_arr[], Exp_node * node, size_t free_index);
+int fillVarArray(Var v_arr[], Node * node, size_t free_index);
 int dumpVarArray(Var v_arr[]);
 int varArrayDtor(Var v_arr[]);
 
-Exp_node * createNode(Node_type type, Value value, Exp_node * l_son, Exp_node * r_son);
-Exp_node * createNum(double number);
-Exp_node * createVar(char var);
-Exp_node * createVar(char * var_name);
-Exp_node * createOp(Operator op);
-Exp_node * createOp(int operation);
+Node * createNode(Node_type type, Value value, Node * l_son, Node * r_son);
+Node * createNum(double number);
+Node * createVar(char var);
+Node * createVar(char * var_name);
+Node * createOp(Operator op);
+Node * createOp(int operation);
 
-int substitudeVariables(Exp_node *node, Var v_arr[], const char * name_of_not_replaced_var);
-int processVarNode(Exp_node *node, Var v_arr[], const char * var_name);
+int substitudeVariables(Node *node, Var v_arr[], const char * name_of_not_replaced_var);
+int processVarNode(Node *node, Var v_arr[], const char * var_name);
 int fillVarValues(Var v_arr[]);
 bool checkExistence(Var v_arr[], const char * name);
 
 #define CREATE_OP(op_name)          \
     createOp( ##op_name)
 
-int linkToParent(Exp_node *parent, Exp_node *orphan);
-int linkSonsToParent(Exp_node *node);
-int pickCubs(Exp_node * prev_parent, Exp_node * new_parent);
-// int tearNode(Exp_node * prev_parent, Exp_node * new_parent);
+int linkToParent(Node *parent, Node *orphan);
+int linkSonsToParent(Node *node);
+int pickCubs(Node * prev_parent, Node * new_parent);
+// int tearNode(Node * prev_parent, Node * new_parent);
 
-bool isTerminal(Exp_node *node);
-bool hasSons(Exp_node *node);
+bool isTerminal(Node *node);
+bool hasSons(Node *node);
 
-Exp_node * copy(const Exp_node * node);
-int copyNodeData(const Exp_node *src_node, Exp_node *dest_node);
-int copySingle(const Exp_node * node, Exp_node *new_node);
+Node * copy(const Node * node);
+int copyNodeData(const Node *src_node, Node *dest_node);
+int copySingle(const Node * node, Node *new_node);
 
-Exp_node * findNode(Exp_node *node, const char *string);//TODO change completely this function do we need her?
-int nodeDtor(Exp_node *node);
-int nodeDtor(Exp_node **node);
-
-void printPre(const Exp_node * node);
-void printIn(const Exp_node * node);
-void printPost(const Exp_node * node);
-
-///////////////////////////////////////////////////////////////
-
-int verifyTree(const Exp_node *node);
-
-///////////////////////////////////////////////////////////////
-
-int nodeCtor(Node **node);
-// Node * nodeConnect(Node *parent, const char dest);
-
-Node * findNode(Node *node, const char *string);
+Node * findNode(Node *node, const char *string);//TODO change completely this function do we need her?
 int nodeDtor(Node *node);
+int nodeDtor(Node **node);
 
 void printPre(const Node * node);
 void printIn(const Node * node);
 void printPost(const Node * node);
+
+///////////////////////////////////////////////////////////////
+
+int verifyTree(const Node *node);
+
 
 #endif

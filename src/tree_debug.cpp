@@ -29,7 +29,7 @@ static char dump_comand[128] = {};
 static int nodeNumber = 0;
 static int prevNumber = 0;
 
-int dumpExpNode(const Exp_node * node)
+int dumpExpNode(const Node * node)
 {
     if (!node)
         return -1;
@@ -111,7 +111,7 @@ int getDumpNumber()
     return pic_number - 1;
 }
 
-int findNext(const Exp_node* node, int (*oper)(const Exp_node *))
+int findNext(const Node* node, int (*oper)(const Node *))
 {
     if (!node)
         return 0;
@@ -139,7 +139,7 @@ int findNext(const Exp_node* node, int (*oper)(const Exp_node *))
 
 #define PRINT_DOT(...) fprintf(GRAPH_LOG, __VA_ARGS__)
 
-static int oper(const Exp_node * node)
+static int oper(const Node * node)
 {
 
     char data[MAX_BUFFER_LENGTH] = {};
@@ -199,7 +199,7 @@ static int oper(const Exp_node * node)
     return 0;
 }
 
-int makeDot(const Exp_node *node)
+int makeDot(const Node *node)
 {
     GRAPH_LOG = fopen(HTML_LOG_PATH, "w");
     
@@ -259,7 +259,7 @@ int printIntroInTex()
     return 0;
 }
 
-int treeDump(const Exp_node *node , const char * operation_info, const char *name_of_file, const char *name_of_func, int number_of_line)
+int treeDump(const Node *node , const char * operation_info, const char *name_of_file, const char *name_of_func, int number_of_line)
 {
     // graphDumpDot(list);
     nodeNumber = 0;
@@ -294,7 +294,7 @@ static char * getCringeComment()
 
 }
 
-int saveMicroTransform(const Exp_node *node)
+int saveMicroTransform(const Node *node)
 {
 
     fprintf(TEX_LOG, "%s\n", getCringeComment());    
@@ -337,7 +337,7 @@ int openPDF()
             return priority;                                                     \
         }                                                                        \
 
-int getPriority(const Exp_node *node)
+int getPriority(const Node *node)
 {
 
     if (0)
@@ -369,7 +369,7 @@ static int getTexTranscriptForOp(Operator operation, char * result)
 
 #undef DEF_OP
 
-int printInOrderTex(const Exp_node *node)
+int printInOrderTex(const Node *node)
 {
 //     if (!node)
 //         return 0; 
