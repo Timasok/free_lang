@@ -35,6 +35,9 @@ assembler
 cpu
 free_lang
 
+input
+
 ./assembler_progs/**
 ./graph_dumps/**
 ./logs/**
+./timasok_sources/**

@@ -2,6 +2,7 @@
 #define TREE_FUNCS_H
 
 // #define DEBUG 47
+#include "general_debug.h"
 
 const int MAX_BUFFER_LENGTH = 512;
 const int NUMBER_OF_VARS = 16; 

@@ -1,7 +1,9 @@
+#include <stdio.h>
+
 #ifndef TEXT_FUNCS_H
 #define TEXT_FUNCS_H
 
-#include <stdio.h>
+#include "general_debug.h"
 
 struct  Text_info
 {

@@ -5,7 +5,8 @@
 #include "tree_debug.h"
 
 const int MAX_OPER_LEN = 10;
-const char TEX_LOG_PATH[] = "log.tex";
+const char TEX_LOG_PATH[] = "./logs/log.tex";
+const char HTML_LOG_PATH[] = "./logs/graph_log.html";
 
 static FILE * HTM_LOG = 0;
 static FILE * GRAPH_LOG = 0;
@@ -88,7 +89,7 @@ int openLogs()
 
     fflush(TEX_LOG);
 
-    HTM_LOG = fopen("log.htm", "w+");
+    HTM_LOG = fopen("./logs/log.htm", "w+");
     fflush(HTM_LOG);
     fprintf(HTM_LOG, "<pre>");
 
@@ -200,7 +201,7 @@ static int oper(const Exp_node * node)
 
 int makeDot(const Exp_node *node)
 {
-    GRAPH_LOG = fopen("graph_log.html", "w");
+    GRAPH_LOG = fopen(HTML_LOG_PATH, "w");
     
     PRINT_DOT("digraph MYG {\n");
     PRINT_DOT("rankdir = VR;\n");//or TB
@@ -215,7 +216,7 @@ int makeDot(const Exp_node *node)
 
     fclose(GRAPH_LOG);
 
-    sprintf(dump_comand, "dot -Tjpeg graph_log.html > graph_dumps/dump_%d.jpeg", pic_number++);
+    sprintf(dump_comand, "dot -Tjpeg %s > graph_dumps/dump_%d.jpeg", HTML_LOG_PATH, pic_number++);
     
     return 0;
 
@@ -275,7 +276,7 @@ int treeDump(const Exp_node *node , const char * operation_info, const char *nam
         fprintf(TEX_LOG, "\\textbf{%s:}\n", operation_info);    
     }
 
-    fprintf(HTM_LOG, "\n<hr>\n<img src = graph_dumps/dump_%d.jpeg>\n", getDumpNumber());
+    fprintf(HTM_LOG, "\n<hr>\n<img src = ../graph_dumps/dump_%d.jpeg>\n", getDumpNumber());
 
     fprintf(TEX_LOG, "\n$$\n");
 

@@ -36,30 +36,24 @@ int closeTextLogs()
 
 int textCtor(Text_info * text, const char * file_name)
 {
+    // DBG_OUT;
+    ASSERT((file_name != nullptr));
+    openTextLogs();
 
     text->source_file = fopen(file_name, "r");   
+    ASSERT((text->source_file != nullptr));
 
     struct stat data = {};
     stat(file_name, &data);
     text->buf_length = data.st_size;
 
-    //ASSERT_OK(text);
-
     text->buf = (char *)calloc(text->buf_length + 2, sizeof(char));
-    
-    //ASSERT_OK(text);
 
     fread(text->buf, sizeof(char), text->buf_length, text->source_file);
 
-    //ASSERT_OK(text);
-
     fclose(text->source_file);
 
-    //ASSERT_OK(text);
-
     text->buf[text->buf_length] = '\0';
-
-    //ASSERT_OK(text);
 
     text->number_of_lines = 1;
     for (size_t counter = 0;counter <= text->buf_length; counter++)
@@ -71,8 +65,6 @@ int textCtor(Text_info * text, const char * file_name)
         }
         
     }
-
-    //ASSERT_OK(text);
 
     text->lines = (const char **)calloc(text->number_of_lines, sizeof(char *));
     
@@ -153,6 +145,8 @@ int textDtor(Text_info * text)
 {
     free(text->buf);
     free(text->lines);
+
+    closeTextLogs();
     return 0;
 }
 

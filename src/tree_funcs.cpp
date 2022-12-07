@@ -69,6 +69,8 @@ int LexDtor(Lex_sub *lex)
     return 0;
 }
 
+#undef DEF_OP
+
 Exp_node * nodeConnect(Exp_node *parent, const char dest)
 {
     ASSERT((parent != nullptr));
@@ -100,36 +102,6 @@ Exp_node * nodeCtor()
 {
     return (Exp_node *)calloc(1, sizeof(Exp_node));
 }
-
-/* Exp_node * copy(Exp_node * node)
-{
-    if (!node)
-        return nullptr;
-    
-    Exp_node *new_node = nodeCtor();
-
-    copyNodeData(node, new_node);
-
-    if (node->l_son)
-    {
-        new_node->l_son = copy(node->l_son);
-        new_node->l_son->parent = new_node;
-    }
-
-    if (node->r_son)
-    {
-        new_node->r_son = copy(node->r_son);
-        new_node->r_son->parent = new_node;
-    }
-
-#ifdef DEBUG
-    dumpExpNode(new_node);
-#endif
-
-    return new_node;
-
-}
-*/
 
 int copySingle(const Exp_node * node, Exp_node *new_node)
 {

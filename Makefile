@@ -76,4 +76,3 @@ mkdir :
 
 clean :
 	@rm $(LANG_EXE) $(OBJ_DIR)*.o 
-	@rmdir $(LOGS_DIR)

@@ -22,7 +22,6 @@
 
 #endif
 #ifndef DEBUG_MODE
-#define DBG_OUT
 #endif
 
 #define PRINT_ERR(...)                                                  \
