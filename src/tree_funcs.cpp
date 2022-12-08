@@ -7,70 +7,6 @@
 #include "tree.h"
 #include "tree_debug.h"
 
-static bool stringEquals(const char *s_1, const char * s_2)
-{
-    if (strcasecmp(s_1, s_2) == 0)
-    {
-        return true;
-
-    }else {
-
-        return false;
-    }
-
-}
-
-#define DEF_OP(op_name, priority, op_code, num, oper, str_for_tex)                         \
-            else if(counter == num)                                 \
-            {                                                       \
-                original[counter].initial = strdup(#op_name);       \
-                sprintf(original[counter].parsed, "(0)%c", op_code);\
-                counter++;                                          \
-                continue;                                           \
-            }                                                       \
-
-Lex_sub * getLexicalSubstitusions()
-{
-    Lex_sub * original = (Lex_sub *)calloc(MAX_FUNC_NUMBER, sizeof(Lex_sub));
-
-    size_t counter = 0;
-
-    while (counter < MAX_FUNC_NUMBER)
-    {
-        if (0){}
-        #include "operations.h"
-        break;
-    }
-
-#ifdef DEBUG
-    for (int idx = 0; idx < MAX_FUNC_NUMBER; idx++)
-    {
-        printf("LEX[%d] = {%s, %s}\n", idx, original[idx].initial, original[idx].parsed);
-
-    }
-#endif
-
-    return original;
-
-}
-
-int LexDtor(Lex_sub *lex)
-{
-    if(!lex)
-        return -1;
-
-    for (int idx = 0; idx < MAX_FUNC_NUMBER; idx++)
-    {
-        free(lex[idx].initial);
-    }
-
-    free(lex);
-
-    return 0;
-}
-
-#undef DEF_OP
-
 Node * nodeConnect(Node *parent, const char dest)
 {
     ASSERT((parent != nullptr));
@@ -391,6 +327,24 @@ int fillVarValues(Var v_arr[])
     return 0;
 }
 
+#define DEF_OP(op_name, priority, op_code, name_in_lang)               \
+        else if(node->value.op_value == op_name)                                 \
+        {                                                                        \
+            return priority;                                                     \
+        }                                                                        \
+
+int getPriority(const Node *node)
+{
+
+    if (0)
+    {}
+        #include "operations.h"
+
+    return 0;
+}
+
+#undef DEF_OP
+
 Node * createNode(Node_type type, Value value, Node * l_son, Node * r_son)
 {
     int error_code = 0;
@@ -450,7 +404,7 @@ Node * createOp(Operator op)
     return createNode(OP, val, nullptr, nullptr);
 }
 
-#define DEF_OP(op_name, priority, op_code, num, oper, str_for_tex)    \
+#define DEF_OP(op_name, priority, op_code, name_in_lang)    \
             else if(operation == op_code)                   \
             {                                               \
                 val.op_value = op_name;                     \

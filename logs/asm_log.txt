@@ -4,52 +4,41 @@ asmCtor at lib/ASM/src/inout_ASM.cpp(42)
 CODE OF ERROR: 1057
 compile at lib/ASM/src/funcs_ASM.cpp(47)
 CODE OF ERROR: 1057
-COMAND - push COMAND_LENGTH - 4 ARG - 17
+COMAND - push COMAND_LENGTH - 4 ARG - 11
 getArgs at lib/ASM/src/funcs_ASM.cpp(187)
 CODE OF ERROR: 1057
-17
-17
-ARGUMENT: 17 REGISTER: 0 MEMORY: 0
+11
+11
+ARGUMENT: 11 REGISTER: 0 MEMORY: 0
 getArgs at lib/ASM/src/funcs_ASM.cpp(221)
 CODE OF ERROR: 1057
 line - 0 comand - push argument - 1
-COMAND - push COMAND_LENGTH - 4 ARG - 2
+COMAND - push COMAND_LENGTH - 4 ARG - 1
 getArgs at lib/ASM/src/funcs_ASM.cpp(187)
 CODE OF ERROR: 1057
-2
-2
-ARGUMENT: 2 REGISTER: 0 MEMORY: 0
+1
+1
+ARGUMENT: 1 REGISTER: 0 MEMORY: 0
 getArgs at lib/ASM/src/funcs_ASM.cpp(221)
 CODE OF ERROR: 1057
-line - 1 comand - push argument - 1
-COMAND - MUL COMAND_LENGTH - 3 ARG - (null)
-line - 2 comand - MUL
-COMAND - push COMAND_LENGTH - 4 ARG - 12
+line - 1 comand - push
+COMAND - ADD COMAND_LENGTH - 3 ARG - (null)
+line - 2 comand - ADD
+COMAND - push COMAND_LENGTH - 4 ARG - 9
 getArgs at lib/ASM/src/funcs_ASM.cpp(187)
 CODE OF ERROR: 1057
-12
-12
-ARGUMENT: 12 REGISTER: 0 MEMORY: 0
+9
+9
+ARGUMENT: 9 REGISTER: 0 MEMORY: 0
 getArgs at lib/ASM/src/funcs_ASM.cpp(221)
 CODE OF ERROR: 1057
 line - 3 comand - push argument - 1
 COMAND - SUB COMAND_LENGTH - 3 ARG - (null)
 line - 4 comand - SUB
-COMAND - push COMAND_LENGTH - 4 ARG - 1000
-getArgs at lib/ASM/src/funcs_ASM.cpp(187)
-CODE OF ERROR: 1057
-1000
-1000
-ARGUMENT: 1000 REGISTER: 0 MEMORY: 0
-getArgs at lib/ASM/src/funcs_ASM.cpp(221)
-CODE OF ERROR: 1057
-line - 5 comand - push argument - 1
-COMAND - mul COMAND_LENGTH - 3 ARG - (null)
-line - 6 comand - mul
 COMAND - out COMAND_LENGTH - 3 ARG - (null)
-line - 7 comand - out
+line - 5 comand - out
 COMAND - hlt COMAND_LENGTH - 3 ARG - (null)
-line - 8 comand - hlt
+line - 6 comand - hlt
 	Label[0] = {-1, imp}
 	Label[1] = {-1, imp}
 	Label[2] = {-1, imp}
@@ -92,7 +81,7 @@ line - 8 comand - hlt
 	Label[39] = {-1, imp}
 compile at lib/ASM/src/funcs_ASM.cpp(96)
 CODE OF ERROR: 1057
-33	17	33	2	5	33	12	4	33	1000	5	7	0	writeAssemblerInFile at lib/ASM/src/inout_ASM.cpp(48)
+33	11	33	1	3	33	9	4	7	0	writeAssemblerInFile at lib/ASM/src/inout_ASM.cpp(48)
 CODE OF ERROR: 1057
 asmDtor at lib/ASM/src/inout_ASM.cpp(85)
 CODE OF ERROR: 1057

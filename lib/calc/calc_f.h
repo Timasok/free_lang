@@ -2,10 +2,7 @@
 #define CALC_F_H
 
 #include "text_funcs.h"
-#include "tree.h"
-
-const char * deleteSpaces(const char * str);
-bool stringEquals(const char *s_1, const char * s_2);
+#include "lexical_analys.h"
 
 Node * getGeneral(const char * str);
 Node * getExpression();

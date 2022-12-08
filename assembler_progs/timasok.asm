@@ -1,9 +1,7 @@
-push 17
-push 2
-MUL
-push 12
+push 11
+push 1
+ADD
+push 9
 SUB
-push 1000
-mul
 out
 hlt

@@ -3,6 +3,7 @@
 
 // #define DEBUG 47
 #include "general_debug.h"
+#include "timasok_standart.h"
 
 const int MAX_BUFFER_LENGTH = 512;
 const int NUMBER_OF_VARS = 16; 
@@ -33,8 +34,8 @@ enum Node_type
 
 };
 
-#define DEF_OP(op_name, priority, op_code, num, oper, str_for_tex)                 \
-    op_name = op_code,                                      \
+#define DEF_OP(op_name, priority, op_code, name_in_lang)   \
+    op_name = op_code,                                     \
 
 enum Operator
 {
@@ -54,7 +55,6 @@ union Value
 {
     Operator op_value;
     double dbl_value;
-    // char var;
     Var var;
 
 };
@@ -72,21 +72,11 @@ struct Node
     
 };
 
-struct  Lex_sub
-{
-    char *initial;
-    char parsed[5];
-
-};
-
-int LexDtor(Lex_sub *lex);
-Lex_sub * getLexicalSubstitusions();
-
+int getPriority(const Node *node);
 
 Node * nodeConnect(Node *parent, const char dest);
 Node * nodeConnect(Node_type type, Value value, Node * l_son, Node * r_son);
 Node * nodeCtor();
-
 
 int getVarIndex(Var v_arr[], const char * name);
 double getVarValue(Var v_arr[], const char * name);

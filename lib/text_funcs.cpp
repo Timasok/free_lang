@@ -126,6 +126,15 @@ int printText(Text_info * text)
     return 0;
 }
 
+int stringDump(const char *string, const char * name_of_var, const char * name_of_file, const char * name_of_func, int number_of_line)
+{
+    printf("%s at %s at %s(%d)\n",  name_of_var, name_of_func,
+           name_of_file, number_of_line);
+
+    printf("string = %s, string_length = %ld\n", string, strlen(string));
+
+    return 0;
+}
 
 int returnTextError(Text_info * text)
 {

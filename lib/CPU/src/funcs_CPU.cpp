@@ -36,6 +36,7 @@
             do {                                                                  \
                     if (stackPop(&cpuPtr->stack, &first_popped) == EXIT_FAILURE)  \
                     {                                                             \
+                        /**first_popped *= ACCURACY;    */                        \
                         break;                                                    \
                     }                                                             \
                 } while (0)
@@ -44,6 +45,7 @@
             do {                                                                  \
                     if (stackPop(&cpuPtr->stack, &second_popped) == EXIT_FAILURE) \
                     {                                                             \
+                       /*second_popped *= ACCURACY;**/                            \
                         break;                                                    \
                     }                                                             \
                 } while (0)    
@@ -58,6 +60,7 @@
             do {                                                                  \
                     if (stackPop(&cpuPtr->stack, poppedPtr) == EXIT_FAILURE)      \
                     {                                                             \
+                     /**poppedPtr *= ACCURACY; */                                 \
                         break;                                                    \
                     }                                                             \
                 } while (0)

@@ -1,9 +1,12 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "tree.h"
 #include "free_lang_f.h"
 #include "text_funcs.h"
 #include "tree_debug.h"
+
+#include "lexical_analys.h"
 #include "calc_f.h"
 
 int translateLanguage(const char *input_file_name, const char *output_file_name)
@@ -17,6 +20,10 @@ int translateLanguage(const char *input_file_name, const char *output_file_name)
     // printf("Ride to hell!\n");
 
     openLogs();
+
+    Program_tokens program_tokens = {};
+    // programTokensCtor(text1.buf, &program_tokens);
+
     Node * result = getGeneral(text1.buf);
     
     TREE_DUMP_OPTIONAL(result, "initial tree"); 
@@ -30,9 +37,7 @@ int translateLanguage(const char *input_file_name, const char *output_file_name)
 
     writeProgramTree(result, output_file);
 
-    fprintf(output_file,"push 1000\n"
-                        "mul\n"
-                        "out\n"
+    fprintf(output_file,"out\n"
                         "hlt\n");
     fclose(output_file);
 
@@ -45,7 +50,7 @@ int translateLanguage(const char *input_file_name, const char *output_file_name)
 
 }
 
-#define DEF_OP(op_name, priority, op_code, num, oper, str_for_tex)                 \
+#define DEF_OP(op_name, priority, op_code, name_in_lang)                                         \
     case op_name:                                                                  \
     {                                                                              \
         fprintf(output_file, "%s\n", #op_name);                                    \

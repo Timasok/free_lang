@@ -12,59 +12,6 @@ static const char * input;
 
 const int MAX_VARIABLE_LEN = 15;
 
-const char * deleteSpaces(const char * str)
-    {
-        size_t initial_len = strlen(str);
-        size_t new_len = 0;
-
-    #ifdef DEBUG
-        STRING_DUMP(str);
-    #endif
-
-        char * tmp_string = (char *)calloc(initial_len, sizeof(char));
-
-        for (int counter = 0; counter < initial_len; counter++)
-        {
-            if (!isspace(str[counter]))
-            {
-                tmp_string[new_len] = str[counter];
-                new_len++;
-            }
-        }
-
-        if (new_len == initial_len)
-        {
-            free(tmp_string);
-            return str;
-        }
-
-    #ifdef DEBUG
-        printf("new_len = %d\n", new_len);
-        printf("string = %s new_len = %d\n", tmp_string, new_len);
-    #endif
-
-        tmp_string[new_len] = '\0';
-
-        const char * result = strdup(tmp_string);
-
-        free(tmp_string);
-        return result;  
-
-    }
-
-bool stringEquals(const char *s_1, const char * s_2)
-{
-    if (strcasecmp(s_1, s_2) == 0)
-    {
-        return true;
-
-    }else {
-
-        return false;
-    }
-
-}
-
 Node * getGeneral(const char * str)
 {
     input = deleteSpaces(str);

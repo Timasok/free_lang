@@ -190,7 +190,7 @@ DEF_CMD(OUT, 7, 0 , {},
 {
     elem_t tmp;
     SINGLE_POP(cpu, &tmp);
-    tmp /= 1000;
+    // tmp /= 1000;
     OUT(cpu, tmp);
 
 })
@@ -418,9 +418,9 @@ DEF_CMD(JNE, 17 , 1,
 DEF_CMD(IN, 18, 0,  {}, 
 { 
     printf("\e[0;32mENTER VALUE: \e[0m");
-    double tmp;
+    elem_t tmp;
     scanf("%lf", &tmp);
-    SINGLE_PUSH(cpu, (int)(tmp*1000));
+    SINGLE_PUSH(cpu, tmp);
 })  
 
 DEF_CMD(SHOW, 19, 0, {}, 

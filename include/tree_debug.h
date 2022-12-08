@@ -13,12 +13,6 @@
         fprintf(log, "%s", #error_specifier);
         
 int dumpExpNode(const Node * node);
-int getPriority(const Node *node);
-
-int printIntroInTex();
-int openPDF();
-
-int saveMicroTransform(const Node *node);
 
 int openLogs();
 int closeLogs();
@@ -29,14 +23,11 @@ int makeDot(const Node * node);
 
 int treeDump(const Node *node, const char * operation_info, const char *name_of_file, const char *name_of_func, int number_of_line);
 
-int printInOrderTex(const Node * node);
-
 #define TREE_DUMP(nodePtr)                                                  \
         treeDump(nodePtr, "", __FILE__, __PRETTY_FUNCTION__,__LINE__)
 
 #define TREE_DUMP_OPTIONAL(nodePtr, operation_info)                                                  \
         treeDump(nodePtr, operation_info, __FILE__, __PRETTY_FUNCTION__,__LINE__)
-
 
 enum MATAN_KILLER_ERRORS
 {
