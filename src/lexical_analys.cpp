@@ -46,10 +46,12 @@ const char * deleteSpaces(const char * str)
 
 }
 
+//своя strtok
 char * getNextLineSlice(const char * line)
 {
     while (isspace(*line))
         line++;
+
 
     size_t number_of_separators = 4;
     char separator[] = {' ', '\n', '\t', '\0'};
@@ -92,6 +94,7 @@ char * getNextLineSlice(const char * line)
 
 }
 
+//get rid of this!!!
 #define DEF_OP(op_name, priority, op_code, name_in_lang)                          \
             if(priority == 1)                                       \
             {                                                       \
@@ -143,8 +146,30 @@ int LexDtor(Lex_sub *lex)
 
 #undef DEF_OP
 
+#define PRINT_ERROR(error_specifier)                                    \
+        fprintf(lexer_log, "%s", #error_specifier);
 
-#define DEF_OP(op_name, priority, op_code, name_in_lang)                          \
+static FILE * lexer_log = 0;
+
+static int openLexLogs()
+{
+    lexer_log = fopen("./logs/lexer_log.txt", "w+");
+
+    if (!lexer_log)
+    {
+        PRINT_ERROR_CONSOLE(LANG_ERROR_CAN_T_OPEN_LOGS);
+        return LANG_ERROR_CAN_T_OPEN_LOGS;
+    }
+
+    return 0;
+}
+
+static int closeLexLogs()
+{
+    fclose(lexer_log);
+    return 0;
+
+}
 
 double checkForNum(const char *line, size_t * shift)
 {
@@ -159,6 +184,10 @@ double checkForNum(const char *line, size_t * shift)
         if (end_position != nullptr)
         {
             *shift = end_position - line;
+
+            if (isspace(*end_position))
+                PRINT_ERROR(LANG_ERROR_VAR_STARTS_WITH_NUMBER);
+
         }
 
     }
@@ -167,12 +196,32 @@ double checkForNum(const char *line, size_t * shift)
 
 }
 
+#define DEF_OP(op_name, priority, op_code, name_in_lang)                               \
+            else if(op_name != NOT_OP && stringEquals(name_in_lang, processed_line))   \
+            {                                                                          \
+                result = op_name;                                                      \
+            }                                                                          \
+        
 Arithm_operator checkForArithmOperator(const char *line, size_t * shift)
 {
-    char *processed_line = getNextLineSlice(line);
+    while (isspace(*line))
+        line++;
+
+    STRING_DUMP(line);
+
+    char *line_copy = strdup(line);
+
+    char * processed_line = strtok(line_copy, " \n");
     *shift = strlen(processed_line);
 
+    // char *processed_line = getNextLineSlice(line);
+    // *shift = strlen(processed_line) + 1;
+
     Arithm_operator result = NOT_OP;
+
+    if (0)
+    {}
+    #include "operations.h"
 
     //func to operate the line
     STRING_DUMP(processed_line);
@@ -183,6 +232,7 @@ Arithm_operator checkForArithmOperator(const char *line, size_t * shift)
 
 }
 
+#undef DEF_OP
 
 Log_operator checkForLogOperator(const char *line, size_t * shift)
 {
@@ -200,25 +250,21 @@ Log_operator checkForLogOperator(const char *line, size_t * shift)
 
 }
 
-Var checkForVar(const char *line, size_t * shift)
+char * checkForVar(const char *line, size_t * shift)
 {
-    char *processed_line = getNextLineSlice(line);
-    *shift = strlen(processed_line);
+    char *line_copy = strdup(line);
 
-    Var result = {};
+    char * resulted_name = strtok(line_copy, " \n");
+    *shift = strlen(resulted_name);
 
-    //func to operate the line
-    STRING_DUMP(processed_line);
+    STRING_DUMP(resulted_name);
 
-    free(processed_line);
-
-    return result;
+    return resulted_name;
 
 }
 
 Token * tokenCtor(Node_type type, Value val)
 {
-
     Token * result = (Token *)calloc(1, sizeof(Token));
 
     result->type = type;
@@ -229,8 +275,13 @@ Token * tokenCtor(Node_type type, Value val)
 
 int tokenDtor(Token * token)
 {
-    if (token == nullptr)
+    if (!token)
         return 0;
+
+    if (token->type == VAR)
+    {
+        varDtor(token->val.var);
+    }
 
     free(token);
 
@@ -241,47 +292,59 @@ int programTokensCtor(const char * input_line, Program_tokens *program_tokens)
 {
     const char * line = input_line;
 
-    program_tokens->tokens = (Token **)calloc(INITIAL_TOKEN_NUMBER, sizeof(Token));
+    openLexLogs();
+
+    program_tokens->tokens = (Token **)calloc(INITIAL_TOKEN_NUMBER, sizeof(Token*));
     program_tokens->size   = 0;
     program_tokens->current = 0;
 
     size_t shift = 0;
+
     Value val    = {};
 
+    // DBG_OUT;
     while (*line != '\0')
     {
-        val.dbl_value = checkForNum(line, &shift);
 
-        if (val.dbl_value != NAN)
+        val.dbl_value = checkForNum(line, &shift);
+        if (!isnan(val.dbl_value))
         {
+            DBG_OUT;
             program_tokens->tokens[program_tokens->size++] = tokenCtor(NUM, val);
             line += shift;
+            continue;
         }
 
         val.op_value = checkForArithmOperator(line, &shift);
-
         if (val.op_value != NOT_OP)
         {
+            DBG_OUT;
             program_tokens->tokens[program_tokens->size++] = tokenCtor(ARITHM_OP, val);         
             line += shift;
+            continue;
         }
 
-        val.log_op = checkForLogOperator(line, &shift);
+        // val.log_op = checkForLogOperator(line, &shift);
+        // if (val.log_op != NOT_LOG_OP)
+        // {
+        //     program_tokens->tokens[program_tokens->size++] = tokenCtor(LOG_OP, val);         
+        //     line += shift;
+        //     continue;
+        // }
+        // while (isspace(*line))
+        //     line++;
 
-        if (val.log_op != NOT_LOG_OP)
-        {
-            program_tokens->tokens[program_tokens->size++] = tokenCtor(LOG_OP, val);         
-            line += shift;
-        }
-
-        val.var = checkForVar(line, &shift);
-
+        val.var.name = checkForVar(line, &shift);
         if (val.var.name != nullptr)
         {
+            DBG_OUT;
             program_tokens->tokens[program_tokens->size++] = tokenCtor(VAR, val);         
             line += shift;
+            continue;
+
         }
 
+        printf("Syntax ERROR!\n");
         break;
     }
 
@@ -289,10 +352,56 @@ int programTokensCtor(const char * input_line, Program_tokens *program_tokens)
 
 }
 
-// programTokensRealloc
+int programTokensDump(Program_tokens *program_tokens)
+{
+    for (int idx = 0; idx < program_tokens->size; idx++)
+    {
+        tokenDump(program_tokens->tokens[idx]);
+    }
+
+    return 0;
+}
+
+int tokenDump(const Token * token)
+{
+    if (!token)
+    return -1;
+    
+    fprintf(lexer_log, "\n\ttoken %p\n", token);
+
+    switch(token->type)
+    {
+        case ARITHM_OP:
+            fprintf(lexer_log, "ARTHM OPERATION %c\n", token->val.op_value);
+            break;
+        case LOG_OP:
+            fprintf(lexer_log, "LOGICAL OPERATION %c\n", token->val.log_op);
+            break;
+        case NUM:
+            fprintf(lexer_log, "NUMBER %g\n", token->val.dbl_value);
+            break;
+        case VAR:
+            fprintf(lexer_log, "VARIABLE \"%s\"\n", token->val.var.name);
+            break;
+        default:
+            fprintf(lexer_log, "smth cringe\n");
+            break;
+
+    }
+    return 0;
+
+}
 
 int programTokensDtor(Program_tokens *program_tokens)
 {
-    free(program_tokens);
+    for (int idx = 0; idx < program_tokens->size; idx++)
+    {
+        tokenDtor(program_tokens->tokens[idx]);
+    }
 
+    closeLexLogs();
+
+    return 0;
 }
+
+#undef PRINT_ERR

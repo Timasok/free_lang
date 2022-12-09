@@ -1,7 +1,7 @@
 #ifndef LEXICAL_ANALYS_H
 #define LEXICAL_ANALYS_H
 
-#include "tree.h"
+#include "tree_debug.h"
 #include "text_funcs.h"
 
 const char * deleteSpaces(const char * str);
@@ -19,7 +19,7 @@ struct  Lex_sub
 Lex_sub * getLexicalSubstitusions();
 int LexDtor(Lex_sub *lex);
 
-const int INITIAL_TOKEN_NUMBER = 64;
+const int INITIAL_TOKEN_NUMBER = 512;
 const char SEPARATOR = '~';
 
 struct Token
@@ -39,14 +39,16 @@ struct  Program_tokens
 };
 
 Token * tokenCtor(Node_type type, Value val);
+int tokenDump(const Token * token);
 int tokenDtor(Token * token);
 
 int programTokensCtor(const char * input_line, Program_tokens *program_tokens);
 int programTokensDtor(Program_tokens *program_tokens);
+int programTokensDump(Program_tokens *program_tokens);
 
 double checkForNum(const char *line, size_t * shift);
 Arithm_operator checkForArithmOperator(const char *line, size_t * shift);
 Log_operator checkForLogOperator(const char *line, size_t * shift);
-Var checkForVar(const char *line, size_t * shift);
+char * checkForVar(const char *line, size_t * shift);
 
 #endif

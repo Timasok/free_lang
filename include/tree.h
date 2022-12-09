@@ -53,7 +53,6 @@ enum Log_operator
 
 };
 
-
 typedef struct Var_t
 {
     char *name;
@@ -83,6 +82,8 @@ struct Node
 };
 
 int getPriority(const Node *node);
+
+int varDtor(Var var);
 
 Node * nodeConnect(Node *parent, const char dest);
 Node * nodeConnect(Node_type type, Value value, Node * l_son, Node * r_son);

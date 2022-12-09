@@ -7,6 +7,16 @@
 #include "tree.h"
 #include "tree_debug.h"
 
+int varDtor(Var var)
+{
+    if (!var.name)
+        return 0;
+
+    free(var.name);
+
+    return 0;
+}
+
 Node * nodeConnect(Node *parent, const char dest)
 {
     ASSERT((parent != nullptr));
@@ -348,7 +358,7 @@ int getPriority(const Node *node)
 Node * createNode(Node_type type, Value value, Node * l_son, Node * r_son)
 {
     int error_code = 0;
-    PARSE_ERROR(error_code, type == NUL, MATAN_KILLER_ERROR_INVALID_TYPE);
+    PARSE_ERROR(error_code, type == NUL, LANG_ERROR_INVALID_TYPE);
     // PARSE_ERROR(error_code, !value, MATAN_KILLER_ERROR_INVALID_VALUE);
 
     if (error_code != 0)
