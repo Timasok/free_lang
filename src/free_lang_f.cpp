@@ -11,7 +11,6 @@
 
 int translateLanguage(const char *input_file_name, const char *output_file_name)
 {
-
     Text_info text1 = {};
     
     textCtorOnlyBuffer(&text1, input_file_name);
@@ -26,6 +25,9 @@ int translateLanguage(const char *input_file_name, const char *output_file_name)
 
     programTokensDump(&program_tokens);
     programTokensDtor(&program_tokens);
+
+    // textDtor(&text1);
+    // //TODO
 
     Node * result = getGeneral(text1.buf);
     

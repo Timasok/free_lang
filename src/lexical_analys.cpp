@@ -173,13 +173,6 @@ static int closeLexLogs()
 
 double checkForNum(char *line, size_t * shift)
 {
-    while (isspace(*line))
-    {
-        line++;
-        *shift++;
-        printf("SHIFT\n");
-    }
-
     double result = NAN;
 
     if (isdigit(*line))
@@ -192,7 +185,9 @@ double checkForNum(char *line, size_t * shift)
         {
             *shift +=(end_position - line);
 
-            if (isspace(*end_position))
+            // fprintf(lexer_log, "end_pos %c\n", *end_position);
+
+            if (!isspace(*end_position))
                 PRINT_ERROR(LANG_ERROR_VAR_STARTS_WITH_NUMBER);
 
         }
@@ -219,11 +214,13 @@ Arithm_operator checkForArithmOperator(char *line, size_t * shift)
     STRING_DUMP(line);
 
     char * processed_line = strtok(line, " \n\0");
-    *shift += strlen(processed_line) + 1;
-    
+
     if (0)
     {}
     #include "operations.h"
+
+    if (result != NOT_OP)
+        *shift += strlen(processed_line) + 1;
 
     //func to operate the line
     STRING_DUMP(processed_line);
@@ -318,10 +315,15 @@ int programTokensCtor(const char * input_line, Program_tokens *program_tokens)
     size_t shift = 0;
 
     // DBG_OUT;
-    while (shift < initial_len)
+    while (line[shift] != '\0' && shift < initial_len)
     {
         Value val = {};
-        // STRING_DUMP(&line[shift]);
+
+        while (isspace(line[shift]))
+        {
+            shift++;
+            printf("SHIFT\n");
+        }
 
         val.dbl_value = checkForNum(&line[shift], &shift);
         if (!isnan(val.dbl_value))
@@ -359,7 +361,6 @@ int programTokensCtor(const char * input_line, Program_tokens *program_tokens)
 
         }
 
-        printf("Syntax ERROR!\n");
         break;
     }
 
