@@ -14,7 +14,7 @@ int translateLanguage(const char *input_file_name, const char *output_file_name)
 
     Text_info text1 = {};
     
-    textCtor(&text1, input_file_name);
+    textCtorOnlyBuffer(&text1, input_file_name);
 
     printText(&text1);
     // printf("Ride to hell!\n");

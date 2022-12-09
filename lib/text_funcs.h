@@ -25,6 +25,7 @@ enum TEXT_ERRORS
 };
 
 int textCtor(Text_info * text, const char * file_name);
+int textCtorOnlyBuffer(Text_info * text, const char * file_name);
 
 int openTextLogs();
 int closeTextLogs();

@@ -39,6 +39,8 @@ struct  Program_tokens
 };
 
 Token * tokenCtor(Node_type type, Value val);
+Token * tokenCtor(const char * var_name);
+
 int tokenDump(const Token * token);
 int tokenDtor(Token * token);
 
@@ -46,9 +48,10 @@ int programTokensCtor(const char * input_line, Program_tokens *program_tokens);
 int programTokensDtor(Program_tokens *program_tokens);
 int programTokensDump(Program_tokens *program_tokens);
 
-double checkForNum(const char *line, size_t * shift);
-Arithm_operator checkForArithmOperator(const char *line, size_t * shift);
-Log_operator checkForLogOperator(const char *line, size_t * shift);
-char * checkForVar(const char *line, size_t * shift);
+double          checkForNum(char *line, size_t * shift);
+Arithm_operator checkForArithmOperator(char *line, size_t * shift);
+Log_operator    checkForLogOperator(char *line, size_t * shift);
+char *          checkForVar(char *line, size_t * shift);
+//todo check for separators
 
 #endif

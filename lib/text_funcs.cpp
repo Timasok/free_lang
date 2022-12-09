@@ -106,6 +106,46 @@ int textCtor(Text_info * text, const char * file_name)
 
     return 0;
 }
+//lines == nullptr
+int textCtorOnlyBuffer(Text_info * text, const char * file_name)
+{
+    // DBG_OUT;
+    ASSERT((file_name != nullptr));
+    openTextLogs();
+
+    text->source_file = fopen(file_name, "r");
+    
+    ASSERT((text->source_file != nullptr));
+
+    struct stat data = {};
+    stat(file_name, &data);
+    text->buf_length = data.st_size;
+
+    text->buf = (char *)calloc(text->buf_length + 2, sizeof(char));
+
+    fread(text->buf, sizeof(char), text->buf_length, text->source_file);
+
+    fclose(text->source_file);
+
+    text->buf[text->buf_length] = '\0';
+
+    text->number_of_lines = 1;
+    for (size_t counter = 0;counter <= text->buf_length; counter++)
+    {
+        if(text->buf[counter] == '\n')
+        {
+            // text->buf[counter] = '\0';
+            text->number_of_lines++;
+        }
+        
+    }
+
+    text->lines = (const char **)calloc(text->number_of_lines, sizeof(char *));
+    
+    //ASSERT_OK(text);
+
+    return 0;
+}
 
 int printText(Text_info * text)
 {

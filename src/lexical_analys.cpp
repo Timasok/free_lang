@@ -171,8 +171,15 @@ static int closeLexLogs()
 
 }
 
-double checkForNum(const char *line, size_t * shift)
+double checkForNum(char *line, size_t * shift)
 {
+    while (isspace(*line))
+    {
+        line++;
+        *shift++;
+        printf("SHIFT\n");
+    }
+
     double result = NAN;
 
     if (isdigit(*line))
@@ -183,7 +190,7 @@ double checkForNum(const char *line, size_t * shift)
         
         if (end_position != nullptr)
         {
-            *shift = end_position - line;
+            *shift +=(end_position - line);
 
             if (isspace(*end_position))
                 PRINT_ERROR(LANG_ERROR_VAR_STARTS_WITH_NUMBER);
@@ -202,23 +209,18 @@ double checkForNum(const char *line, size_t * shift)
                 result = op_name;                                                      \
             }                                                                          \
         
-Arithm_operator checkForArithmOperator(const char *line, size_t * shift)
+Arithm_operator checkForArithmOperator(char *line, size_t * shift)
 {
-    while (isspace(*line))
-        line++;
+    Arithm_operator result = NOT_OP;
+
+    if(!(*line))
+        return result;
 
     STRING_DUMP(line);
 
-    char *line_copy = strdup(line);
-
-    char * processed_line = strtok(line_copy, " \n");
-    *shift = strlen(processed_line);
-
-    // char *processed_line = getNextLineSlice(line);
-    // *shift = strlen(processed_line) + 1;
-
-    Arithm_operator result = NOT_OP;
-
+    char * processed_line = strtok(line, " \n\0");
+    *shift += strlen(processed_line) + 1;
+    
     if (0)
     {}
     #include "operations.h"
@@ -226,15 +228,14 @@ Arithm_operator checkForArithmOperator(const char *line, size_t * shift)
     //func to operate the line
     STRING_DUMP(processed_line);
 
-    free(processed_line);
-
     return result;
 
 }
 
 #undef DEF_OP
 
-Log_operator checkForLogOperator(const char *line, size_t * shift)
+//TODO
+Log_operator checkForLogOperator(char *line, size_t * shift)
 {
     char *processed_line = getNextLineSlice(line);
     *shift = strlen(processed_line);
@@ -250,12 +251,16 @@ Log_operator checkForLogOperator(const char *line, size_t * shift)
 
 }
 
-char * checkForVar(const char *line, size_t * shift)
+char * checkForVar(char *line, size_t * shift)
 {
-    char *line_copy = strdup(line);
 
-    char * resulted_name = strtok(line_copy, " \n");
-    *shift = strlen(resulted_name);
+    if(!(*line))
+        return nullptr;
+
+    STRING_DUMP(line);
+
+    char * resulted_name = strtok(line, " \n");
+    *shift += strlen(resulted_name) + 1;
 
     STRING_DUMP(resulted_name);
 
@@ -269,6 +274,16 @@ Token * tokenCtor(Node_type type, Value val)
 
     result->type = type;
     result->val  = val;
+
+    return result;
+}
+
+Token * tokenCtor(const char * var_name)
+{
+    Token * result = (Token *)calloc(1, sizeof(Token));
+
+    result->type = VAR;
+    result->val.var.name  = strdup(var_name);
 
     return result;
 }
@@ -290,7 +305,9 @@ int tokenDtor(Token * token)
 
 int programTokensCtor(const char * input_line, Program_tokens *program_tokens)
 {
-    const char * line = input_line;
+    char * line = strdup(input_line);
+    char * line_start = line;   
+    size_t initial_len = strlen(line);
 
     openLexLogs();
 
@@ -300,27 +317,25 @@ int programTokensCtor(const char * input_line, Program_tokens *program_tokens)
 
     size_t shift = 0;
 
-    Value val    = {};
-
     // DBG_OUT;
-    while (*line != '\0')
+    while (shift < initial_len)
     {
+        Value val = {};
+        // STRING_DUMP(&line[shift]);
 
-        val.dbl_value = checkForNum(line, &shift);
+        val.dbl_value = checkForNum(&line[shift], &shift);
         if (!isnan(val.dbl_value))
         {
             DBG_OUT;
             program_tokens->tokens[program_tokens->size++] = tokenCtor(NUM, val);
-            line += shift;
             continue;
         }
 
-        val.op_value = checkForArithmOperator(line, &shift);
+        val.op_value = checkForArithmOperator(&line[shift], &shift);
         if (val.op_value != NOT_OP)
         {
             DBG_OUT;
             program_tokens->tokens[program_tokens->size++] = tokenCtor(ARITHM_OP, val);         
-            line += shift;
             continue;
         }
 
@@ -334,12 +349,12 @@ int programTokensCtor(const char * input_line, Program_tokens *program_tokens)
         // while (isspace(*line))
         //     line++;
 
-        val.var.name = checkForVar(line, &shift);
+        val.var.name = checkForVar(&line[shift], &shift);
         if (val.var.name != nullptr)
         {
             DBG_OUT;
-            program_tokens->tokens[program_tokens->size++] = tokenCtor(VAR, val);         
-            line += shift;
+            program_tokens->tokens[program_tokens->size++] = tokenCtor(val.var.name);      
+
             continue;
 
         }
@@ -347,6 +362,8 @@ int programTokensCtor(const char * input_line, Program_tokens *program_tokens)
         printf("Syntax ERROR!\n");
         break;
     }
+
+    free(line_start);
 
     return 0;
 
