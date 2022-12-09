@@ -15,5 +15,3 @@ DEF_OP(LN , 2, 'L', "ln")
 DEF_OP(SIN, 2, 'S', "sin")
 
 DEF_OP(COS, 2, 'C', "cos")
-
-DEF_OP(IF, 1, 'I', "esli")

@@ -27,23 +27,32 @@ enum son
 
 enum Node_type
 {
-    NUL = 0,
-    OP  = 1,
-    VAR = 2,
-    NUM = 3,
+    NUL        = 0,
+    ARITHM_OP  = 1,
+    LOG_OP     = 2,
+    VAR        = 3,
+    NUM        = 4,
 
 };
 
 #define DEF_OP(op_name, priority, op_code, name_in_lang)   \
     op_name = op_code,                                     \
 
-enum Operator
+enum Arithm_operator
 {
     #include "operations.h"
 
 };
-  
+
 #undef DEF_OP
+  
+enum Log_operator
+{
+    NOT_LOG_OP = 0,
+    IF     = 1,
+
+};
+
 
 typedef struct Var_t
 {
@@ -53,7 +62,8 @@ typedef struct Var_t
 
 union Value
 {
-    Operator op_value;
+    Arithm_operator op_value;
+    Log_operator log_op;
     double dbl_value;
     Var var;
 
@@ -92,7 +102,7 @@ Node * createNode(Node_type type, Value value, Node * l_son, Node * r_son);
 Node * createNum(double number);
 Node * createVar(char var);
 Node * createVar(char * var_name);
-Node * createOp(Operator op);
+Node * createOp(Arithm_operator op);
 Node * createOp(int operation);
 
 int substitudeVariables(Node *node, Var v_arr[], const char * name_of_not_replaced_var);
@@ -115,7 +125,6 @@ Node * copy(const Node * node);
 int copyNodeData(const Node *src_node, Node *dest_node);
 int copySingle(const Node * node, Node *new_node);
 
-Node * findNode(Node *node, const char *string);//TODO change completely this function do we need her?
 int nodeDtor(Node *node);
 int nodeDtor(Node **node);
 

@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include <math.h>
 
 #include "lexical_analys.h"
 
@@ -47,8 +48,8 @@ const char * deleteSpaces(const char * str)
 
 char * getNextLineSlice(const char * line)
 {
-    while (isspace(*(line++)))
-        ;
+    while (isspace(*line))
+        line++;
 
     size_t number_of_separators = 4;
     char separator[] = {' ', '\n', '\t', '\0'};
@@ -145,24 +146,79 @@ int LexDtor(Lex_sub *lex)
 
 #define DEF_OP(op_name, priority, op_code, name_in_lang)                          \
 
-
-Operator checkForOperator(const char *line, size_t * shift)
+double checkForNum(const char *line, size_t * shift)
 {
+    double result = NAN;
 
+    if (isdigit(*line))
+    {
+        char * end_position = nullptr;
+
+        result = strtod(line, &end_position);
+        
+        if (end_position != nullptr)
+        {
+            *shift = end_position - line;
+        }
+
+    }
+        
+    return result;
+
+}
+
+Arithm_operator checkForArithmOperator(const char *line, size_t * shift)
+{
     char *processed_line = getNextLineSlice(line);
     *shift = strlen(processed_line);
 
+    Arithm_operator result = NOT_OP;
+
     //func to operate the line
-    // STRING_DUMP(processed_line);
+    STRING_DUMP(processed_line);
 
     free(processed_line);
 
-    return NOT_OP;
+    return result;
+
+}
+
+
+Log_operator checkForLogOperator(const char *line, size_t * shift)
+{
+    char *processed_line = getNextLineSlice(line);
+    *shift = strlen(processed_line);
+
+    Log_operator result = NOT_LOG_OP;
+
+    //func to operate the line
+    STRING_DUMP(processed_line);
+
+    free(processed_line);
+
+    return result;
+
+}
+
+Var checkForVar(const char *line, size_t * shift)
+{
+    char *processed_line = getNextLineSlice(line);
+    *shift = strlen(processed_line);
+
+    Var result = {};
+
+    //func to operate the line
+    STRING_DUMP(processed_line);
+
+    free(processed_line);
+
+    return result;
 
 }
 
 Token * tokenCtor(Node_type type, Value val)
 {
+
     Token * result = (Token *)calloc(1, sizeof(Token));
 
     result->type = type;
@@ -173,6 +229,9 @@ Token * tokenCtor(Node_type type, Value val)
 
 int tokenDtor(Token * token)
 {
+    if (token == nullptr)
+        return 0;
+
     free(token);
 
     return 0;
@@ -186,32 +245,44 @@ int programTokensCtor(const char * input_line, Program_tokens *program_tokens)
     program_tokens->size   = 0;
     program_tokens->current = 0;
 
-    Value val = {};
     size_t shift = 0;
+    Value val    = {};
 
     while (*line != '\0')
     {
-        if (isdigit(*line))
+        val.dbl_value = checkForNum(line, &shift);
+
+        if (val.dbl_value != NAN)
         {
-            char * end_position = nullptr;
-
-            val.dbl_value = strtod(line, &end_position);
-            
-            if (end_position != nullptr)
-            {
-                line = end_position;
-                program_tokens->tokens[program_tokens->current++] = tokenCtor(NUM, val);
-            }
-
+            program_tokens->tokens[program_tokens->size++] = tokenCtor(NUM, val);
+            line += shift;
         }
 
-        //TODO;
-        // checkForOperator(line, &shift);
-        // break;
-        line += shift;
-        // else if()
-        // { }
+        val.op_value = checkForArithmOperator(line, &shift);
 
+        if (val.op_value != NOT_OP)
+        {
+            program_tokens->tokens[program_tokens->size++] = tokenCtor(ARITHM_OP, val);         
+            line += shift;
+        }
+
+        val.log_op = checkForLogOperator(line, &shift);
+
+        if (val.log_op != NOT_LOG_OP)
+        {
+            program_tokens->tokens[program_tokens->size++] = tokenCtor(LOG_OP, val);         
+            line += shift;
+        }
+
+        val.var = checkForVar(line, &shift);
+
+        if (val.var.name != nullptr)
+        {
+            program_tokens->tokens[program_tokens->size++] = tokenCtor(VAR, val);         
+            line += shift;
+        }
+
+        break;
     }
 
     return 0;

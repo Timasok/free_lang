@@ -22,7 +22,7 @@ int translateLanguage(const char *input_file_name, const char *output_file_name)
     openLogs();
 
     Program_tokens program_tokens = {};
-    // programTokensCtor(text1.buf, &program_tokens);
+    programTokensCtor(text1.buf, &program_tokens);
 
     Node * result = getGeneral(text1.buf);
     
@@ -71,7 +71,7 @@ int writeProgramTree(Node *node, FILE *output_file)
 
     switch(node->type)
     {
-        case OP:
+        case ARITHM_OP:
         {
             switch(node->value.op_value)
             {

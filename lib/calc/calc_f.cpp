@@ -37,7 +37,7 @@ Node * getDegree()
         if (op == '^')
         {            
             value.op_value = POW;
-            result = nodeConnect(OP, value, result, tmp_result);
+            result = nodeConnect(ARITHM_OP, value, result, tmp_result);
         }
     }
 
@@ -66,12 +66,12 @@ Node * getExpression( )
         if  (op == '+')
         {
             value.op_value = ADD;
-            result = nodeConnect(OP, value, result, tmp_result);
+            result = nodeConnect(ARITHM_OP, value, result, tmp_result);
 
         } else{
             
             value.op_value = SUB;
-            result = nodeConnect(OP, value, result, tmp_result);
+            result = nodeConnect(ARITHM_OP, value, result, tmp_result);
         
         }
 
@@ -100,13 +100,13 @@ Node * getT()
         if  (op == '*')
         {
             value.op_value = MUL;
-            result = nodeConnect(OP, value, result, tmp_result);
+            result = nodeConnect(ARITHM_OP, value, result, tmp_result);
 
 
         } else{
             
             value.op_value = DIV;
-            result = nodeConnect(OP, value, result, tmp_result);
+            result = nodeConnect(ARITHM_OP, value, result, tmp_result);
         
         }
 

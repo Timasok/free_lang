@@ -44,4 +44,9 @@ int tokenDtor(Token * token);
 int programTokensCtor(const char * input_line, Program_tokens *program_tokens);
 int programTokensDtor(Program_tokens *program_tokens);
 
+double checkForNum(const char *line, size_t * shift);
+Arithm_operator checkForArithmOperator(const char *line, size_t * shift);
+Log_operator checkForLogOperator(const char *line, size_t * shift);
+Var checkForVar(const char *line, size_t * shift);
+
 #endif
