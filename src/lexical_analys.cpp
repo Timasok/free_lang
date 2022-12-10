@@ -204,9 +204,9 @@ double checkForNum(char *line, size_t * shift)
                 result = op_name;                                                      \
             }                                                                          \
         
-Arithm_operator checkForArithmOperator(char *line, size_t * shift)
+Operator checkForOperator(char *line, size_t * shift)
 {
-    Arithm_operator result = NOT_OP;
+    Operator result = NOT_OP;
 
     if(!(*line))
         return result;
@@ -231,22 +231,69 @@ Arithm_operator checkForArithmOperator(char *line, size_t * shift)
 
 #undef DEF_OP
 
-//TODO
-Log_operator checkForLogOperator(char *line, size_t * shift)
+#define DEF_KEY(key_name, key_code, name_in_lang)                                        \
+            else if(key_name != NOT_KEY && stringEquals(name_in_lang, processed_line))   \
+            {                                                                            \
+                result = key_name;                                                       \
+            }                                                                            \
+        
+Key_word checkForKeyWord(char *line, size_t * shift)
 {
-    char *processed_line = getNextLineSlice(line);
-    *shift = strlen(processed_line);
+    Key_word result = NOT_KEY;
 
-    Log_operator result = NOT_LOG_OP;
+    if(!(*line))
+        return result;
 
-    //func to operate the line
+    STRING_DUMP(line);
+
+    char * processed_line = strtok(line, " \n\0");
+
+    if (0)
+    {}
+    #include "key_words.h"
+
+    if (result != NOT_KEY)
+        *shift += strlen(processed_line) + 1;
+
     STRING_DUMP(processed_line);
-
-    free(processed_line);
 
     return result;
 
 }
+
+#undef DEF_KEY
+
+#define DEF_SEP(sep_name, sep_code, name_in_lang)                                        \
+            else if(sep_name != NOT_SEP && stringEquals(name_in_lang, processed_line))   \
+            {                                                                            \
+                result = sep_name;                                                       \
+            }                                                                            \
+        
+Separator checkForSeparator(char *line, size_t * shift)
+{
+    Separator result = NOT_SEP;
+
+    if(!(*line))
+        return result;
+
+    STRING_DUMP(line);
+
+    char * processed_line = strtok(line, " \n\0");
+
+    if (0)
+    {}
+    #include "separators.h"
+
+    if (result != NOT_SEP)
+        *shift += strlen(processed_line) + 1;
+
+    STRING_DUMP(processed_line);
+
+    return result;
+
+}
+
+#undef DEF_SEP
 
 char * checkForVar(char *line, size_t * shift)
 {
@@ -333,23 +380,29 @@ int programTokensCtor(const char * input_line, Program_tokens *program_tokens)
             continue;
         }
 
-        val.op_value = checkForArithmOperator(&line[shift], &shift);
-        if (val.op_value != NOT_OP)
+        val.sep_value = checkForSeparator(&line[shift], &shift);
+        if (val.sep_value != NOT_SEP)
         {
             DBG_OUT;
-            program_tokens->tokens[program_tokens->size++] = tokenCtor(ARITHM_OP, val);         
+            program_tokens->tokens[program_tokens->size++] = tokenCtor(SEPARATOR, val);         
             continue;
         }
 
-        // val.log_op = checkForLogOperator(line, &shift);
-        // if (val.log_op != NOT_LOG_OP)
-        // {
-        //     program_tokens->tokens[program_tokens->size++] = tokenCtor(LOG_OP, val);         
-        //     line += shift;
-        //     continue;
-        // }
-        // while (isspace(*line))
-        //     line++;
+        val.op_value = checkForOperator(&line[shift], &shift);
+        if (val.op_value != NOT_OP)
+        {
+            DBG_OUT;
+            program_tokens->tokens[program_tokens->size++] = tokenCtor(OP, val);         
+            continue;
+        }
+
+        val.key_value = checkForKeyWord(&line[shift], &shift);
+        if (val.key_value != NOT_KEY)
+        {
+            DBG_OUT;
+            program_tokens->tokens[program_tokens->size++] = tokenCtor(KEY_WORD, val);         
+            continue;
+        }
 
         val.var.name = checkForVar(&line[shift], &shift);
         if (val.var.name != nullptr)
@@ -389,11 +442,14 @@ int tokenDump(const Token * token)
 
     switch(token->type)
     {
-        case ARITHM_OP:
-            fprintf(lexer_log, "ARTHM OPERATION %c\n", token->val.op_value);
+        case OP:
+            fprintf(lexer_log, "OPERATION %c\n", token->val.op_value);
             break;
-        case LOG_OP:
-            fprintf(lexer_log, "LOGICAL OPERATION %c\n", token->val.log_op);
+        case KEY_WORD:
+            fprintf(lexer_log, "KEY_WORD %c\n", token->val.key_value);
+            break;
+        case SEPARATOR:
+            fprintf(lexer_log, "SEPARATOR %c\n", token->val.sep_value);
             break;
         case NUM:
             fprintf(lexer_log, "NUMBER %g\n", token->val.dbl_value);

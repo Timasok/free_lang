@@ -20,7 +20,7 @@ Lex_sub * getLexicalSubstitusions();
 int LexDtor(Lex_sub *lex);
 
 const int INITIAL_TOKEN_NUMBER = 512;
-const char SEPARATOR = '~';
+// const char SEPARATOR = '~';
 
 struct Token
 {
@@ -48,10 +48,10 @@ int programTokensCtor(const char * input_line, Program_tokens *program_tokens);
 int programTokensDtor(Program_tokens *program_tokens);
 int programTokensDump(Program_tokens *program_tokens);
 
-double          checkForNum(char *line, size_t * shift);
-Arithm_operator checkForArithmOperator(char *line, size_t * shift);
-Log_operator    checkForLogOperator(char *line, size_t * shift);
-char *          checkForVar(char *line, size_t * shift);
-//todo check for separators
+double      checkForNum       (char *line, size_t * shift);
+Operator    checkForOperator  (char *line, size_t * shift);
+Key_word    checkForKeyWord   (char *line, size_t * shift);
+Separator   checkForSeparator (char *line, size_t * shift);
+char *      checkForVar       (char *line, size_t * shift);
 
 #endif

@@ -76,7 +76,7 @@ int writeProgramTree(Node *node, FILE *output_file)
 
     switch(node->type)
     {
-        case ARITHM_OP:
+        case OP:
         {
             switch(node->value.op_value)
             {

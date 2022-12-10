@@ -9,7 +9,7 @@ LOGS_DIR = ./logs/
 GRAPH_DUMP_DIR = ./graph_dumps/
 OBJ_DIR = ./obj/
 
-I_FLAG := -I./lib/stack/include/ -I./lib/ASM/include/ -I./lib/CPU/include/ -I./lib/calc/ -I./lib/inc/ -I./lib/ -I./ -I./include/
+I_FLAG := -I./lib/stack/include/ -I./lib/ASM/include/ -I./lib/CPU/include/ -I./lib/calc/ -I./lib/inc/ -I./lib/ -I./ -I./include/ -I./include/generators
 
 CC := g++
 CFLAGS := -Wno-format -g -fsanitize=address

@@ -407,11 +407,11 @@ Node * createVar(char * var_name)
     return createNode(VAR, val, nullptr, nullptr);
 }
 
-Node * createOp(Arithm_operator op)
+Node * createOp(Operator op)
 {
     Value val = {};
     val.op_value = op;
-    return createNode(ARITHM_OP, val, nullptr, nullptr);
+    return createNode(OP, val, nullptr, nullptr);
 }
 
 #define DEF_OP(op_name, priority, op_code, name_in_lang)    \
@@ -429,7 +429,7 @@ Node * createOp(int operation)
     { }
     #include "operations.h"
 
-    return createNode(ARITHM_OP, val, nullptr, nullptr);
+    return createNode(OP, val, nullptr, nullptr);
 }
 
 #undef DEF_OP
@@ -516,7 +516,7 @@ void printIn(const Node * node)
 
     switch(node->type)
     {
-        case ARITHM_OP:
+        case OP:
             printf("%c", node->value.op_value);
             break;
         case NUM:

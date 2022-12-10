@@ -23,7 +23,7 @@ int dumpExpNode(const Node * node)
 
     switch(node->type)
     {
-        case ARITHM_OP:
+        case OP:
             printf("\nOPERATION (%c)\n", node->value.op_value);
             break;
         case NUM:
@@ -102,7 +102,7 @@ static int oper(const Node * node)
 
     switch(node->type)
     {
-        case ARITHM_OP:
+        case OP:
             sprintf(data, "\nOPERATION (%c)\n", node->value.op_value);
             break;
         case NUM:

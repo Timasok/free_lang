@@ -2,7 +2,7 @@ DEF_OP(NOT_OP, 0, '\r', "")
 
 DEF_OP(ADD, 5, '+', "plus")
 
-DEF_OP(SUB, 5, '-', "minus")
+DEF_OP(SUB, 5, '-', "minisk")
     
 DEF_OP(MUL, 4, '*', "umnozh")
 
