@@ -1,8 +1,8 @@
-#ifndef CALC_F_H
-#define CALC_F_H
+#ifndef SYNTAX_F_H
+#define SYNTAX_F_H
 
 #include "text_funcs.h"
-#include "lexical_analys.h"
+#include "lexical_analysis.h"
 
 Node * getGeneral(const char * str);
 Node * getExpression();

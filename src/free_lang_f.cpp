@@ -6,8 +6,8 @@
 #include "text_funcs.h"
 #include "tree_debug.h"
 
-#include "lexical_analys.h"
-#include "calc_f.h"
+#include "lexical_analysis.h"
+#include "syntax_analysis.h"
 
 int translateLanguage(const char *input_file_name, const char *output_file_name)
 {

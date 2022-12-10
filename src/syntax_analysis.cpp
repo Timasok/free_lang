@@ -4,9 +4,7 @@
 #include <string.h>
 #include <stdlib.h>
 
-#include "calc_f.h"
-#include "tree_debug.h"
-#include "tree.h"
+#include "syntax_analysis.h"
 
 static const char * input;
 

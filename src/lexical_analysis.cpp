@@ -4,7 +4,7 @@
 #include <ctype.h>
 #include <math.h>
 
-#include "lexical_analys.h"
+#include "lexical_analysis.h"
 
 const char * deleteSpaces(const char * str)
 {
@@ -211,7 +211,9 @@ Operator checkForOperator(char *line, size_t * shift)
     if(!(*line))
         return result;
 
+#ifdef LEX_DEBUG
     STRING_DUMP(line);
+#endif
 
     char * processed_line = strtok(line, " \n\0");
 
@@ -222,9 +224,9 @@ Operator checkForOperator(char *line, size_t * shift)
     if (result != NOT_OP)
         *shift += strlen(processed_line) + 1;
 
-    //func to operate the line
+#ifdef LEX_DEBUG
     STRING_DUMP(processed_line);
-
+#endif
     return result;
 
 }
@@ -244,7 +246,9 @@ Key_word checkForKeyWord(char *line, size_t * shift)
     if(!(*line))
         return result;
 
+#ifdef LEX_DEBUG
     STRING_DUMP(line);
+#endif
 
     char * processed_line = strtok(line, " \n\0");
 
@@ -255,7 +259,9 @@ Key_word checkForKeyWord(char *line, size_t * shift)
     if (result != NOT_KEY)
         *shift += strlen(processed_line) + 1;
 
+#ifdef LEX_DEBUG
     STRING_DUMP(processed_line);
+#endif
 
     return result;
 
@@ -276,7 +282,9 @@ Separator checkForSeparator(char *line, size_t * shift)
     if(!(*line))
         return result;
 
+#ifdef LEX_DEBUG
     STRING_DUMP(line);
+#endif
 
     char * processed_line = strtok(line, " \n\0");
 
@@ -287,7 +295,9 @@ Separator checkForSeparator(char *line, size_t * shift)
     if (result != NOT_SEP)
         *shift += strlen(processed_line) + 1;
 
+#ifdef LEX_DEBUG
     STRING_DUMP(processed_line);
+#endif
 
     return result;
 
@@ -301,12 +311,16 @@ char * checkForVar(char *line, size_t * shift)
     if(!(*line))
         return nullptr;
 
+#ifdef LEX_DEBUG
     STRING_DUMP(line);
+#endif
 
     char * resulted_name = strtok(line, " \n");
     *shift += strlen(resulted_name) + 1;
 
+#ifdef LEX_DEBUG
     STRING_DUMP(resulted_name);
+#endif
 
     return resulted_name;
 
@@ -369,13 +383,13 @@ int programTokensCtor(const char * input_line, Program_tokens *program_tokens)
         while (isspace(line[shift]))
         {
             shift++;
-            printf("SHIFT\n");
+            // printf("SHIFT\n");
         }
 
         val.dbl_value = checkForNum(&line[shift], &shift);
         if (!isnan(val.dbl_value))
         {
-            DBG_OUT;
+            // DBG_OUT;
             program_tokens->tokens[program_tokens->size++] = tokenCtor(NUM, val);
             continue;
         }
@@ -383,7 +397,7 @@ int programTokensCtor(const char * input_line, Program_tokens *program_tokens)
         val.sep_value = checkForSeparator(&line[shift], &shift);
         if (val.sep_value != NOT_SEP)
         {
-            DBG_OUT;
+            // DBG_OUT;
             program_tokens->tokens[program_tokens->size++] = tokenCtor(SEPARATOR, val);         
             continue;
         }
@@ -391,7 +405,7 @@ int programTokensCtor(const char * input_line, Program_tokens *program_tokens)
         val.op_value = checkForOperator(&line[shift], &shift);
         if (val.op_value != NOT_OP)
         {
-            DBG_OUT;
+            // DBG_OUT;
             program_tokens->tokens[program_tokens->size++] = tokenCtor(OP, val);         
             continue;
         }
@@ -399,7 +413,7 @@ int programTokensCtor(const char * input_line, Program_tokens *program_tokens)
         val.key_value = checkForKeyWord(&line[shift], &shift);
         if (val.key_value != NOT_KEY)
         {
-            DBG_OUT;
+            // DBG_OUT;
             program_tokens->tokens[program_tokens->size++] = tokenCtor(KEY_WORD, val);         
             continue;
         }
@@ -407,7 +421,7 @@ int programTokensCtor(const char * input_line, Program_tokens *program_tokens)
         val.var.name = checkForVar(&line[shift], &shift);
         if (val.var.name != nullptr)
         {
-            DBG_OUT;
+            // DBG_OUT;
             program_tokens->tokens[program_tokens->size++] = tokenCtor(val.var.name);      
 
             continue;

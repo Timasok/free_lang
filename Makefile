@@ -1,7 +1,6 @@
 STK_DIR = ./lib/stack/src/
 ASM_DIR = ./lib/ASM/src/
 CPU_DIR = ./lib/CPU/src/
-CALC_DIR = ./lib/calc/
 LIB_DIR = ./lib/
 LANG_DIR = ./src/
 
@@ -9,7 +8,7 @@ LOGS_DIR = ./logs/
 GRAPH_DUMP_DIR = ./graph_dumps/
 OBJ_DIR = ./obj/
 
-I_FLAG := -I./lib/stack/include/ -I./lib/ASM/include/ -I./lib/CPU/include/ -I./lib/calc/ -I./lib/inc/ -I./lib/ -I./ -I./include/ -I./include/generators
+I_FLAG := -I./lib/stack/include/ -I./lib/ASM/include/ -I./lib/CPU/include/ -I./lib/inc/ -I./lib/ -I./ -I./include/ -I./include/generators
 
 CC := g++
 CFLAGS := -Wno-format -g -fsanitize=address
@@ -22,14 +21,12 @@ CPU_EXE  := cpu
 STK_SRC  := $(wildcard $(STK_DIR)*.cpp)
 ASM_SRC  := $(wildcard $(ASM_DIR)*.cpp)
 CPU_SRC  := $(wildcard $(CPU_DIR)*.cpp)
-CALC_SRC := $(wildcard $(CALC_DIR)*.cpp)
 LIB_SRC  := $(wildcard $(LIB_DIR)*.cpp)
 LANG_SRC := $(wildcard $(LANG_DIR)*.cpp)
 
 STK_OBJ  := $(patsubst $(STK_DIR)%.cpp,  $(OBJ_DIR)%.o, $(STK_SRC))
 ASM_OBJ  := $(patsubst $(ASM_DIR)%.cpp,  $(OBJ_DIR)%.o, $(ASM_SRC))
 CPU_OBJ  := $(patsubst $(CPU_DIR)%.cpp,  $(OBJ_DIR)%.o, $(CPU_SRC))
-CALC_OBJ := $(patsubst $(CALC_DIR)%.cpp, $(OBJ_DIR)%.o, $(CALC_SRC))
 LIB_OBJ  := $(patsubst $(LIB_DIR)%.cpp,  $(OBJ_DIR)%.o, $(LIB_SRC))
 LANG_OBJ := $(patsubst $(LANG_DIR)%.cpp, $(OBJ_DIR)%.o, $(LANG_SRC))
 
@@ -41,8 +38,8 @@ $(ASM_EXE) : $(ASM_OBJ) $(STK_OBJ) $(LIB_OBJ)
 $(CPU_EXE) : $(CPU_OBJ) $(STK_OBJ) $(LIB_OBJ)
 	@$(CC) $(CFLAGS) $(CPU_OBJ) $(STK_OBJ) $(LIB_OBJ) -o $(CPU_EXE)
 
-$(LANG_EXE) : $(LANG_OBJ) $(CALC_OBJ) $(LIB_OBJ)
-	@$(CC) $(CFLAGS) $(LANG_OBJ) $(CALC_OBJ) $(LIB_OBJ) -o $(LANG_EXE)
+$(LANG_EXE) : $(LANG_OBJ) $(LIB_OBJ)
+	@$(CC) $(CFLAGS) $(LANG_OBJ) $(LIB_OBJ) -o $(LANG_EXE)
 
 $(OBJ_DIR)%.o : $(STK_DIR)%.cpp
 	@$(CC) $(I_FLAG) -c $< -o $@
@@ -51,9 +48,6 @@ $(OBJ_DIR)%.o : $(ASM_DIR)%.cpp
 	@$(CC) $(I_FLAG) -c $< -o $@
 
 $(OBJ_DIR)%.o : $(CPU_DIR)%.cpp
-	@$(CC) $(I_FLAG) -c $< -o $@
-
-$(OBJ_DIR)%.o : $(CALC_DIR)%.cpp
 	@$(CC) $(I_FLAG) -c $< -o $@
 
 $(OBJ_DIR)%.o : $(LIB_DIR)%.cpp
