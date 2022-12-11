@@ -9,6 +9,7 @@
 #include "lexical_analysis.h"
 #include "syntax_analysis.h"
 
+//TODO enum
 int translateLanguage(const char *input_file_name, const char *output_file_name)
 {
     Text_info text1 = {};
@@ -24,12 +25,10 @@ int translateLanguage(const char *input_file_name, const char *output_file_name)
     programTokensCtor(text1.buf, &program_tokens);
 
     programTokensDump(&program_tokens);
+
+    Node * result = getGeneral(&program_tokens);
+
     programTokensDtor(&program_tokens);
-
-    // textDtor(&text1);
-    // //TODO
-
-    Node * result = getGeneral(text1.buf);
     
     TREE_DUMP_OPTIONAL(result, "initial tree"); 
     printIn(result);

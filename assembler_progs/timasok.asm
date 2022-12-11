@@ -1,7 +1,5 @@
-push 11
-push 1
+push 7
+push 4
 ADD
-push 9
-SUB
 out
 hlt

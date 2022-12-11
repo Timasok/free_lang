@@ -94,58 +94,6 @@ char * getNextLineSlice(const char * line)
 
 }
 
-//get rid of this!!!
-#define DEF_OP(op_name, priority, op_code, name_in_lang)                          \
-            if(priority == 1)                                       \
-            {                                                       \
-                original[counter].initial = strdup(#op_name);       \
-                sprintf(original[counter].parsed, "(0)%c", op_code);\
-                counter++;                                          \
-                if (counter = MAX_FUNC_NUMBER)                      \
-                    break;                                          \
-            }                                                       \
-
-Lex_sub * getLexicalSubstitusions()
-{
-    Lex_sub * original = (Lex_sub *)calloc(MAX_FUNC_NUMBER, sizeof(Lex_sub));
-
-    size_t counter = 0;
-
-    while (1)
-    {
-        #include "operations.h"
-        break;
-    }
-
-#ifdef DEBUG
-    for (int idx = 0; idx < counter; idx++)
-    {
-        printf("LEX[%d] = {%s, %s}\n", idx, original[idx].initial, original[idx].parsed);
-
-    }
-#endif
-
-    return original;
-
-}
-
-int LexDtor(Lex_sub *lex)
-{
-    if(!lex)
-        return -1;
-
-    for (int idx = 0; idx < MAX_FUNC_NUMBER; idx++)
-    {
-        free(lex[idx].initial);
-    }
-
-    free(lex);
-
-    return 0;
-}
-
-#undef DEF_OP
-
 #define PRINT_ERROR(error_specifier)                                    \
         fprintf(lexer_log, "%s", #error_specifier);
 
@@ -480,6 +428,56 @@ int tokenDump(const Token * token)
 
 }
 
+int tokenDumpConsole(const Token * token)
+{
+        if (!token)
+    return -1;
+    
+    printf("\ttoken %p\n", token);
+
+    switch(token->type)
+    {
+        case OP:
+            printf("OPERATION %c\n", token->val.op_value);
+            break;
+        case KEY_WORD:
+            printf("KEY_WORD %c\n", token->val.key_value);
+            break;
+        case SEPARATOR:
+            printf("SEPARATOR %c\n", token->val.sep_value);
+            break;
+        case NUM:
+            printf("NUMBER %g\n", token->val.dbl_value);
+            break;
+        case VAR:
+            printf("VARIABLE \"%s\"\n", token->val.var.name);
+            break;
+        default:
+            printf("smth cringe\n");
+            break;
+
+    }
+    return 0;
+
+}
+
+int tokenDump(const Token * token, const char * name_of_var, const char * name_of_file, const char * name_of_func, int number_of_line)
+{
+
+#ifndef SYNTAX_DEBUG
+    fprintf(lexer_log, "\n%s at %s at %s(%d)\n",  name_of_var, name_of_func,
+           name_of_file, number_of_line);
+    tokenDump(token);
+#else
+    printf("\e[0;32m\n%s\e[0m at %s at %s(%d)\n",  name_of_var, name_of_func,
+           name_of_file, number_of_line);
+    tokenDumpConsole(token);
+#endif
+
+    return 0;
+
+}
+
 int programTokensDtor(Program_tokens *program_tokens)
 {
     for (int idx = 0; idx < program_tokens->size; idx++)
@@ -490,6 +488,18 @@ int programTokensDtor(Program_tokens *program_tokens)
     closeLexLogs();
 
     return 0;
+}
+
+bool checkTokensForEnd(Program_tokens *program_tokens)
+{
+    if (program_tokens->current == program_tokens->size)
+    {
+        return true;    
+    } else
+    {
+        return false;
+    }
+
 }
 
 #undef PRINT_ERR

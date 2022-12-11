@@ -4,13 +4,13 @@
 #include "text_funcs.h"
 #include "lexical_analysis.h"
 
-Node * getGeneral(const char * str);
-Node * getExpression();
-Node * getT();
-Node * getDegree();
-Node * getPolice();
-Node * getVariable();
-Node * getUnarOperation();
-Node * getNumber();
+Node * getGeneral       (Program_tokens * program_tokens);
+Node * getExpression    (Program_tokens * program_tokens);
+Node * getTerm          (Program_tokens * program_tokens);
+Node * getDegree        (Program_tokens * program_tokens);
+Node * getPolice        (Program_tokens * program_tokens);
+Node * getVariable      (Program_tokens * program_tokens);
+Node * getUnarOperation (Program_tokens * program_tokens);
+Node * getNumber        (Program_tokens * program_tokens);
 
 #endif

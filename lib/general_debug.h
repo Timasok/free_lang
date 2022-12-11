@@ -16,4 +16,39 @@
     } while(0)                                                          \
 
 
+#define WHILE_VERIFY(condition)                                                                        \
+    do{                                                                                                \
+        switch (condition)                                                                             \
+        {                                                                                              \
+            case true:                                                                                 \
+            {                                                                                          \
+                printf("\e[0;32mWHILE(%s) in %s completed\e[0m\n", #condition, __PRETTY_FUNCTION__);   \
+                break;                                                                                 \
+            }                                                                                          \
+            case false:                                                                                \
+            {                                                                                          \
+                printf("\e[0;31mWHILE(%s) in %s termination\e[0m\n", #condition, __PRETTY_FUNCTION__); \
+                break;                                                                                 \
+            }                                                                                          \
+        }                                                                                              \
+    } while(0)                                                                                         \
+
+#define IF_VERIFY(condition)                                                                        \
+    do{                                                                                             \
+        switch (condition)                                                                          \
+        {                                                                                           \
+            case true:                                                                              \
+            {                                                                                       \
+                printf("\e[0;32mIF(%s) in %s completed\e[0m\n", #condition, __PRETTY_FUNCTION__);   \
+                break;                                                                              \
+            }                                                                                       \
+            case false:                                                                             \
+            {                                                                                       \
+                printf("\e[0;31mIF(%s) in %s termination\e[0m\n", #condition, __PRETTY_FUNCTION__); \
+                break;                                                                              \
+            }                                                                                       \
+        }                                                                                           \
+    } while(0)                                                                                      \
+
+
 #endif

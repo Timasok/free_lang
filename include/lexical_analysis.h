@@ -1,6 +1,8 @@
 #ifndef LEXICAL_ANALYS_H
 #define LEXICAL_ANALYS_H
 
+// #define SYNTAX_DEBUG
+
 #include "tree_debug.h"
 #include "text_funcs.h"
 
@@ -8,16 +10,6 @@ const char * deleteSpaces(const char * str);
 char * getNextLineSlice(const char * line);
 
 bool stringEquals(const char *s_1, const char * s_2);
-
-struct  Lex_sub
-{
-    char *initial;
-    char parsed[5];
-
-};
-
-Lex_sub * getLexicalSubstitusions();
-int LexDtor(Lex_sub *lex);
 
 const int INITIAL_TOKEN_NUMBER = 512;
 // const char SEPARATOR = '~';
@@ -41,7 +33,14 @@ struct  Program_tokens
 Token * tokenCtor(Node_type type, Value val);
 Token * tokenCtor(const char * var_name);
 
+
+#define TOKEN_DUMP(token)                                                       \
+            tokenDump(token, #token, __FILE__, __PRETTY_FUNCTION__, __LINE__)   \
+
 int tokenDump(const Token * token);
+int tokenDumpConsole(const Token * token);
+int tokenDump(const Token * token, const char * name_of_var, const char * name_of_file, const char * name_of_func, int number_of_line);
+
 int tokenDtor(Token * token);
 
 int programTokensCtor(const char * input_line, Program_tokens *program_tokens);
@@ -53,5 +52,8 @@ Operator    checkForOperator  (char *line, size_t * shift);
 Key_word    checkForKeyWord   (char *line, size_t * shift);
 Separator   checkForSeparator (char *line, size_t * shift);
 char *      checkForVar       (char *line, size_t * shift);
+
+bool checkTokensForEnd(Program_tokens *program_tokens);
+
 
 #endif
