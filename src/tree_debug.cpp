@@ -24,16 +24,22 @@ int dumpExpNode(const Node * node)
     switch(node->type)
     {
         case OP:
-            printf("\nOPERATION (%c)\n", node->value.op_value);
+            printf("OPERATION %c\n", node->value.op_value);
+            break;
+        case KEY_WORD:
+            printf("KEY_WORD %c\n", node->value.key_value);
             break;
         case NUM:
-            printf("\nNUMBER (%g)\n", node->value.dbl_value);
+            printf("NUMBER %g\n", node->value.dbl_value);
             break;
         case VAR:
-            printf("\nVARIABLE (%s)\n", node->value.var.name);
+            printf("VARIABLE \"%s\"\n", node->value.var.name);
+            break;
+        case EMPTY:
+            printf("EMPTY \n");
             break;
         default:
-            printf("\nБлэт не определился\n");
+            printf("smth cringe\n");
             break;
 
     }
@@ -97,22 +103,27 @@ int findNext(const Node* node, int (*oper)(const Node *))
 
 static int oper(const Node * node)
 {
-
     char data[MAX_BUFFER_LENGTH] = {};
 
     switch(node->type)
     {
         case OP:
-            sprintf(data, "\nOPERATION (%c)\n", node->value.op_value);
+            sprintf(data, "OPERATION %c\n", node->value.op_value);
+            break;
+        case KEY_WORD:
+            sprintf(data, "KEY_WORD %c\n", node->value.key_value);
             break;
         case NUM:
-            sprintf(data, "\nNUMBER (%g)\n", node->value.dbl_value);
+            sprintf(data, "NUMBER %g\n", node->value.dbl_value);
             break;
         case VAR:
-            sprintf(data, "\nVARIABLE (%s)\n", node->value.var.name);
+            sprintf(data, "VARIABLE \"%s\"\n", node->value.var.name);
+            break;
+        case EMPTY:
+            sprintf(data, "EMPTY \n");
             break;
         default:
-            sprintf(data, "\nБлэт не определился\n");
+            sprintf(data, "smth cringe\n");
             break;
 
     }

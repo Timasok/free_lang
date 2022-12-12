@@ -89,9 +89,9 @@ struct Node
 };
 
 int getPriority(const Node *node);
-
 int varDtor(Var var);
 
+int linkSonsToParent(Node *node, Node *left_son, Node *right_son);
 Node *nodeConnect(Node *parent, const char dest);
 Node *nodeConnect(Node_type type, Value value, Node *l_son, Node *r_son);
 Node *nodeCtor();
@@ -112,6 +112,7 @@ Node *createVar(char var);
 Node *createVar(char *var_name);
 Node *createOp(Operator op);
 Node *createOp(int operation);
+Node * createEmpty();
 
 int substitudeVariables(Node *node, Var v_arr[], const char *name_of_not_replaced_var);
 int processVarNode(Node *node, Var v_arr[], const char *var_name);

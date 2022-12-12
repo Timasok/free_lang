@@ -12,28 +12,40 @@ const int MAX_VARIABLE_LEN = 15;
 
 Node * getGeneral(Program_tokens * program_tokens)
 {
-    // printf("tokens->size = %lu\n", program_tokens->size);
-    Node * result = getAssignment(program_tokens);
+    Node * main_node = createEmpty();
+
+    getLangTree(program_tokens, main_node);
 
     ASSERT(checkTokensForEnd(program_tokens));
     program_tokens->current = 0;
 
-    return result;
+    return main_node;
 }
 
-// Node * getBlock(Program_tokens *program_tokens)
-// {
-//     Node * result = getExpression(program_tokens);
+int getLangTree(Program_tokens * program_tokens, Node * predecessor)
+{
+    Node * left  = getAssignment(program_tokens);
+    Node * right = nullptr;
 
-//     if (!checkTokensForEnd(program_tokens))
-//     {
+    Token * current_token = program_tokens->tokens[program_tokens->current];
 
-
-//     }    
-//     // Node * tmp_result = getExpression(program_tokens);
+    if (current_token->type == SEPARATOR && current_token->val.sep_value == ';')
+    {
+        program_tokens->current++;
+    }
     
+    if (!checkTokensForEnd(program_tokens))
+    {
+        right = createEmpty();
+        getLangTree(program_tokens, right);
 
-// }
+    }
+
+    linkSonsToParent(predecessor, left, right);
+    
+    return 0;    
+
+}
 
 Node * getAssignment(Program_tokens *program_tokens)
 {
@@ -88,13 +100,7 @@ Node * getExpression(Program_tokens * program_tokens)
 
         while (current_token->type == OP && (current_token->val.op_value == '+' || current_token->val.op_value == '-'))
         {
-            //to macro    
             INCREMENT_TOKENS;
-
-            // if( checkTokensForEnd(program_tokens))
-            //     break;
-            
-            // program_tokens->current++;
             
             Node * tmp_result = getTerm(program_tokens);
 
@@ -142,7 +148,7 @@ Node * getTerm(Program_tokens * program_tokens)
 
         while (current_token->type == OP && (current_token->val.op_value == '*' || current_token->val.op_value == '/'))
         {
-            program_tokens->current++;
+            INCREMENT_TOKENS;
             Node * tmp_result = getDegree(program_tokens);
 
             if  (current_token->val.op_value == '*')
@@ -186,7 +192,7 @@ Node * getDegree(Program_tokens * program_tokens)
 
         while (current_token->type == OP && current_token->val.op_value == '^')
         {
-            program_tokens->current++;
+            INCREMENT_TOKENS;
             Node * tmp_result = getPolice(program_tokens);
 
             value.op_value = POW;

@@ -1,7 +1,8 @@
 var x
-push 3
-ADD
-var y
-ADD
+push 17
+ASG
+var x
+push 17
+ASG
 out
 hlt

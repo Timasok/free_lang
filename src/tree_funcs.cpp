@@ -376,6 +376,14 @@ Node * createNode(Node_type type, Value value, Node * l_son, Node * r_son)
 
 }
 
+Node * createEmpty()
+{
+    Node * new_node = nodeCtor(); 
+    new_node->type = EMPTY;
+
+    return new_node;
+}
+
 Node * nodeConnect(Node_type type, Value value, Node * l_son, Node * r_son)
 {
     Node * result = createNode(type, value, l_son, r_son);
@@ -484,6 +492,26 @@ int linkSonsToParent(Node *node)
     return 0;
 }
 
+int linkSonsToParent(Node *node, Node *left_son, Node *right_son)
+{
+    if (!node)
+        return -1;
+
+    if (left_son)    
+    {
+        node->l_son = left_son;
+        node->l_son->parent = node;
+    }
+
+    if (right_son)    
+    {
+        node->r_son = right_son;
+        node->r_son->parent = node;
+    }
+
+    return 0;
+}
+
 int pickCubs(Node * prev_parent, Node * new_parent)
 {
     if (!hasSons(prev_parent))
@@ -519,14 +547,20 @@ void printIn(const Node * node)
         case OP:
             printf("%c", node->value.op_value);
             break;
+        case KEY_WORD:
+            printf("%c", node->value.key_value);
+            break;
         case NUM:
             printf("%g", node->value.dbl_value);
             break;
         case VAR:
-            printf("%s", node->value.var.name);
+            printf("\"%s\"", node->value.var.name);
+            break;
+        case EMPTY:
+            printf("EMPTY");
             break;
         default:
-            printf("Блэт");
+            printf("smth cringe\n");
             break;
 
     }

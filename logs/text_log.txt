@@ -1,11 +1,13 @@
 
 ************************************************************
   code_of_error = 0
-  buf_length = 16
-  number_of_lines = 1
+  buf_length = 15
+  number_of_lines = 2
   buf: 
-x plus 3 minus y
+x = 17;
+x = 17;
 	Lines: 
+(null)
 (null)
 
 ************************************************************

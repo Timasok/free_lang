@@ -6,16 +6,15 @@ node [shape = "plaintext", style = "solid"];
 node1 [
 label=<
 <table border="0" cellborder="1" cellspacing="0">
-    <tr><td bgcolor="#dfdf91" port = "H1">NODE 1 = 0x604000000110 PARENT = (nil)</td></tr>
-    <tr><td bgcolor= "#5ca1cc"><font color="black"> 
-OPERATION (+)
+    <tr><td bgcolor="#dfdf91" port = "H1">NODE 1 = 0x604000000010 PARENT = (nil)</td></tr>
+    <tr><td bgcolor= "#5ca1cc"><font color="black"> EMPTY 
  </font></td></tr>
     <tr>
     <td>
         <table border="0" cellborder="1">
         <tr>
-            <td bgcolor = "#70de9f" port = "P1">  LEFT = 0x604000000090 </td>
-            <td bgcolor = "#e02828" port = "P1"> RIGHT = 0x6040000000d0 </td>
+            <td bgcolor = "#70de9f" port = "P1">  LEFT = 0x6040000000d0 </td>
+            <td bgcolor = "#e02828" port = "P1"> RIGHT = 0x604000000110 </td>
         </tr> 
         </table> 
     </td>
@@ -26,16 +25,15 @@ OPERATION (+)
 node2 [
 label=<
 <table border="0" cellborder="1" cellspacing="0">
-    <tr><td bgcolor="#dfdf91" port = "H2">NODE 2 = 0x604000000090 PARENT = 0x604000000110</td></tr>
-    <tr><td bgcolor= "#5ca1cc"><font color="black"> 
-OPERATION (+)
+    <tr><td bgcolor="#dfdf91" port = "H2">NODE 2 = 0x6040000000d0 PARENT = 0x604000000010</td></tr>
+    <tr><td bgcolor= "#5ca1cc"><font color="black"> OPERATION =
  </font></td></tr>
     <tr>
     <td>
         <table border="0" cellborder="1">
         <tr>
-            <td bgcolor = "#70de9f" port = "P2">  LEFT = 0x604000000010 </td>
-            <td bgcolor = "#e02828" port = "P2"> RIGHT = 0x604000000050 </td>
+            <td bgcolor = "#70de9f" port = "P2">  LEFT = 0x604000000050 </td>
+            <td bgcolor = "#e02828" port = "P2"> RIGHT = 0x604000000090 </td>
         </tr> 
         </table> 
     </td>
@@ -46,9 +44,8 @@ OPERATION (+)
 node1:P1 -> node2:H2;node3 [
 label=<
 <table border="0" cellborder="1" cellspacing="0">
-    <tr><td bgcolor="#dfdf91" port = "H3">NODE 3 = 0x604000000010 PARENT = 0x604000000090</td></tr>
-    <tr><td bgcolor= "#5ca1cc"><font color="black"> 
-VARIABLE (x)
+    <tr><td bgcolor="#dfdf91" port = "H3">NODE 3 = 0x604000000050 PARENT = 0x6040000000d0</td></tr>
+    <tr><td bgcolor= "#5ca1cc"><font color="black"> VARIABLE "x"
  </font></td></tr>
     <tr>
     <td>
@@ -66,9 +63,8 @@ VARIABLE (x)
 node2:P2 -> node3:H3;node4 [
 label=<
 <table border="0" cellborder="1" cellspacing="0">
-    <tr><td bgcolor="#dfdf91" port = "H4">NODE 4 = 0x604000000050 PARENT = 0x604000000090</td></tr>
-    <tr><td bgcolor= "#5ca1cc"><font color="black"> 
-NUMBER (3)
+    <tr><td bgcolor="#dfdf91" port = "H4">NODE 4 = 0x604000000090 PARENT = 0x6040000000d0</td></tr>
+    <tr><td bgcolor= "#5ca1cc"><font color="black"> NUMBER 17
  </font></td></tr>
     <tr>
     <td>
@@ -86,15 +82,14 @@ NUMBER (3)
 node2:P2 -> node4:H4;node5 [
 label=<
 <table border="0" cellborder="1" cellspacing="0">
-    <tr><td bgcolor="#dfdf91" port = "H5">NODE 5 = 0x6040000000d0 PARENT = 0x604000000110</td></tr>
-    <tr><td bgcolor= "#5ca1cc"><font color="black"> 
-VARIABLE (y)
+    <tr><td bgcolor="#dfdf91" port = "H5">NODE 5 = 0x604000000110 PARENT = 0x604000000010</td></tr>
+    <tr><td bgcolor= "#5ca1cc"><font color="black"> EMPTY 
  </font></td></tr>
     <tr>
     <td>
         <table border="0" cellborder="1">
         <tr>
-            <td bgcolor = "#70de9f" port = "P5">  LEFT = (nil) </td>
+            <td bgcolor = "#70de9f" port = "P5">  LEFT = 0x6040000001d0 </td>
             <td bgcolor = "#e02828" port = "P5"> RIGHT = (nil) </td>
         </tr> 
         </table> 
@@ -103,5 +98,62 @@ VARIABLE (y)
 </table>>
 ]
 
-node1:P1 -> node5:H5;
+node1:P1 -> node5:H5;node6 [
+label=<
+<table border="0" cellborder="1" cellspacing="0">
+    <tr><td bgcolor="#dfdf91" port = "H6">NODE 6 = 0x6040000001d0 PARENT = 0x604000000110</td></tr>
+    <tr><td bgcolor= "#5ca1cc"><font color="black"> OPERATION =
+ </font></td></tr>
+    <tr>
+    <td>
+        <table border="0" cellborder="1">
+        <tr>
+            <td bgcolor = "#70de9f" port = "P6">  LEFT = 0x604000000150 </td>
+            <td bgcolor = "#e02828" port = "P6"> RIGHT = 0x604000000190 </td>
+        </tr> 
+        </table> 
+    </td>
+    </tr>
+</table>>
+]
+
+node5:P5 -> node6:H6;node7 [
+label=<
+<table border="0" cellborder="1" cellspacing="0">
+    <tr><td bgcolor="#dfdf91" port = "H7">NODE 7 = 0x604000000150 PARENT = 0x6040000001d0</td></tr>
+    <tr><td bgcolor= "#5ca1cc"><font color="black"> VARIABLE "x"
+ </font></td></tr>
+    <tr>
+    <td>
+        <table border="0" cellborder="1">
+        <tr>
+            <td bgcolor = "#70de9f" port = "P7">  LEFT = (nil) </td>
+            <td bgcolor = "#e02828" port = "P7"> RIGHT = (nil) </td>
+        </tr> 
+        </table> 
+    </td>
+    </tr>
+</table>>
+]
+
+node6:P6 -> node7:H7;node8 [
+label=<
+<table border="0" cellborder="1" cellspacing="0">
+    <tr><td bgcolor="#dfdf91" port = "H8">NODE 8 = 0x604000000190 PARENT = 0x6040000001d0</td></tr>
+    <tr><td bgcolor= "#5ca1cc"><font color="black"> NUMBER 17
+ </font></td></tr>
+    <tr>
+    <td>
+        <table border="0" cellborder="1">
+        <tr>
+            <td bgcolor = "#70de9f" port = "P8">  LEFT = (nil) </td>
+            <td bgcolor = "#e02828" port = "P8"> RIGHT = (nil) </td>
+        </tr> 
+        </table> 
+    </td>
+    </tr>
+</table>>
+]
+
+node6:P6 -> node8:H8;
 }

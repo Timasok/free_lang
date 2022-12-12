@@ -7,3 +7,5 @@ DEF_SEP(RIGHT_ROUNDED, ')', ")")
 DEF_SEP(LEFT_CURLY, '{', "{")
 
 DEF_SEP(RIGHT_CURLY, '}', "}")
+
+DEF_SEP(SEMI_COLON, ';', ";")
