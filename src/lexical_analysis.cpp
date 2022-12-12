@@ -460,14 +460,18 @@ int tokenDumpConsole(const Token * token)
 int tokenDump(const Token * token, const char * name_of_var, const char * name_of_file, const char * name_of_func, int number_of_line)
 {
 
-#ifndef SYNTAX_DEBUG
-    fprintf(lexer_log, "\n%s at %s at %s(%d)\n",  name_of_var, name_of_func,
-           name_of_file, number_of_line);
-    tokenDump(token);
-#else
     printf("\e[0;32m\n%s\e[0m at %s at %s(%d)\n",  name_of_var, name_of_func,
            name_of_file, number_of_line);
     tokenDumpConsole(token);
+
+#ifndef SYNTAX_DEBUG
+    // fprintf(lexer_log, "\n%s at %s at %s(%d)\n",  name_of_var, name_of_func,
+    //        name_of_file, number_of_line);
+    // tokenDump(token);
+#else
+    // printf("\e[0;32m\n%s\e[0m at %s at %s(%d)\n",  name_of_var, name_of_func,
+    //        name_of_file, number_of_line);
+    // tokenDumpConsole(token);
 #endif
 
     return 0;

@@ -6,15 +6,17 @@
 
 #include "syntax_analysis.h"
 
-static const char * input;
+static Program_tokens * program_tokens;
 
 const int MAX_VARIABLE_LEN = 15;
 
-Node * getGeneral(Program_tokens * program_tokens)
+Node * getGeneral(Program_tokens * tokens)
 {
+    program_tokens = tokens;
+
     Node * main_node = createEmpty();
 
-    getLangTree(program_tokens, main_node);
+    getLangTree(main_node);
 
     ASSERT(checkTokensForEnd(program_tokens));
     program_tokens->current = 0;
@@ -22,9 +24,9 @@ Node * getGeneral(Program_tokens * program_tokens)
     return main_node;
 }
 
-int getLangTree(Program_tokens * program_tokens, Node * predecessor)
+int getLangTree(Node * predecessor)
 {
-    Node * left  = getAssignment(program_tokens);
+    Node * left  = getAssignment();
     Node * right = nullptr;
 
     Token * current_token = program_tokens->tokens[program_tokens->current];
@@ -37,7 +39,7 @@ int getLangTree(Program_tokens * program_tokens, Node * predecessor)
     if (!checkTokensForEnd(program_tokens))
     {
         right = createEmpty();
-        getLangTree(program_tokens, right);
+        getLangTree(right);
 
     }
 
@@ -47,15 +49,14 @@ int getLangTree(Program_tokens * program_tokens, Node * predecessor)
 
 }
 
-Node * getAssignment(Program_tokens *program_tokens)
+Node * getAssignment()
 {
-
     Node * result = nullptr;
     Token * next_token = program_tokens->tokens[program_tokens->current + 1];
 
     if (next_token->type == OP && next_token->val.op_value == '=')
     {
-        result = getVariable(program_tokens);
+        result = getVariable();
 
         Value value = {};
         Token * current_token = program_tokens->tokens[program_tokens->current];
@@ -65,27 +66,102 @@ Node * getAssignment(Program_tokens *program_tokens)
         printf("tokens->current = %lu\n", program_tokens->current);
         IF_VERIFY(current_token->type == OP && current_token->val.op_value == '=');
 #endif
-        
         if (current_token->type == OP && current_token->val.op_value == '=')
         {
             program_tokens->current++;
-            Node * tmp_result = getExpression(program_tokens);
+            Node * tmp_result = getExpression();
 
             value.op_value = ASG;
             result = nodeConnect(OP, value, result, tmp_result);
         }
         
+    } else if (program_tokens->tokens[program_tokens->current]->type == KEY_WORD)
+    {
+        result = getKeyWord();
+
     } else
     {
-        result = getExpression(program_tokens);
+        result = getExpression();   
     }
 
     return result;
 }
 
-Node * getExpression(Program_tokens * program_tokens)
+Node * getKeyWord()
 {
-    Node * result = getTerm(program_tokens);
+    Value value = {};
+    value.key_value = program_tokens->tokens[program_tokens->current]->val.key_value;
+    program_tokens->current++;
+
+    Node * condition = nullptr;
+    Node * block = nullptr;
+
+    Token * current_token = program_tokens->tokens[program_tokens->current];
+
+    IF_VERIFY(current_token->type == SEPARATOR && current_token->val.sep_value == '(');
+
+    if (current_token->type == SEPARATOR && current_token->val.sep_value == '(')
+    {
+        program_tokens->current++;
+        current_token = program_tokens->tokens[program_tokens->current];        
+
+#ifdef SYNTAX_DEBUG
+        printf("tokens->current = %lu\n", program_tokens->current);
+        TOKEN_DUMP(current_token);
+#endif         
+   
+        condition = getExpression();
+        DBG_OUT;
+
+        current_token = program_tokens->tokens[program_tokens->current];        
+
+        ASSERT(current_token->type == SEPARATOR && current_token->val.sep_value == ')');
+        
+        program_tokens->current++;
+    
+    }
+
+    current_token = program_tokens->tokens[program_tokens->current];
+    
+    if (current_token->type == SEPARATOR && current_token->val.sep_value == '{')
+    {
+        program_tokens->current++;
+
+        block = getBlock();
+        DBG_OUT;
+
+        current_token = program_tokens->tokens[program_tokens->current];
+        
+#ifdef SYNTAX_DEBUG
+        TOKEN_DUMP(current_token);
+        printf("tokens->current = %lu\n", program_tokens->current);
+#endif    
+
+        ASSERT(current_token->type == SEPARATOR && current_token->val.sep_value == '}');
+        
+        program_tokens->current++;
+    
+    }
+
+    Node * result = createNode(KEY_WORD, value, condition, block);
+    linkSonsToParent(result, condition, block);
+
+    TREE_DUMP_OPTIONAL(result, "key word tree");
+
+    return result;
+}
+
+Node * getBlock()
+{
+    Node * block = nullptr;
+
+    return block;
+
+}
+
+Node * getExpression()
+{
+    Node * result = getTerm();
 
     if (!checkTokensForEnd(program_tokens))
     {
@@ -102,7 +178,7 @@ Node * getExpression(Program_tokens * program_tokens)
         {
             INCREMENT_TOKENS;
             
-            Node * tmp_result = getTerm(program_tokens);
+            Node * tmp_result = getTerm();
 
 #ifdef SYNTAX_DEBUG
             IF_VERIFY(current_token->val.op_value == '+');
@@ -119,6 +195,13 @@ Node * getExpression(Program_tokens * program_tokens)
             
             }
 
+            current_token = program_tokens->tokens[program_tokens->current];
+
+#ifdef SYNTAX_DEBUG
+            WHILE_VERIFY(current_token->type == OP && (current_token->val.op_value == '+' || current_token->val.op_value == '-'));
+#endif
+        
+        
         }
     }
 
@@ -131,9 +214,9 @@ Node * getExpression(Program_tokens * program_tokens)
     return result;
 }
 
-Node * getTerm(Program_tokens * program_tokens)
+Node * getTerm()
 {
-    Node * result = getDegree(program_tokens);
+    Node * result = getDegree();
 
     if (!checkTokensForEnd(program_tokens))
     {
@@ -149,7 +232,7 @@ Node * getTerm(Program_tokens * program_tokens)
         while (current_token->type == OP && (current_token->val.op_value == '*' || current_token->val.op_value == '/'))
         {
             INCREMENT_TOKENS;
-            Node * tmp_result = getDegree(program_tokens);
+            Node * tmp_result = getDegree();
 
             if  (current_token->val.op_value == '*')
             {
@@ -163,6 +246,9 @@ Node * getTerm(Program_tokens * program_tokens)
             
             }
 
+            current_token = program_tokens->tokens[program_tokens->current];
+            WHILE_VERIFY(current_token->type == OP && (current_token->val.op_value == '*' || current_token->val.op_value == '/'));
+
         }
 
     }
@@ -175,10 +261,12 @@ Node * getTerm(Program_tokens * program_tokens)
 
 }
 
-Node * getDegree(Program_tokens * program_tokens)
+Node * getDegree()
 {
-    Node * result = getPolice(program_tokens);
+    Node * result = getPolice();
     
+    // DBG_OUT;
+
     if (!checkTokensForEnd(program_tokens))
     {
         Value value = {};
@@ -189,14 +277,20 @@ Node * getDegree(Program_tokens * program_tokens)
         printf("tokens->current = %lu\n", program_tokens->current);
         WHILE_VERIFY(current_token->type == OP && current_token->val.op_value == '^');
 #endif
-
         while (current_token->type == OP && current_token->val.op_value == '^')
         {
+            printf("tokens->current = %lu\n", program_tokens->current);
+            TOKEN_DUMP(program_tokens->tokens[program_tokens->current]);
+            DBG_OUT;
+
             INCREMENT_TOKENS;
-            Node * tmp_result = getPolice(program_tokens);
+            Node * tmp_result = getPolice();
 
             value.op_value = POW;
             result = nodeConnect(OP, value, result, tmp_result);
+
+            current_token = program_tokens->tokens[program_tokens->current];
+            WHILE_VERIFY(current_token->type == OP && current_token->val.op_value == '^');
 
         }
 
@@ -211,7 +305,7 @@ Node * getDegree(Program_tokens * program_tokens)
 
 }
 
-Node * getPolice(Program_tokens * program_tokens) // TODO rename
+Node * getPolice() // TODO rename
 {
     Node * result = nullptr;
 
@@ -227,7 +321,7 @@ Node * getPolice(Program_tokens * program_tokens) // TODO rename
     {
         program_tokens->current++;
 
-        result = getAssignment(program_tokens);
+        result = getExpression();
         current_token = program_tokens->tokens[program_tokens->current];
         
 #ifdef SYNTAX_DEBUG
@@ -241,26 +335,28 @@ Node * getPolice(Program_tokens * program_tokens) // TODO rename
 
     } else if (current_token->type == OP || current_token->type == KEY_WORD || current_token->type == VAR)
     {
-
+        // DBG_OUT;
 #ifdef SYNTAX_DEBUG
         IF_VERIFY(current_token->type == OP || current_token->type == KEY_WORD || current_token->type == VAR);
 #endif
-        result = getUnarOperation(program_tokens);
+        result = getUnarOperation();
 
     }else if (current_token->type == NUM)
     {
-
+        // DBG_OUT;
 #ifdef SYNTAX_DEBUG
         IF_VERIFY(current_token->type == NUM);
 #endif
-        result = getNumber(program_tokens);
+        result = getNumber();
 
+    } else
+    {
+        DBG_OUT;
     }
-    
     return result;
 }
 
-Node * getUnarOperation(Program_tokens * program_tokens)
+Node * getUnarOperation()
 {
     Node * result = nullptr;
 
@@ -289,7 +385,7 @@ Node * getUnarOperation(Program_tokens * program_tokens)
         {
             program_tokens->current++;
                 
-            result->r_son = getExpression(program_tokens);
+            result->r_son = getExpression();
             result->l_son = createNum(0);
             linkSonsToParent(result);
 
@@ -308,13 +404,13 @@ Node * getUnarOperation(Program_tokens * program_tokens)
 
     } else {
 
-        result = getVariable(program_tokens);
+        result = getVariable();
     }
 
     return result;
 }
 
-Node * getVariable(Program_tokens * program_tokens)
+Node * getVariable()
 {
 
     Token * current_token = program_tokens->tokens[program_tokens->current];
@@ -331,7 +427,7 @@ Node * getVariable(Program_tokens * program_tokens)
 
 }
 
-Node * getNumber(Program_tokens * program_tokens)
+Node * getNumber()
 {
     Token * current_token = program_tokens->tokens[program_tokens->current];
 

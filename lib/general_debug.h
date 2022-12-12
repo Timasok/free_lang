@@ -1,12 +1,14 @@
 #ifndef GEN_DEBUG_H
 #define GEN_DEBUG_H
 
-#ifdef DEBUG_MODE
+// #ifdef DEBUG_MODE
+// #define DBG_OUT printf("DBG at %s at %s(%d)\n", __PRETTY_FUNCTION__, __FILE__, __LINE__)
+// #endif
+// #ifndef DEBUG_MODE
+// #define DBG_OUT do{}while(0)
+// #endif
+
 #define DBG_OUT printf("DBG at %s at %s(%d)\n", __PRETTY_FUNCTION__, __FILE__, __LINE__)
-#endif
-#ifndef DEBUG_MODE
-#define DBG_OUT do{}while(0)
-#endif
 
 #define PRINT_ERROR_CONSOLE(error_specifier)                                        \
         fprintf(stderr, "%s", #error_specifier)                                     \

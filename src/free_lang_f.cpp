@@ -47,8 +47,10 @@ int translateLanguage(const char *input_file_name, const char *output_file_name)
 
     closeLogs();
 
+    DBG_OUT;
     nodeDtor(&result);
     textDtor(&text1);
+
 
     return TRANSLATION_TERMINATED_SYNTAX_ERROR;
     return TRANSLATION_SUCCEEDEED;
