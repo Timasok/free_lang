@@ -116,7 +116,6 @@ static int closeLexLogs()
 {
     fclose(lexer_log);
     return 0;
-
 }
 
 double checkForNum(char *line, size_t * shift)
@@ -327,7 +326,6 @@ int programTokensCtor(const char * input_line, Program_tokens *program_tokens)
     while (line[shift] != '\0' && shift < initial_len)
     {
         Value val = {};
-
         while (isspace(line[shift]))
         {
             shift++;
@@ -371,9 +369,7 @@ int programTokensCtor(const char * input_line, Program_tokens *program_tokens)
         {
             // DBG_OUT;
             program_tokens->tokens[program_tokens->size++] = tokenCtor(val.var.name);      
-
             continue;
-
         }
 
         break;
@@ -398,7 +394,7 @@ int programTokensDump(Program_tokens *program_tokens)
 int tokenDump(const Token * token)
 {
     if (!token)
-    return -1;
+        return -1;
     
     fprintf(lexer_log, "\n\ttoken %p\n", token);
 
@@ -430,8 +426,8 @@ int tokenDump(const Token * token)
 
 int tokenDumpConsole(const Token * token)
 {
-        if (!token)
-    return -1;
+    if (!token)
+        return -1;
     
     printf("\ttoken %p\n", token);
 
@@ -485,6 +481,8 @@ int programTokensDtor(Program_tokens *program_tokens)
         tokenDtor(program_tokens->tokens[idx]);
     }
 
+    free(program_tokens->tokens);
+    
     closeLexLogs();
 
     return 0;

@@ -8,7 +8,6 @@
 
 #include "debug_CPU.h"
 
-
 int dump_CPU(CPU_info *cpu)
 {
     fprintf(cpu->log_file, "\nSIGNATURE: %s\n"

@@ -4,15 +4,7 @@ asmCtor at lib/ASM/src/inout_ASM.cpp(42)
 CODE OF ERROR: 1057
 compile at lib/ASM/src/funcs_ASM.cpp(47)
 CODE OF ERROR: 1057
-COMAND - push COMAND_LENGTH - 4 ARG - 7
-getArgs at lib/ASM/src/funcs_ASM.cpp(187)
-CODE OF ERROR: 1057
-7
-7
-ARGUMENT: 7 REGISTER: 0 MEMORY: 0
-getArgs at lib/ASM/src/funcs_ASM.cpp(221)
-CODE OF ERROR: 1057
-line - 0 comand - push argument - 1
+COMAND - var COMAND_LENGTH - 3 ARG - hur
 COMAND - push COMAND_LENGTH - 4 ARG - 4
 getArgs at lib/ASM/src/funcs_ASM.cpp(187)
 CODE OF ERROR: 1057
@@ -70,7 +62,7 @@ line - 4 comand - hlt
 	Label[39] = {-1, imp}
 compile at lib/ASM/src/funcs_ASM.cpp(96)
 CODE OF ERROR: 1057
-33	7	33	4	3	7	0	writeAssemblerInFile at lib/ASM/src/inout_ASM.cpp(48)
+33	4	3	7	0	writeAssemblerInFile at lib/ASM/src/inout_ASM.cpp(48)
 CODE OF ERROR: 1057
 asmDtor at lib/ASM/src/inout_ASM.cpp(85)
 CODE OF ERROR: 1057

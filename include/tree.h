@@ -9,16 +9,6 @@ const int MAX_BUFFER_LENGTH = 512;
 const int NUMBER_OF_VARS = 16;
 const int MAX_FUNC_NUMBER = 20;
 
-#define ASSERT(condition)                                              \
-    do                                                                 \
-    {                                                                  \
-        if (!condition)                                                \
-        {                                                              \
-            fprintf(stderr, "%s failed: file: %s func: %s line: %d\n", \
-                    #condition, __FILE__, __FUNCTION__, __LINE__);     \
-        }                                                              \
-    } while (0)
-
 enum son
 {
     LEFT_SON = 0,
@@ -34,6 +24,7 @@ enum Node_type
     KEY_WORD  = 3,
     VAR       = 4,
     NUM       = 5,
+    EMPTY     = 6,
 
 };
 

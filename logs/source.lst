@@ -1,6 +1,5 @@
 adr 	cmd   arg   arg2 	source
-0000	21	  07	00 		push 7
-0002	21	  04	00 		push 4
-0004	03  				ADD
-0005	07  				out
-0006	00  				hlt
+0000	21	  04	00 		push 4
+0002	03  				ADD
+0003	07  				out
+0004	00  				hlt

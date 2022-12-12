@@ -50,6 +50,7 @@ int translateLanguage(const char *input_file_name, const char *output_file_name)
     nodeDtor(&result);
     textDtor(&text1);
 
+    return TRANSLATION_TERMINATED_SYNTAX_ERROR;
     return TRANSLATION_SUCCEEDEED;
 
 }

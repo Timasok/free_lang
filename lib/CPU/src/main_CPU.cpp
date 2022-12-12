@@ -10,14 +10,6 @@
 #include "funcs_CPU.h"
 #include "debug_CPU.h"
 
-#ifdef DEBUG_MODE
-#define DBG_OUT fprintf(stderr, "Compiled nicely -line: %d file: %s func: %s\n",            \
-                                                __LINE__, __FILE__, __FUNCTION__)
-#endif
-#ifndef DEBUG_MODE
-#define DBG_OUT
-#endif
-
 int main(int argc, const char* argv[])
 {
 

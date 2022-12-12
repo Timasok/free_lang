@@ -1,16 +1,11 @@
 
 ************************************************************
   code_of_error = 0
-  buf_length = 26
-  number_of_lines = 6
+  buf_length = 16
+  number_of_lines = 1
   buf: 
-push 7
+x plus 3 minus y
 	Lines: 
-push 7
-push 4
-ADD
-out
-hlt
-
+(null)
 
 ************************************************************

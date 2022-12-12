@@ -403,7 +403,7 @@ Node * createVar(char var)
 Node * createVar(char * var_name)
 {
     Value val = {};
-    val.var.name = var_name;
+    val.var.name = strdup(var_name);
     return createNode(VAR, val, nullptr, nullptr);
 }
 

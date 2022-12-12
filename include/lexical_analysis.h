@@ -1,7 +1,7 @@
 #ifndef LEXICAL_ANALYS_H
 #define LEXICAL_ANALYS_H
 
-// #define SYNTAX_DEBUG
+#define SYNTAX_DEBUG
 
 #include "tree_debug.h"
 #include "text_funcs.h"
@@ -33,7 +33,6 @@ struct  Program_tokens
 Token * tokenCtor(Node_type type, Value val);
 Token * tokenCtor(const char * var_name);
 
-
 #define TOKEN_DUMP(token)                                                       \
             tokenDump(token, #token, __FILE__, __PRETTY_FUNCTION__, __LINE__)   \
 
@@ -55,5 +54,9 @@ char *      checkForVar       (char *line, size_t * shift);
 
 bool checkTokensForEnd(Program_tokens *program_tokens);
 
+#define INCREMENT_TOKENS                                \
+            if (checkTokensForEnd(program_tokens))      \
+                break;                                  \
+            program_tokens->current++                   \
 
 #endif

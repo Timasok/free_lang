@@ -12,5 +12,7 @@ Node * getPolice        (Program_tokens * program_tokens);
 Node * getVariable      (Program_tokens * program_tokens);
 Node * getUnarOperation (Program_tokens * program_tokens);
 Node * getNumber        (Program_tokens * program_tokens);
+Node * getBlock       (Program_tokens * program_tokens);
+Node * getAssignment    (Program_tokens * program_tokens);
 
 #endif
