@@ -1,7 +1,7 @@
 digraph MYG {
 rankdir = VR;
-graph [splines = ortho];
-bgcolor = "white";
+graph [splines = polyline];
+bgcolor = "lightgrey";
 node [shape = "plaintext", style = "solid"];
 node1 [
 label=<
@@ -13,8 +13,8 @@ label=<
     <td>
         <table border="0" cellborder="1">
         <tr>
-            <td bgcolor = "#70de9f" port = "P1">  LEFT = 0x604000000150 </td>
-            <td bgcolor = "#e02828" port = "P1"> RIGHT = 0x604000000190 </td>
+            <td bgcolor = "#70de9f" port = "L1">  LEFT = 0x604000000150 </td>
+            <td bgcolor = "#e02828" port = "R1"> RIGHT = 0x604000000190 </td>
         </tr> 
         </table> 
     </td>
@@ -32,8 +32,8 @@ label=<
     <td>
         <table border="0" cellborder="1">
         <tr>
-            <td bgcolor = "#70de9f" port = "P2">  LEFT = 0x6040000000d0 </td>
-            <td bgcolor = "#e02828" port = "P2"> RIGHT = 0x604000000110 </td>
+            <td bgcolor = "#70de9f" port = "L2">  LEFT = 0x6040000000d0 </td>
+            <td bgcolor = "#e02828" port = "R2"> RIGHT = 0x604000000110 </td>
         </tr> 
         </table> 
     </td>
@@ -41,7 +41,7 @@ label=<
 </table>>
 ]
 
-node1:P1 -> node2:H2;node3 [
+node1:L1 -> node2;node3 [
 label=<
 <table border="0" cellborder="1" cellspacing="0">
     <tr><td bgcolor="#dfdf91" port = "H3">NODE 3 = 0x6040000000d0 PARENT = 0x604000000150</td></tr>
@@ -51,8 +51,8 @@ label=<
     <td>
         <table border="0" cellborder="1">
         <tr>
-            <td bgcolor = "#70de9f" port = "P3">  LEFT = (nil) </td>
-            <td bgcolor = "#e02828" port = "P3"> RIGHT = (nil) </td>
+            <td bgcolor = "#70de9f" port = "L3">  LEFT = (nil) </td>
+            <td bgcolor = "#e02828" port = "R3"> RIGHT = (nil) </td>
         </tr> 
         </table> 
     </td>
@@ -60,7 +60,7 @@ label=<
 </table>>
 ]
 
-node2:P2 -> node3:H3;node4 [
+node2:L2 -> node3;node4 [
 label=<
 <table border="0" cellborder="1" cellspacing="0">
     <tr><td bgcolor="#dfdf91" port = "H4">NODE 4 = 0x604000000110 PARENT = 0x604000000150</td></tr>
@@ -70,8 +70,8 @@ label=<
     <td>
         <table border="0" cellborder="1">
         <tr>
-            <td bgcolor = "#70de9f" port = "P4">  LEFT = (nil) </td>
-            <td bgcolor = "#e02828" port = "P4"> RIGHT = (nil) </td>
+            <td bgcolor = "#70de9f" port = "L4">  LEFT = (nil) </td>
+            <td bgcolor = "#e02828" port = "R4"> RIGHT = (nil) </td>
         </tr> 
         </table> 
     </td>
@@ -79,7 +79,7 @@ label=<
 </table>>
 ]
 
-node2:P2 -> node4:H4;node5 [
+node2:R2 -> node4;node5 [
 label=<
 <table border="0" cellborder="1" cellspacing="0">
     <tr><td bgcolor="#dfdf91" port = "H5">NODE 5 = 0x604000000190 PARENT = 0x604000000090</td></tr>
@@ -89,8 +89,8 @@ label=<
     <td>
         <table border="0" cellborder="1">
         <tr>
-            <td bgcolor = "#70de9f" port = "P5">  LEFT = 0x6040000002d0 </td>
-            <td bgcolor = "#e02828" port = "P5"> RIGHT = (nil) </td>
+            <td bgcolor = "#70de9f" port = "L5">  LEFT = 0x604000000250 </td>
+            <td bgcolor = "#e02828" port = "R5"> RIGHT = 0x604000000290 </td>
         </tr> 
         </table> 
     </td>
@@ -98,18 +98,18 @@ label=<
 </table>>
 ]
 
-node1:P1 -> node5:H5;node6 [
+node1:R1 -> node5;node6 [
 label=<
 <table border="0" cellborder="1" cellspacing="0">
-    <tr><td bgcolor="#dfdf91" port = "H6">NODE 6 = 0x6040000002d0 PARENT = 0x604000000190</td></tr>
+    <tr><td bgcolor="#dfdf91" port = "H6">NODE 6 = 0x604000000250 PARENT = 0x604000000190</td></tr>
     <tr><td bgcolor= "#5ca1cc"><font color="black"> KEY_WORD D
  </font></td></tr>
     <tr>
     <td>
         <table border="0" cellborder="1">
         <tr>
-            <td bgcolor = "#70de9f" port = "P6">  LEFT = 0x6040000001d0 </td>
-            <td bgcolor = "#e02828" port = "P6"> RIGHT = (nil) </td>
+            <td bgcolor = "#70de9f" port = "L6">  LEFT = 0x6040000001d0 </td>
+            <td bgcolor = "#e02828" port = "R6"> RIGHT = (nil) </td>
         </tr> 
         </table> 
     </td>
@@ -117,18 +117,18 @@ label=<
 </table>>
 ]
 
-node5:P5 -> node6:H6;node7 [
+node5:L5 -> node6;node7 [
 label=<
 <table border="0" cellborder="1" cellspacing="0">
-    <tr><td bgcolor="#dfdf91" port = "H7">NODE 7 = 0x6040000001d0 PARENT = 0x6040000002d0</td></tr>
-    <tr><td bgcolor= "#5ca1cc"><font color="black"> VARIABLE "fly"
+    <tr><td bgcolor="#dfdf91" port = "H7">NODE 7 = 0x6040000001d0 PARENT = 0x604000000250</td></tr>
+    <tr><td bgcolor= "#5ca1cc"><font color="black"> FUNC "fly"
  </font></td></tr>
     <tr>
     <td>
         <table border="0" cellborder="1">
         <tr>
-            <td bgcolor = "#70de9f" port = "P7">  LEFT = 0x604000000210 </td>
-            <td bgcolor = "#e02828" port = "P7"> RIGHT = (nil) </td>
+            <td bgcolor = "#70de9f" port = "L7">  LEFT = 0x604000000210 </td>
+            <td bgcolor = "#e02828" port = "R7"> RIGHT = (nil) </td>
         </tr> 
         </table> 
     </td>
@@ -136,7 +136,7 @@ label=<
 </table>>
 ]
 
-node6:P6 -> node7:H7;node8 [
+node6:L6 -> node7;node8 [
 label=<
 <table border="0" cellborder="1" cellspacing="0">
     <tr><td bgcolor="#dfdf91" port = "H8">NODE 8 = 0x604000000210 PARENT = 0x6040000001d0</td></tr>
@@ -146,8 +146,8 @@ label=<
     <td>
         <table border="0" cellborder="1">
         <tr>
-            <td bgcolor = "#70de9f" port = "P8">  LEFT = 0x604000000250 </td>
-            <td bgcolor = "#e02828" port = "P8"> RIGHT = (nil) </td>
+            <td bgcolor = "#70de9f" port = "L8">  LEFT = (nil) </td>
+            <td bgcolor = "#e02828" port = "R8"> RIGHT = (nil) </td>
         </tr> 
         </table> 
     </td>
@@ -155,18 +155,18 @@ label=<
 </table>>
 ]
 
-node7:P7 -> node8:H8;node9 [
+node7:L7 -> node8;node9 [
 label=<
 <table border="0" cellborder="1" cellspacing="0">
-    <tr><td bgcolor="#dfdf91" port = "H9">NODE 9 = 0x604000000250 PARENT = 0x604000000210</td></tr>
-    <tr><td bgcolor= "#5ca1cc"><font color="black"> VARIABLE "y"
+    <tr><td bgcolor="#dfdf91" port = "H9">NODE 9 = 0x604000000290 PARENT = 0x604000000190</td></tr>
+    <tr><td bgcolor= "#5ca1cc"><font color="black"> EMPTY 
  </font></td></tr>
     <tr>
     <td>
         <table border="0" cellborder="1">
         <tr>
-            <td bgcolor = "#70de9f" port = "P9">  LEFT = 0x604000000290 </td>
-            <td bgcolor = "#e02828" port = "P9"> RIGHT = (nil) </td>
+            <td bgcolor = "#70de9f" port = "L9">  LEFT = 0x6040000002d0 </td>
+            <td bgcolor = "#e02828" port = "R9"> RIGHT = 0x604000000310 </td>
         </tr> 
         </table> 
     </td>
@@ -174,18 +174,18 @@ label=<
 </table>>
 ]
 
-node8:P8 -> node9:H9;node10 [
+node5:R5 -> node9;node10 [
 label=<
 <table border="0" cellborder="1" cellspacing="0">
-    <tr><td bgcolor="#dfdf91" port = "H10">NODE 10 = 0x604000000290 PARENT = 0x604000000250</td></tr>
-    <tr><td bgcolor= "#5ca1cc"><font color="black"> VARIABLE "z"
+    <tr><td bgcolor="#dfdf91" port = "H10">NODE 10 = 0x6040000002d0 PARENT = 0x604000000290</td></tr>
+    <tr><td bgcolor= "#5ca1cc"><font color="black"> VARIABLE "fly"
  </font></td></tr>
     <tr>
     <td>
         <table border="0" cellborder="1">
         <tr>
-            <td bgcolor = "#70de9f" port = "P10">  LEFT = (nil) </td>
-            <td bgcolor = "#e02828" port = "P10"> RIGHT = (nil) </td>
+            <td bgcolor = "#70de9f" port = "L10">  LEFT = (nil) </td>
+            <td bgcolor = "#e02828" port = "R10"> RIGHT = (nil) </td>
         </tr> 
         </table> 
     </td>
@@ -193,5 +193,43 @@ label=<
 </table>>
 ]
 
-node9:P9 -> node10:H10;
+node9:L9 -> node10;node11 [
+label=<
+<table border="0" cellborder="1" cellspacing="0">
+    <tr><td bgcolor="#dfdf91" port = "H11">NODE 11 = 0x604000000310 PARENT = 0x604000000290</td></tr>
+    <tr><td bgcolor= "#5ca1cc"><font color="black"> EMPTY 
+ </font></td></tr>
+    <tr>
+    <td>
+        <table border="0" cellborder="1">
+        <tr>
+            <td bgcolor = "#70de9f" port = "L11">  LEFT = 0x604000000350 </td>
+            <td bgcolor = "#e02828" port = "R11"> RIGHT = (nil) </td>
+        </tr> 
+        </table> 
+    </td>
+    </tr>
+</table>>
+]
+
+node9:R9 -> node11;node12 [
+label=<
+<table border="0" cellborder="1" cellspacing="0">
+    <tr><td bgcolor="#dfdf91" port = "H12">NODE 12 = 0x604000000350 PARENT = 0x604000000310</td></tr>
+    <tr><td bgcolor= "#5ca1cc"><font color="black"> NUMBER 1
+ </font></td></tr>
+    <tr>
+    <td>
+        <table border="0" cellborder="1">
+        <tr>
+            <td bgcolor = "#70de9f" port = "L12">  LEFT = (nil) </td>
+            <td bgcolor = "#e02828" port = "R12"> RIGHT = (nil) </td>
+        </tr> 
+        </table> 
+    </td>
+    </tr>
+</table>>
+]
+
+node11:L11 -> node12;
 }

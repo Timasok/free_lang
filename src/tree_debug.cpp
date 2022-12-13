@@ -146,9 +146,9 @@ static int oper(const Node * node)
                 
                 "        <tr>\n"
                 
-                "            <td bgcolor = \"#70de9f\" port = \"P%d\">  LEFT = %p </td>\n"
+                "            <td bgcolor = \"#70de9f\" port = \"L%d\">  LEFT = %p </td>\n"
                 
-                "            <td bgcolor = \"#e02828\" port = \"P%d\"> RIGHT = %p </td>\n"
+                "            <td bgcolor = \"#e02828\" port = \"R%d\"> RIGHT = %p </td>\n"
                 
                 "        </tr> \n"
                 
@@ -164,10 +164,20 @@ static int oper(const Node * node)
     //There is no use yet to decide which port from the parent we should connect to his son GRAPHVIZ does it! 
     // const char output_port = 0;
     // if ()
+        // PRINT_DOT("node%d:P%d -> node%d:H%d;", prevNumber, prevNumber, nodeNumber, nodeNumber);
 
     if (prevNumber != 0 && nodeNumber != 0)
-        PRINT_DOT("node%d:P%d -> node%d:H%d;", prevNumber, prevNumber, nodeNumber, nodeNumber);
+    {
+        if (node->parent->l_son == node)
+        {
+            PRINT_DOT("node%d:L%d -> node%d;", prevNumber, prevNumber, nodeNumber);
+        
+        } else if (node->parent->r_son == node)
+        {
+            PRINT_DOT("node%d:R%d -> node%d;", prevNumber, prevNumber, nodeNumber);
+        }
 
+    }
     
     return 0;
 }
@@ -178,8 +188,8 @@ int makeDot(const Node *node)
     
     PRINT_DOT("digraph MYG {\n");
     PRINT_DOT("rankdir = VR;\n");//or TB
-    PRINT_DOT("graph [splines = ortho];\n");
-    PRINT_DOT("bgcolor = \"white\";\n");
+    PRINT_DOT("graph [splines = polyline];\n");
+    PRINT_DOT("bgcolor = \"lightgrey\";\n");
 
     PRINT_DOT("node [shape = \"plaintext\", style = \"solid\"];\n");
     

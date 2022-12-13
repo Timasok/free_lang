@@ -97,7 +97,7 @@ Node * getKeyWord()
 
     if (value.key_value == DEF)
     {
-        Node * func = getFunc();
+        Node * func = getFuncDefinition();
         result = createNode(KEY_WORD, value, func, nullptr);
         linkSonsToParent(result, func, nullptr);
 
@@ -142,9 +142,11 @@ Node * getKeyWord()
     return result;
 }
 
-Node * getFunc()
+Node * getFuncDefinition()
 {
     Node * func_name = getVariable();
+    func_name->type = FUNC;
+
     Node * argument  = nullptr;
     Node * block     = nullptr;
 

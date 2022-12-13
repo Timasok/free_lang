@@ -1,2 +1,4 @@
 x = 17;
-def fly ( x , y , z ) { } ;
+def fly ( x ) { }
+
+fly ( 1 ) ;
