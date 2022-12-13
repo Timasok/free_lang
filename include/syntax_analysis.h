@@ -15,6 +15,8 @@ Node * getNumber        ();
 Node * getAssignment    ();
 Node * getKeyWord       ();
 Node * getBlock         ();
+Node * getFunc          ();
+Node * getArguments     ();
 
 int getLangTree(Node * predecessor);
 

@@ -25,6 +25,7 @@ enum Node_type
     VAR       = 4,
     NUM       = 5,
     EMPTY     = 6,
+    FUNC      = 7,
 
 };
 

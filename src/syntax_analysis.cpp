@@ -90,11 +90,63 @@ Node * getAssignment()
 Node * getKeyWord()
 {
     Value value = {};
+    Node * result = nullptr;
+
     value.key_value = program_tokens->tokens[program_tokens->current]->val.key_value;
     program_tokens->current++;
 
-    Node * condition = nullptr;
-    Node * block = nullptr;
+    if (value.key_value == DEF)
+    {
+        Node * func = getFunc();
+        result = createNode(KEY_WORD, value, func, nullptr);
+        linkSonsToParent(result, func, nullptr);
+
+    } else 
+    {
+        Node * condition = nullptr;
+        Node * block = nullptr;
+
+        Token * current_token = program_tokens->tokens[program_tokens->current];
+
+        IF_VERIFY(current_token->type == SEPARATOR && current_token->val.sep_value == '(');
+
+        if (current_token->type == SEPARATOR && current_token->val.sep_value == '(')
+        {
+            program_tokens->current++;
+            current_token = program_tokens->tokens[program_tokens->current];        
+
+#ifdef SYNTAX_DEBUG
+        printf("tokens->current = %lu\n", program_tokens->current);
+        TOKEN_DUMP(current_token);
+#endif         
+            condition = getExpression();
+            DBG_OUT;
+
+            current_token = program_tokens->tokens[program_tokens->current];        
+
+            ASSERT(current_token->type == SEPARATOR && current_token->val.sep_value == ')');
+            
+            program_tokens->current++;
+        
+        }
+
+        block = getBlock();
+
+        result = createNode(KEY_WORD, value, condition, block);
+        linkSonsToParent(result, condition, block);
+
+        TREE_DUMP_OPTIONAL(result, "key word tree");
+
+    }
+
+    return result;
+}
+
+Node * getFunc()
+{
+    Node * func_name = getVariable();
+    Node * argument  = nullptr;
+    Node * block     = nullptr;
 
     Token * current_token = program_tokens->tokens[program_tokens->current];
 
@@ -109,8 +161,7 @@ Node * getKeyWord()
         printf("tokens->current = %lu\n", program_tokens->current);
         TOKEN_DUMP(current_token);
 #endif         
-   
-        condition = getExpression();
+        argument = getArguments();
         DBG_OUT;
 
         current_token = program_tokens->tokens[program_tokens->current];        
@@ -120,40 +171,60 @@ Node * getKeyWord()
         program_tokens->current++;
     
     }
-
-    current_token = program_tokens->tokens[program_tokens->current];
     
-    if (current_token->type == SEPARATOR && current_token->val.sep_value == '{')
+    block = getBlock();
+
+    linkSonsToParent(func_name, argument, block);
+
+    return func_name;
+
+}
+
+Node * getArguments()
+{
+    Node * result = getVariable();
+    Node * possible_son = nullptr;
+
+    Token * current_token = program_tokens->tokens[program_tokens->current];
+
+    if (current_token->type == SEPARATOR && current_token->val.sep_value == COMMA)
     {
         program_tokens->current++;
 
-        block = getBlock();
-        DBG_OUT;
+        possible_son = getArguments();
 
-        current_token = program_tokens->tokens[program_tokens->current];
-        
-#ifdef SYNTAX_DEBUG
-        TOKEN_DUMP(current_token);
-        printf("tokens->current = %lu\n", program_tokens->current);
-#endif    
-
-        ASSERT(current_token->type == SEPARATOR && current_token->val.sep_value == '}');
-        
-        program_tokens->current++;
-    
     }
 
-    Node * result = createNode(KEY_WORD, value, condition, block);
-    linkSonsToParent(result, condition, block);
-
-    TREE_DUMP_OPTIONAL(result, "key word tree");
+    linkSonsToParent(result, possible_son, nullptr);
 
     return result;
+
 }
 
 Node * getBlock()
 {
     Node * block = nullptr;
+
+    Token * current_token = program_tokens->tokens[program_tokens->current];
+
+    if (current_token->type == SEPARATOR && current_token->val.sep_value == '{')
+    {
+        program_tokens->current++;
+
+        DBG_OUT;
+
+    //OPERATE block
+
+        current_token = program_tokens->tokens[program_tokens->current];
+#ifdef SYNTAX_DEBUG
+    TOKEN_DUMP(current_token);
+    printf("tokens->current = %lu\n", program_tokens->current);
+#endif    
+
+        ASSERT(current_token->type == SEPARATOR && current_token->val.sep_value == '}');
+        program_tokens->current++;
+
+    }
 
     return block;
 

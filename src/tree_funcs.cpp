@@ -611,7 +611,7 @@ int nodeDtor(Node *node)
             printf("\n\e[0;31mзафришен - \e[0m");
             dumpExpNode(node);
         #endif
-            if (node->type == VAR)
+            if (node->type == VAR || node->type == FUNC)
             {
                 if (node->value.var.name != NULL)
                 {

@@ -35,6 +35,9 @@ int dumpExpNode(const Node * node)
         case VAR:
             printf("VARIABLE \"%s\"\n", node->value.var.name);
             break;
+        case FUNC:
+            printf("FUNC \"%s\"\n", node->value.var.name);
+            break;
         case EMPTY:
             printf("EMPTY \n");
             break;
@@ -118,6 +121,9 @@ static int oper(const Node * node)
             break;
         case VAR:
             sprintf(data, "VARIABLE \"%s\"\n", node->value.var.name);
+            break;
+        case FUNC:
+            sprintf(data, "FUNC \"%s\"\n", node->value.var.name);
             break;
         case EMPTY:
             sprintf(data, "EMPTY \n");
