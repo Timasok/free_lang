@@ -36,7 +36,9 @@ int getLangTree(Node * predecessor)
         program_tokens->current++;
     }
     
+#ifdef SYNTAX_DEBUG
     IF_VERIFY(!checkTokensForEnd(program_tokens) && !checkForEndOfBlock(program_tokens));
+#endif
 
     if (!checkTokensForEnd(program_tokens) && !checkForEndOfBlock(program_tokens))
     {
@@ -83,7 +85,7 @@ Node * getAssignment()
 
     } else if (next_token->type == SEPARATOR && next_token->val.sep_value == '(')
     {
-        DBG_OUT;
+        // DBG_OUT;
         result = getFunc();
 
     } else
@@ -190,7 +192,11 @@ Node * getFuncDefinition()
 
     Token * current_token = program_tokens->tokens[program_tokens->current];
 
+#ifdef SYNTAX_DEBUG
+    printf("tokens->current = %lu\n", program_tokens->current);
+    TOKEN_DUMP(current_token);
     IF_VERIFY(current_token->type == SEPARATOR && current_token->val.sep_value == '(');
+#endif
 
     if (current_token->type == SEPARATOR && current_token->val.sep_value == '(')
     {
@@ -200,9 +206,9 @@ Node * getFuncDefinition()
 #ifdef SYNTAX_DEBUG
         printf("tokens->current = %lu\n", program_tokens->current);
         TOKEN_DUMP(current_token);
+        DBG_OUT;
 #endif         
         argument = getArgumentsNames();
-        DBG_OUT;
 
         current_token = program_tokens->tokens[program_tokens->current];        
 
@@ -229,7 +235,9 @@ Node * getFunc()
 
     Token * current_token = program_tokens->tokens[program_tokens->current];
 
+#ifdef SYNTAX_DEBUG
     IF_VERIFY(current_token->type == SEPARATOR && current_token->val.sep_value == '(');
+#endif
 
     if (current_token->type == SEPARATOR && current_token->val.sep_value == '(')
     {
@@ -239,9 +247,9 @@ Node * getFunc()
 #ifdef SYNTAX_DEBUG
         printf("tokens->current = %lu\n", program_tokens->current);
         TOKEN_DUMP(current_token);
+        DBG_OUT;
 #endif         
         argument = getArguments();
-        DBG_OUT;
 
         current_token = program_tokens->tokens[program_tokens->current];        
 
@@ -328,7 +336,7 @@ Node * getBlock()
 #endif           
         if (!checkForEndOfBlock(program_tokens))
         {
-            DBG_OUT;
+            // DBG_OUT;
             block = createEmpty();
             getLangTree(block);
 
@@ -345,8 +353,6 @@ Node * getBlock()
         program_tokens->current++;
 
     }
-
-    DBG_OUT;
 
     return block;
 

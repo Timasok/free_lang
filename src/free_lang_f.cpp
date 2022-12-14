@@ -26,13 +26,12 @@ int translateLanguage(const char *input_file_name, const char *output_file_name)
 
     programTokensDump(&program_tokens);
 
-    Node * result = getGeneral(&program_tokens);
-    // Node * result = nullptr;
-    
+    Node * main_node = getGeneral(&program_tokens);
+
     programTokensDtor(&program_tokens);
     
-    TREE_DUMP_OPTIONAL(result, "initial tree"); 
-    printIn(result);
+    TREE_DUMP_OPTIONAL(main_node, "initial tree"); 
+    printIn(main_node);
     printf("\n");
 
     FILE *output_file = fopen(output_file_name, "w+");
@@ -40,42 +39,96 @@ int translateLanguage(const char *input_file_name, const char *output_file_name)
     if (output_file == nullptr)
         return TRANSLATION_TERMINATED_SAVE_FILE_ERROR;
 
-    writeProgramTree(result, output_file);
+    fprintf(output_file,"jmp :main \n");
 
-    fprintf(output_file,"out\n"
-                        "hlt\n");
+    handleProgram(main_node, output_file);
+    // fprintf(output_file,"out\n"
+    //                     "hlt\n");
+
     fclose(output_file);
 
     closeLogs();
 
-    DBG_OUT;
-    nodeDtor(&result);
+    // DBG_OUT;
+    nodeDtor(&main_node);
     textDtor(&text1);
-
 
     return TRANSLATION_TERMINATED_SYNTAX_ERROR;
     return TRANSLATION_SUCCEEDEED;
 
 }
 
-#define DEF_OP(op_name, priority, op_code, name_in_lang)                                         \
-    case op_name:                                                                  \
-    {                                                                              \
-        fprintf(output_file, "%s\n", #op_name);                                    \
-        break;                                                                     \
-    }                                                                              \
-
-int writeProgramTree(Node *node, FILE *output_file)
+int handleProgram(Node *node, FILE *output_file)
 {
     if (!node)
         return 0;
 
     if (node->l_son)
-        writeProgramTree(node->l_son, output_file);
+        handleDefinition(node->l_son, output_file);
+
+    handleProgram(node->r_son, output_file);
+
+    return 0;
+}
+
+int handleDefinition(Node *node, FILE *output_file)
+{
+    if (!node || !(node->type == KEY_WORD && node->value.key_value == DEF))
+        return -1;
+
+    Node * func = node->l_son;
+
+    fprintf(output_file,"%s:\n", func->value.var.name);
+
+    if (node->r_son) 
+    {
+
+        Var variables[NUMBER_OF_VARS] = {};
+        fillVarArray(variables, func, 0);
+
+        // dumpVarArray(variables);
+
+        handleFunc(node->r_son, variables, output_file);
+
+        varArrayDtor(variables);
+
+    }
+
+    fprintf(output_file,"ret\n");
+
+    return 0;
+}
+
+int handleFunc(Node *node, Var variables[], FILE *output_file)
+{
+    if (!node)
+        return 0;
+
+    if (node->l_son)
+        handleLangTree(node->l_son, variables, output_file);
+
+    handleFunc(node->r_son, variables, output_file);
+
+    return 0;
+}
+
+#define DEF_OP(op_name, priority, op_code, name_in_lang)                           \
+    case op_name:                                                                  \
+    {                                                                              \
+        fprintf(output_file, "%s\n", #op_name);                                    \
+        break;                                                                     \
+    }  
+
+int handleLangTree(Node *node, Var variables[], FILE *output_file)
+{
+    if (!node)
+        return 0;
+
+    if (node->l_son)
+        handleLangTree(node->l_son, variables, output_file);
     
     if (node->r_son)
-        writeProgramTree(node->r_son, output_file);
-
+        handleLangTree(node->r_son, variables, output_file);
 
     switch(node->type)
     {

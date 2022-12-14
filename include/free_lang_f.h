@@ -17,6 +17,9 @@ enum translation_result
 };
 
 int translateLanguage(const char *input_file_name, const char *output_file_name);
-int writeProgramTree(Node *node, FILE *output_file);
+int handleProgram(Node *node, FILE *output_file);
+int handleDefinition(Node *node, FILE *output_file);
+int handleFunc(Node *node, Var variables[], FILE *output_file);
+int handleLangTree(Node *node, Var variables[], FILE *output_file);
 
 #endif

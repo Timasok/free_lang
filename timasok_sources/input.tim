@@ -1,6 +1,15 @@
 def main ( )
 {
-    x = 9 ;
-    x = 19 ;
+    foo ( x );
+} ;
+
+def foo ( x )
+{
+    x = x + 1 ;
+    y = 5 ;
+} ;
+
+def boo ( )
+{
 
 } ;
