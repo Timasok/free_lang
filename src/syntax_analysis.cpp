@@ -53,14 +53,14 @@ Node * getAssignment()
 {
     Node * result = nullptr;
     Token * next_token = program_tokens->tokens[program_tokens->current + 1];
+    Token * current_token = program_tokens->tokens[program_tokens->current];
 
     if (next_token->type == OP && next_token->val.op_value == '=')
     {
         result = getVariable();
 
         Value value = {};
-        Token * current_token = program_tokens->tokens[program_tokens->current];
-
+        current_token = program_tokens->tokens[program_tokens->current];
 #ifdef SYNTAX_DEBUG
         TOKEN_DUMP(current_token);
         printf("tokens->current = %lu\n", program_tokens->current);
@@ -75,9 +75,14 @@ Node * getAssignment()
             result = nodeConnect(OP, value, result, tmp_result);
         }
         
-    } else if (program_tokens->tokens[program_tokens->current]->type == KEY_WORD)
+    } else if (current_token->type == KEY_WORD)
     {
         result = getKeyWord();
+
+    } else if (next_token->type == SEPARATOR && next_token->val.sep_value == '(')
+    {
+        DBG_OUT;
+        result = getFunc();
 
     } else
     {
@@ -118,7 +123,7 @@ Node * getKeyWord()
 #ifdef SYNTAX_DEBUG
         printf("tokens->current = %lu\n", program_tokens->current);
         TOKEN_DUMP(current_token);
-#endif         
+#endif     
             condition = getExpression();
             DBG_OUT;
 
@@ -163,7 +168,7 @@ Node * getFuncDefinition()
         printf("tokens->current = %lu\n", program_tokens->current);
         TOKEN_DUMP(current_token);
 #endif         
-        argument = getArguments();
+        argument = getArgumentsNames();
         DBG_OUT;
 
         current_token = program_tokens->tokens[program_tokens->current];        
@@ -182,12 +187,80 @@ Node * getFuncDefinition()
 
 }
 
-Node * getArguments()
+Node * getFunc()
 {
+    Node * func_name = getVariable();
+    func_name->type = FUNC;
+
+    Node * argument  = nullptr;
+
+    Token * current_token = program_tokens->tokens[program_tokens->current];
+
+    IF_VERIFY(current_token->type == SEPARATOR && current_token->val.sep_value == '(');
+
+    if (current_token->type == SEPARATOR && current_token->val.sep_value == '(')
+    {
+        program_tokens->current++;
+        current_token = program_tokens->tokens[program_tokens->current];        
+
+#ifdef SYNTAX_DEBUG
+        printf("tokens->current = %lu\n", program_tokens->current);
+        TOKEN_DUMP(current_token);
+#endif         
+        argument = getArguments();
+        DBG_OUT;
+
+        current_token = program_tokens->tokens[program_tokens->current];        
+
+        ASSERT(current_token->type == SEPARATOR && current_token->val.sep_value == ')');
+        
+        program_tokens->current++;
+    
+    }
+
+    linkSonsToParent(func_name, argument, nullptr);
+
+    return func_name;
+
+}
+
+Node * getArgumentsNames()
+{
+    Token * current_token = program_tokens->tokens[program_tokens->current];
+
+    if (current_token->type == SEPARATOR && current_token->val.sep_value == ')')
+        return nullptr;
+
     Node * result = getVariable();
     Node * possible_son = nullptr;
 
+    current_token = program_tokens->tokens[program_tokens->current];
+
+    if (current_token->type == SEPARATOR && current_token->val.sep_value == COMMA)
+    {
+        program_tokens->current++;
+
+        possible_son = getArgumentsNames();
+
+    }
+
+    linkSonsToParent(result, possible_son, nullptr);
+
+    return result;
+
+}
+
+Node * getArguments()
+{
     Token * current_token = program_tokens->tokens[program_tokens->current];
+
+    if (current_token->type == SEPARATOR && current_token->val.sep_value == ')')
+        return nullptr;
+    
+    Node * result = getExpression();
+    Node * possible_son = nullptr;
+
+    current_token = program_tokens->tokens[program_tokens->current];
 
     if (current_token->type == SEPARATOR && current_token->val.sep_value == COMMA)
     {

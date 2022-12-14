@@ -1,7 +1,7 @@
 #ifndef LEXICAL_ANALYS_H
 #define LEXICAL_ANALYS_H
 
-// #define SYNTAX_DEBUG
+#define SYNTAX_DEBUG
 
 #include "tree_debug.h"
 #include "text_funcs.h"
