@@ -61,6 +61,7 @@ Node * getAssignment()
 
         Value value = {};
         current_token = program_tokens->tokens[program_tokens->current];
+
 #ifdef SYNTAX_DEBUG
         TOKEN_DUMP(current_token);
         printf("tokens->current = %lu\n", program_tokens->current);
@@ -135,16 +136,47 @@ Node * getKeyWord()
         
         }
 
-        block = getBlock();
+        if (value.key_value == IF)
+        {
+            block = getIfElseBlocks();
+
+        } else if (value.key_value == WHILE)
+        {
+            block = getBlock();
+        }
+
+        DBG_OUT;
 
         result = createNode(KEY_WORD, value, condition, block);
         linkSonsToParent(result, condition, block);
 
         TREE_DUMP_OPTIONAL(result, "key word tree");
 
-    }
+    }  
 
     return result;
+}
+
+Node * getIfElseBlocks()
+{
+    Node * result = createEmpty();
+
+    Node * if_block = getBlock();
+    Node * else_block = nullptr;
+
+    Token * current_token = program_tokens->tokens[program_tokens->current];
+
+    if (current_token->type == KEY_WORD && current_token->val.key_value == ELSE)
+    {
+        program_tokens->current++;
+        DBG_OUT;
+        else_block = getBlock();
+    }
+
+    linkSonsToParent(result, if_block, else_block);
+
+    return result;
+
 }
 
 Node * getFuncDefinition()
@@ -286,11 +318,10 @@ Node * getBlock()
     {
         program_tokens->current++;
 
-        DBG_OUT;
-
     //OPERATE block
 
         current_token = program_tokens->tokens[program_tokens->current];
+
 #ifdef SYNTAX_DEBUG
     TOKEN_DUMP(current_token);
     printf("tokens->current = %lu\n", program_tokens->current);
@@ -300,6 +331,8 @@ Node * getBlock()
         program_tokens->current++;
 
     }
+
+    DBG_OUT;
 
     return block;
 

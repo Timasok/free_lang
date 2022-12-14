@@ -27,7 +27,8 @@ int translateLanguage(const char *input_file_name, const char *output_file_name)
     programTokensDump(&program_tokens);
 
     Node * result = getGeneral(&program_tokens);
-
+    // Node * result = nullptr;
+    
     programTokensDtor(&program_tokens);
     
     TREE_DUMP_OPTIONAL(result, "initial tree"); 

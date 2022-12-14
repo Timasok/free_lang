@@ -166,8 +166,9 @@ static int oper(const Node * node)
     // if ()
         // PRINT_DOT("node%d:P%d -> node%d:H%d;", prevNumber, prevNumber, nodeNumber, nodeNumber);
 
-    if (prevNumber != 0 && nodeNumber != 0)
+    if (prevNumber != 0 && nodeNumber != 0 && node->parent)
     {
+        
         if (node->parent->l_son == node)
         {
             PRINT_DOT("node%d:L%d -> node%d;", prevNumber, prevNumber, nodeNumber);
