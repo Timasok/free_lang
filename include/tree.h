@@ -8,6 +8,7 @@
 const int MAX_BUFFER_LENGTH = 512;
 const int NUMBER_OF_VARS = 16;
 const int MAX_FUNC_NUMBER = 20;
+const int UNAR_PRIORITY = 2;
 
 enum son
 {
@@ -26,6 +27,7 @@ enum Node_type
     NUM       = 5,
     EMPTY     = 6,
     FUNC      = 7,
+    BLOCK     = 8,
 
 };
 

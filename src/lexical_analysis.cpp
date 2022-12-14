@@ -252,6 +252,23 @@ Separator checkForSeparator(char *line, size_t * shift)
 
 #undef DEF_SEP
 
+#define DEF_OP(op_name, priority, op_code, name_in_lang)                     \
+    else if(token->val.op_value == op_name)                                \
+    {                                                                        \
+        return priority;                                                     \
+    }                                                                        \
+
+int getPriority(const Token * token)
+{
+    if (0)
+    {}
+        #include "operations.h"
+
+    return 0;
+}
+
+#undef DEF_OP
+
 char * checkForVar(char *line, size_t * shift)
 {
 
@@ -502,6 +519,19 @@ bool checkTokensForEnd(Program_tokens *program_tokens)
         return false;
     }
 
+}
+
+bool checkForEndOfBlock(Program_tokens *program_tokens)
+{
+    Token * current_token = program_tokens->tokens[program_tokens->current];
+    
+    if (current_token->type == SEPARATOR && current_token->val.sep_value == '}')
+    {
+        return true;
+    } else
+    {
+        return false;
+    }
 }
 
 #undef PRINT_ERR

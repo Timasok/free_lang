@@ -36,11 +36,12 @@ int getLangTree(Node * predecessor)
         program_tokens->current++;
     }
     
-    if (!checkTokensForEnd(program_tokens))
+    IF_VERIFY(!checkTokensForEnd(program_tokens) && !checkForEndOfBlock(program_tokens));
+
+    if (!checkTokensForEnd(program_tokens) && !checkForEndOfBlock(program_tokens))
     {
         right = createEmpty();
         getLangTree(right);
-
     }
 
     linkSonsToParent(predecessor, left, right);
@@ -318,7 +319,20 @@ Node * getBlock()
     {
         program_tokens->current++;
 
-    //OPERATE block
+        current_token = program_tokens->tokens[program_tokens->current];
+
+#ifdef SYNTAX_DEBUG
+    TOKEN_DUMP(current_token);
+    printf("tokens->current = %lu\n", program_tokens->current);
+    IF_VERIFY(!(current_token->type == SEPARATOR && current_token->val.sep_value == '}'));
+#endif           
+        if (!checkForEndOfBlock(program_tokens))
+        {
+            DBG_OUT;
+            block = createEmpty();
+            getLangTree(block);
+
+        }
 
         current_token = program_tokens->tokens[program_tokens->current];
 
@@ -544,10 +558,10 @@ Node * getUnarOperation()
 #ifdef SYNTAX_DEBUG
     TOKEN_DUMP(current_token);
     printf("tokens->current = %lu\n", program_tokens->current);
-    IF_VERIFY(current_token->type == OP && current_token->val.op_value == SIN);
+    IF_VERIFY(current_token->type == OP && getPriority(current_token) == UNAR_PRIORITY);
 #endif
 
-    if (current_token->type == OP && current_token->val.op_value == SIN)
+    if (current_token->type == OP && getPriority(current_token) == UNAR_PRIORITY)
     {
         result = createOp(current_token->val.op_value);
         program_tokens->current++;
@@ -581,8 +595,8 @@ Node * getUnarOperation()
 
         }
 
-    } else {
-
+    } else 
+    {
         result = getVariable();
     }
 

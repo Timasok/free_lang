@@ -1,5 +1,8 @@
-push 1
 var x
-ADD
+push 9
+ASG
+var x
+push 19
+ASG
 out
 hlt

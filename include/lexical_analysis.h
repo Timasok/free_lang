@@ -40,6 +40,7 @@ int tokenDump(const Token * token);
 int tokenDumpConsole(const Token * token);
 int tokenDump(const Token * token, const char * name_of_var, const char * name_of_file, const char * name_of_func, int number_of_line);
 
+int getPriority(const Token * token);
 int tokenDtor(Token * token);
 
 int programTokensCtor(const char * input_line, Program_tokens *program_tokens);
@@ -53,6 +54,7 @@ Separator   checkForSeparator (char *line, size_t * shift);
 char *      checkForVar       (char *line, size_t * shift);
 
 bool checkTokensForEnd(Program_tokens *program_tokens);
+bool checkForEndOfBlock(Program_tokens *program_tokens);
 
 #define INCREMENT_TOKENS                                \
             if (checkTokensForEnd(program_tokens))      \
