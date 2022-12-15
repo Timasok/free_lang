@@ -8,7 +8,13 @@
 const int MAX_BUFFER_LENGTH = 512;
 const int NUMBER_OF_VARS = 16;
 const int MAX_FUNC_NUMBER = 20;
-const int UNAR_PRIORITY = 2;
+
+enum priorities
+{
+    ASG_PRIORITY  = 1,
+    UNAR_PRIORITY = 2,
+
+};
 
 enum son
 {
@@ -100,6 +106,7 @@ Node *nodeConnect(Node_type type, Value value, Node *l_son, Node *r_son);
 Node *nodeCtor();
 
 int getVarIndex(Var v_arr[], const char *name);
+int getFreeIndex(Var v_arr[]);
 double getVarValue(Var v_arr[], const char *name);
 int addValueToVarArray(Var v_arr[], double value, const char *name);
 int addVarValueByIndex(Var v_arr[], double value, size_t index);

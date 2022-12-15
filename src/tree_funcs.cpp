@@ -177,6 +177,26 @@ int getVarIndex(Var v_arr[], const char * name)
     return var_index;
 }
 
+int getFreeIndex(Var v_arr[])
+{
+    if (v_arr[NUMBER_OF_VARS - 1].name != NULL)
+    {
+        printf("TOO MANY VARIABLES! EXPAND THE SIZE OF ARR!\n");
+        return -1;
+    
+    }
+
+    for (int counter = 0; counter < NUMBER_OF_VARS; counter++)
+    {
+        if (v_arr[counter].name == NULL)
+        {
+            return counter;
+        }
+    }
+
+    return -1;
+}
+
 bool checkExistence(Var v_arr[], const char * name)
 {
     // STRING_DUMP(name);

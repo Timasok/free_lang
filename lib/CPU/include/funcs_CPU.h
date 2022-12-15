@@ -6,8 +6,8 @@
 
 const int MAX_NUM_OF_FUNCS = 32;
 const int MAX_STACK_SIZE   = 1024;
-const int REG_CAPACITY     = 5;
-const int RAM_CAPACITY     = 4096;
+const int REG_CAPACITY     = 7;
+const int RAM_CAPACITY     = 16000;
 
 const int INDEX_POISON = -1;
 const int ACCURACY = 1000;

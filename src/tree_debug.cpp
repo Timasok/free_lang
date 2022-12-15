@@ -53,6 +53,14 @@ int dumpExpNode(const Node * node)
     return 0;
 }
 
+int dumpNode(const Node * node)
+{
+    DBG_OUT;
+    dumpExpNode(node);
+
+    return 0;
+}
+
 int openLogs()
 {
     HTM_LOG = fopen("./logs/log.htm", "w+");

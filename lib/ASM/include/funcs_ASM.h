@@ -54,31 +54,41 @@ enum CMD
 
 enum REGISTERS
 {
-    RAX = 1,
-    RBX = 2,
-    RCX = 3,
-    RDX = 4,
+    RAX              =  1,
+    RBX              =  2,
+    RCX              =  3,
+    RDX              =  4,
+    VAR_IN_DEF       =  5,
+    VAR_IN_FUNCCALL  =  6, 
     INVALID_REGISTER = -1,
 
 };
 
 #define GET_REG                                                                 \
     do {                                                                        \
-        if (strcasecmp(reg_var, "rax") == 0)                                    \
+        if (stringEquals(reg_var, "rax"))                                       \
         {                                                                       \
             argument = RAX;                                                     \
                                                                                 \
-        }else if(strcasecmp(reg_var, "rbx") == 0)                               \
+        }else if(stringEquals(reg_var, "rbx"))                                  \
         {                                                                       \
             argument = RBX;                                                     \
                                                                                 \
-        }else if(strcasecmp(reg_var, "rcx") == 0)                               \
+        }else if(stringEquals(reg_var, "rcx"))                                  \
         {                                                                       \
             argument = RCX;                                                     \
                                                                                 \
-        }else if(strcasecmp(reg_var, "rdx") == 0)                               \
+        }else if(stringEquals(reg_var, "rdx"))                                  \
         {                                                                       \
             argument = RDX;                                                     \
+                                                                                \
+        }else if(stringEquals(reg_var, "var_in_def"))                           \
+        {                                                                       \
+            argument = VAR_IN_DEF;                                              \
+                                                                                \
+        }else if(stringEquals(reg_var, "var_in_funccall"))                      \
+        {                                                                       \
+            argument = VAR_IN_FUNCCALL;                                         \
                                                                                 \
         }                                                                       \
         else                                                                    \
@@ -86,7 +96,7 @@ enum REGISTERS
             argument = INVALID_REGISTER;                                        \
                                                                                 \
         }                                                                       \
-    } while(0)
+    } while(0)                                                                  \
 
 enum MASKS
 {

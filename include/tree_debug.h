@@ -11,6 +11,7 @@
         fprintf(log, "%s", #error_specifier);
         
 int dumpExpNode(const Node * node);
+int dumpNode(const Node * node);
 
 int openLogs();
 int closeLogs();

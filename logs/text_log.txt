@@ -1,29 +1,21 @@
 
 ************************************************************
   code_of_error = 0
-  buf_length = 102
-  number_of_lines = 15
+  buf_length = 103
+  number_of_lines = 11
   buf: 
 def main ( )
 {
-    foo ( x );
+    x = x + 1 ;
+    y = 5 ;    
+    foo ( y ) ;
 } ;
 
 def foo ( x )
 {
     x = x + 1 ;
-    y = 5 ;
-} ;
-
-def boo ( )
-{
-
 } ;
 	Lines: 
-(null)
-(null)
-(null)
-(null)
 (null)
 (null)
 (null)
