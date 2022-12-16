@@ -17,7 +17,7 @@ enum def_change_mode
     DECREASE = 1,
 };
 
-enum translation_result
+enum Translation_result
 {
     TRANSLATION_SUCCEEDEED                 = 0,
     TRANSLATION_TERMINATED_SYNTAX_ERROR    = 1,
@@ -26,7 +26,7 @@ enum translation_result
 
 };
 
-int translateLanguage(const char *input_file_name, const char *output_file_name);
+Translation_result translateLanguage(const char *input_file_name, const char *output_file_name);
 int handleProgram(Node *node);
 
 int copyFromFunccallMemory(Node * func, Var variables[]);

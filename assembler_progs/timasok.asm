@@ -13,21 +13,37 @@ add
 pop rax
 
 push 0
-pop [rax+1]
+pop [rax+0]
 push 1
-pop [rax+1]
-push 0
+pop [rax+0]
+;calling function fly
 push 1
-je :else_0
+pop [rbx+0]
+call :fly
+
+push rax
+push 32
+sub
+pop rax
+
+ret
+
+fly:
+
+push rax
+push 32
+add
+pop rax
+
+push [rbx+0]
+pop [rax+0]
+push [rax+0] ;z
+push 1000
+DIV
+pop [rax+0]
 ;calling function print
-push 1
+push [rax+0]
 out
-jmp :endif_0
-else_0:
-;calling function print
-push 2
-out
-endif_0:
 
 push rax
 push 32

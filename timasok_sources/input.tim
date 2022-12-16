@@ -2,12 +2,12 @@ def main ( )
 {
     x = 1 ;
 
-    if ( 1 )
-    {
-        print ( 1 ) ;
-    } else 
-    {
-        print ( 2 ) ;
-    } ;
+    fly ( 1 ) ;
 
+} ;
+
+def fly ( z )
+{
+    z = z / 1000 ;
+    print ( z ) ; 
 } ;

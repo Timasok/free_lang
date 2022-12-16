@@ -72,10 +72,17 @@
                         fprintf(cpuPtr->log_file, "OUT: = %g", element);           \
                         printf("\e[0;32m\nOUT: = %g\e[0m\n", element);             \
                     } while (0)
+#define ARITHM_DBG(operation)                                                                   \
+        do {                                                                                    \
+                fprintf(cpu->log_file, "%g %s %g\n", second_popped, #operation, first_popped);  \
+            } while (0)            
 
-#define ARITHM_DBG(operation)                                                       \
-                fprintf(cpu->log_file, "%g %s %g\n", second_popped, #operation, first_popped); \
-                printf("%g %s %g\n", second_popped, #operation, first_popped)
+// #define ARITHM_DBG(operation)                                                                   \
+//         do {                                                                                    \
+//                 fprintf(cpu->log_file, "%g %s %g\n", second_popped, #operation, first_popped);  \
+//                 printf("%g %s %g\n", second_popped, #operation, first_popped);                  \
+//                                                                                                 \
+//             } while (0)                                                                         \
 
 #define JUMP(cpuPtr)                                                                                      \
         do {                                                                                              \
@@ -241,6 +248,7 @@ int operateArgs(CPU_info *cpu, int *argPtr)
 {
     int reg_idx = INDEX_POISON;
     int ram_idx = INDEX_POISON;
+    int sum_of_reg_and_immed_value = 0;
 
     int num_of_comand = cpu->code[cpu->ip - 1];
 
@@ -251,19 +259,20 @@ int operateArgs(CPU_info *cpu, int *argPtr)
 
         if (num_of_comand & IMMED_MASK)
         {
-            printf("reg_val = %d immed_value = %d\n", cpu->Reg[reg_idx], cpu->code[cpu->ip]);
             
-            int sum_of_reg_and_immed_value = (cpu->Reg[reg_idx] + cpu->code[cpu->ip]);
-            
-            printf("sum_of_reg_and_immed_value = %d\n", sum_of_reg_and_immed_value);
-            
+            sum_of_reg_and_immed_value = (cpu->Reg[reg_idx] + cpu->code[cpu->ip]);
             argPtr = &sum_of_reg_and_immed_value;
+            
+#ifdef CPU_DEBUG
+            printf("reg_val = %d immed_value = %d\n", cpu->Reg[reg_idx], cpu->code[cpu->ip]);
+            printf("sum_of_reg_and_immed_value = %d\n", sum_of_reg_and_immed_value);
+#endif
             
             cpu->ip++;
         }
-
+#ifdef CPU_DEBUG
         printf("*argPtr = %d\n", *argPtr);
-
+#endif
     } else if (num_of_comand & IMMED_MASK)
     {   
         argPtr = &cpu->code[cpu->ip++];     
@@ -274,7 +283,7 @@ int operateArgs(CPU_info *cpu, int *argPtr)
 
     }
 
-    if(num_of_comand & MEM_MASK)
+    if (num_of_comand & MEM_MASK)
     {
         printf("*****************************************************************************\n");
 
@@ -282,8 +291,9 @@ int operateArgs(CPU_info *cpu, int *argPtr)
         
         ram_idx = *argPtr;
         argPtr = &cpu->RAM[ram_idx];
-
-        printf("ram_idx = *argPtr = %d\n", *argPtr);
+#ifdef CPU_DEBUG
+        printf("cpu->RAM[%d] = %d\n", ram_idx, *argPtr);
+#endif
     }
 
     int error = checkPushPopForError(cpu, CHECK_FOR_MEM);
@@ -293,7 +303,8 @@ int operateArgs(CPU_info *cpu, int *argPtr)
 
     if ((num_of_comand & MASK_REMOVER) == CMD_PUSH)
     {
-        stackPush(&cpu->stack, (*argPtr)*ACCURACY);
+        elem_t push = (double)(*argPtr)*ACCURACY;
+        stackPush(&cpu->stack, push);
 
 #ifdef DO_NOT_CLEAN_RAM        
         if (ram_idx != INDEX_POISON)
@@ -302,7 +313,8 @@ int operateArgs(CPU_info *cpu, int *argPtr)
 
 #ifdef CPU_DEBUG
         printf("source_of pushed %d\n", (*argPtr));
-        printf("pushed %d\n", (*argPtr)*ACCURACY);
+        printf("pushed %g\n", push);
+                printf("\tafter = %g\n", push);
 #endif
 
     }else if((num_of_comand & MASK_REMOVER) == CMD_POP)
@@ -315,6 +327,7 @@ int operateArgs(CPU_info *cpu, int *argPtr)
 #ifdef CPU_DEBUG
         printf("source_of_popped %g\n", result);
         printf("popped %d\n", final_result);
+        printf("\tafter = %d\n", *argPtr);
 #endif
 
     }
@@ -411,8 +424,7 @@ int checkPushPopForError(CPU_info *cpu, Stage stage)
 
 
 int process(CPU_info * cpu)
-{   
-
+{
     while (cpu->ip < cpu->quantity)
     {
         int num_of_comand = cpu->code[cpu->ip];
@@ -420,19 +432,20 @@ int process(CPU_info * cpu)
         int actual_arg;
         int first_graph_index = 0;
 
+#ifdef CPU_DEBUG
         printf("NUMBER OF PROCESSING COMAND %d ip - %d \n", num_of_comand, cpu->ip);
-
+#endif
         switch(num_of_comand & MASK_REMOVER)
         {
             #include "comands.h"
+        }
 
-        }           
-
+#ifdef CPU_DEBUG
         if (cpu->ip == num_of_comand)
         {
             printf("ERROR IN %d command\n", cpu->ip);
         }
-
+#endif
     }
 
     return EXIT_SUCCESS;

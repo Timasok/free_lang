@@ -16,7 +16,7 @@ const int MASK_REMOVER = 0x1F;
 #define DEF_CMD(name, num, arg, ...) \
             CMD_##name = num,
 
-#define CPU_DEBUG
+// #define CPU_DEBUG
 
 struct Window_size
 {

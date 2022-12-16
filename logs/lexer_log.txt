@@ -1,93 +1,105 @@
 
-	token 0x603000000040
+	token 0x55ead46a99e0
 KEY_WORD D
 
-	token 0x603000000070
+	token 0x55ead46a9a00
 VARIABLE "main"
 
-	token 0x6030000000a0
+	token 0x55ead46a9a40
 SEPARATOR (
 
-	token 0x6030000000d0
+	token 0x55ead46a9a60
 SEPARATOR )
 
-	token 0x603000000100
+	token 0x55ead46a9a80
 SEPARATOR {
 
-	token 0x603000000130
+	token 0x55ead46a9aa0
 VARIABLE "x"
 
-	token 0x603000000160
+	token 0x55ead46a9ae0
 OPERATION =
 
-	token 0x603000000190
+	token 0x55ead46a9b00
 NUMBER 1
 
-	token 0x6030000001c0
+	token 0x55ead46a9b20
 SEPARATOR ;
 
-	token 0x6030000001f0
-KEY_WORD I
+	token 0x55ead46a9b40
+VARIABLE "fly"
 
-	token 0x603000000220
+	token 0x55ead46a9b80
 SEPARATOR (
 
-	token 0x603000000250
+	token 0x55ead46a9ba0
 NUMBER 1
 
-	token 0x603000000280
+	token 0x55ead46a9bc0
 SEPARATOR )
 
-	token 0x6030000002b0
+	token 0x55ead46a9be0
+SEPARATOR ;
+
+	token 0x55ead46a9c00
+SEPARATOR }
+
+	token 0x55ead46a9c20
+SEPARATOR ;
+
+	token 0x55ead46a9c40
+KEY_WORD D
+
+	token 0x55ead46a9c60
+VARIABLE "fly"
+
+	token 0x55ead46a9ca0
+SEPARATOR (
+
+	token 0x55ead46a9cc0
+VARIABLE "z"
+
+	token 0x55ead46a9d00
+SEPARATOR )
+
+	token 0x55ead46a9d20
 SEPARATOR {
 
-	token 0x6030000002e0
+	token 0x55ead46a9d40
+VARIABLE "z"
+
+	token 0x55ead46a9d80
+OPERATION =
+
+	token 0x55ead46a9da0
+VARIABLE "z"
+
+	token 0x55ead46a9de0
+OPERATION /
+
+	token 0x55ead46a9e00
+NUMBER 1000
+
+	token 0x55ead46a9e20
+SEPARATOR ;
+
+	token 0x55ead46a9e40
 VARIABLE "print"
 
-	token 0x603000000310
+	token 0x55ead46a9e80
 SEPARATOR (
 
-	token 0x603000000340
-NUMBER 1
+	token 0x55ead46a9ea0
+VARIABLE "z"
 
-	token 0x603000000370
+	token 0x55ead46a9ee0
 SEPARATOR )
 
-	token 0x6030000003a0
+	token 0x55ead46a9f00
 SEPARATOR ;
 
-	token 0x6030000003d0
+	token 0x55ead46a9f20
 SEPARATOR }
 
-	token 0x603000000400
-KEY_WORD e
-
-	token 0x603000000430
-SEPARATOR {
-
-	token 0x603000000460
-VARIABLE "print"
-
-	token 0x603000000490
-SEPARATOR (
-
-	token 0x6030000004c0
-NUMBER 2
-
-	token 0x6030000004f0
-SEPARATOR )
-
-	token 0x603000000520
-SEPARATOR ;
-
-	token 0x603000000550
-SEPARATOR }
-
-	token 0x603000000580
-SEPARATOR ;
-
-	token 0x6030000005b0
-SEPARATOR }
-
-	token 0x6030000005e0
+	token 0x55ead46a9f40
 SEPARATOR ;

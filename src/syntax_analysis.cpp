@@ -447,7 +447,10 @@ Node * getTerm()
             }
 
             current_token = program_tokens->tokens[program_tokens->current];
+            
+#ifdef SYNTAX_DEBUG
             WHILE_VERIFY(current_token->type == OP && (current_token->val.op_value == '*' || current_token->val.op_value == '/'));
+#endif
 
         }
 

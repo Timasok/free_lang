@@ -49,15 +49,13 @@ static int DefReg(def_change_mode mode)
     return 0;
 }
 
-//TODO enum
-int translateLanguage(const char *input_file_name, const char *output_file_name)
+Translation_result translateLanguage(const char *input_file_name, const char *output_file_name)
 {
     Text_info text1 = {};
     
     textCtorOnlyBuffer(&text1, input_file_name);
 
     printText(&text1);
-    // printf("Ride to hell!\n");
 
     openLogs();
 
@@ -71,8 +69,6 @@ int translateLanguage(const char *input_file_name, const char *output_file_name)
     programTokensDtor(&program_tokens);
     
     TREE_DUMP_OPTIONAL(main_node, "initial tree"); 
-    // printIn(main_node);
-    // printf("\n");
 
     output_file = fopen(output_file_name, "w+");
 
@@ -94,11 +90,10 @@ int translateLanguage(const char *input_file_name, const char *output_file_name)
 
     closeLogs();
 
-    // DBG_OUT;
     nodeDtor(&main_node);
     textDtor(&text1);
 
-    return TRANSLATION_TERMINATED_SYNTAX_ERROR;
+    // return TRANSLATION_TERMINATED_SYNTAX_ERROR;
     return TRANSLATION_SUCCEEDEED;
 
 }
@@ -285,7 +280,7 @@ int handleFunccall(Node * func, Var variables[])
     {
         pushArgInFuncall(arg, variables);
 
-        fprintf(output_file, "push [%s+%d]\n", call_reg, arg_index_in_call);       
+        fprintf(output_file, "pop [%s+%d]\n", call_reg, arg_index_in_call);       
 
         arg_index_in_call++;
         arg = arg->l_son;
@@ -365,7 +360,7 @@ int pushArgInFuncall(Node *arg, Var variables[])
     {
         arg_index_in_def = getVarIndex(variables, arg->value.var.name);
 
-        fprintf(output_file, "pop [%s+%d]\n", def_reg, arg_index_in_def);
+        fprintf(output_file, "push [%s+%d]\n", def_reg, arg_index_in_def);
     
     } else if (arg->type == NUM)
     {

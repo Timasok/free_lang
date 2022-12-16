@@ -4,6 +4,8 @@
 #include "funcs_CPU.h"
 #include "general_debug.h"
 
+const int VISIBLE_RAM = 300;
+
 enum CPU_Errors
 {
     CPU_ERROR_INCORRECT_SIGNATURE        = 1 << 0,

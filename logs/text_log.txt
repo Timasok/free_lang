@@ -1,8 +1,8 @@
 
 ************************************************************
   code_of_error = 0
-  buf_length = 286
-  number_of_lines = 38
+  buf_length = 392
+  number_of_lines = 54
   buf: 
 push 128
 	Lines: 
@@ -21,21 +21,37 @@ add
 pop rax
 
 push 0
-pop [rax+1]
+pop [rax+0]
 push 1
-pop [rax+1]
-push 0
-push 1
-je :else_0
+pop [rax+0]
 
 push 1
-out
-jmp :endif_0
-else_0:
+pop [rbx+0]
+call :fly
 
-push 2
+push rax
+push 32
+sub
+pop rax
+
+ret
+
+fly:
+
+push rax
+push 32
+add
+pop rax
+
+push [rbx+0]
+pop [rax+0]
+push [rax+0] 
+push 1000
+DIV
+pop [rax+0]
+
+push [rax+0]
 out
-endif_0:
 
 push rax
 push 32

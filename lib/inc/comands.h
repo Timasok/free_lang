@@ -73,8 +73,7 @@ if (strchr(arg_string, '[') != nullptr && strchr(arg_string, ']') != nullptr)
     fprintf(output->asm_log, "GET HIGH POPING");
 } 
 ,
-{ 
-    
+{
 })
 
 DEF_CMD(POP, 2, 1 ,
@@ -83,12 +82,7 @@ if (strchr(arg_string, '[') != nullptr && strchr(arg_string, ']') != nullptr)
     {
         isMemory = true;
 
-#ifdef USING_INT
         output->code[output->ip - 1] |= MEM_MASK;
-#elif defined USING_DOUBLE
-        comand_name_transfer = output->code[output->ip - 1];
-        output->code[output->ip - 1] = comand_name_transfer |= MEM_MASK;
-#endif
 
         *strchr(arg_string, '[') = ' ';
         *strchr(arg_string, ']') = '\0';
@@ -118,9 +112,10 @@ if (strchr(arg_string, '[') != nullptr && strchr(arg_string, ']') != nullptr)
         {
             if (sscanf(reg_immed_separator + 1, " %d", &second_argument) == 1)
             {
-                second_argument = true;
-                
+                second_argument_defined = true;
+
                 output->code[output->ip - 1] |= IMMED_MASK;
+                
                 *reg_immed_separator = '\0';
   
             } else
@@ -140,17 +135,17 @@ if (strchr(arg_string, '[') != nullptr && strchr(arg_string, ']') != nullptr)
 
         output->code[output->ip++] = argument;
 
-        if (second_argument)
+        if (second_argument_defined)
         {
             output->code[output->ip++] = second_argument;
         }
 
         break;
     }
-   
-    fprintf(output->asm_log, "GET HIGH PUSHING");
-}
-, 
+
+    fprintf(output->asm_log, "GET HIGH POPING");
+} 
+,
 { 
 
 })
@@ -174,7 +169,8 @@ DEF_CMD (SUB, 4, 0 , {},
 DEF_CMD (MUL, 5, 0 , {},  
 {
     FIRST_POP(cpu);
-    SECOND_POP(cpu);                
+    SECOND_POP(cpu);
+    second_popped/=ACCURACY;             
     ARITHM( * , cpu);
     ARITHM_DBG(*);
 })
@@ -182,7 +178,8 @@ DEF_CMD (MUL, 5, 0 , {},
 DEF_CMD (DIV, 6, 0 , {}, 
 {
     FIRST_POP(cpu);
-    SECOND_POP(cpu);                
+    SECOND_POP(cpu);
+    second_popped*=ACCURACY;
     ARITHM( /, cpu);
     ARITHM_DBG(/);    
     
@@ -192,7 +189,7 @@ DEF_CMD(OUT, 7, 0 , {},
 {
     elem_t tmp;
     SINGLE_POP(cpu, &tmp);
-    // tmp /= 1000;
+    tmp /= 1000;
     OUT(cpu, tmp);
 
 })
