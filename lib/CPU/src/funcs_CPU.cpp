@@ -36,7 +36,7 @@
             do {                                                                  \
                     if (stackPop(&cpuPtr->stack, &first_popped) == EXIT_FAILURE)  \
                     {                                                             \
-                        /**first_popped *= ACCURACY;    */                        \
+                        first_popped /= ACCURACY;                                 \
                         break;                                                    \
                     }                                                             \
                 } while (0)
@@ -45,29 +45,29 @@
             do {                                                                  \
                     if (stackPop(&cpuPtr->stack, &second_popped) == EXIT_FAILURE) \
                     {                                                             \
-                       /*second_popped *= ACCURACY;**/                            \
+                        second_popped /= ACCURACY;                                \
                         break;                                                    \
                     }                                                             \
                 } while (0)    
 
-#define ARITHM(operation, cpuPtr)                                                    \
-            do {                                                                     \
-                    stackPush(&cpuPtr->stack, second_popped operation first_popped); \
-                                                                                     \
+#define ARITHM(operation, cpuPtr)                                                               \
+            do {                                                                                \
+                    stackPush(&cpuPtr->stack, ACCURACY*(second_popped operation first_popped)); \
+                                                                                                \
                 } while (0)
 
 #define SINGLE_POP(cpuPtr, poppedPtr)                                             \
             do {                                                                  \
                     if (stackPop(&cpuPtr->stack, poppedPtr) == EXIT_FAILURE)      \
                     {                                                             \
-                     /**poppedPtr *= ACCURACY; */                                 \
+                        *poppedPtr /= ACCURACY;                                   \
                         break;                                                    \
                     }                                                             \
                 } while (0)
 
 #define SINGLE_PUSH(cpuPtr, element)                                              \
             do {                                                                  \
-                    stackPush(&cpuPtr->stack, element);                           \
+                    stackPush(&cpuPtr->stack, element*ACCURACY);                  \
                 } while (0)
 
 #define OUT(cpuPtr, element)                                                       \

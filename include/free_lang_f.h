@@ -38,6 +38,8 @@ int handleLangTree(Node *node, Var variables[]);
 int handleASG(Node *node, Var variables[]);
 int handleFunccall(Node * func, Var variables[]);
 
-bool handleMacro(Node * func);
+bool handleMacro(Node * func, Var variables[]);
+int pushArgInFuncall(Node *arg, Var variables[]);
+int handleIfElse(Node * if_node, Var variables[]);
 
 #endif

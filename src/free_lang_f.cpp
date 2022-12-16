@@ -14,7 +14,10 @@
 
 const char * def_reg = "rax";
 const char * call_reg = "rbx";
-static FILE * output_file = 0;
+
+
+static FILE * output_file  = 0;
+static int if_else_counter = 0;
 
 static int DefReg(def_change_mode mode)
 {
@@ -172,9 +175,15 @@ int handleLangTree(Node *node, Var variables[])
 
     if (node->type == OP && node->value.op_value == ASG)
     {
-        // DBG_OUT;
         var_index = handleASG(node, variables);
     
+    } else if (node->type == KEY_WORD && node->value.key_value == IF)
+    {
+        handleIfElse(node, variables);
+
+    } else if (node->type == FUNC)
+    { 
+        handleFunccall(node, variables);
     } else
     {
         if (node->l_son)
@@ -202,12 +211,6 @@ int handleLangTree(Node *node, Var variables[])
 
                 // fprintf(output_file, "push [%s+%d]\n", def_reg, var_index);
                 fprintf(output_file, "push [%s+%d] ;%s\n", def_reg, var_index, node->value.var.name);
-                break;
-            }
-            case FUNC:
-            {
-                handleFunccall(node, variables);
-
                 break;
             }
 
@@ -268,27 +271,19 @@ int copyFromFunccallMemory(Node * func, Var variables[])
 
 int handleFunccall(Node * func, Var variables[])
 {
-    if (handleMacro(func))
-        return 0;
-
     fprintf(output_file, ";calling function %s\n", func->value.var.name);
     
+    if (handleMacro(func, variables))
+        return 0;
+    
     Node * arg = func->l_son;
-    size_t arg_index_in_def = 0;
+
     size_t arg_index_in_call = 0;
 
     //copy variables
     while (arg != nullptr)
     {
-        ASSERT(arg->type == VAR); // пока без исключений
-
-        arg_index_in_def = getVarIndex(variables, arg->value.var.name);
-
-        fprintf(output_file, "pop [%s+%d]\n", def_reg, arg_index_in_def);
-
-        fprintf(output_file, "dup\n");
-
-        fprintf(output_file, "push [%s+%d]\n", def_reg, arg_index_in_def);
+        pushArgInFuncall(arg, variables);
 
         fprintf(output_file, "push [%s+%d]\n", call_reg, arg_index_in_call);       
 
@@ -317,14 +312,41 @@ int handleASG(Node *node, Var variables[])
     return var_index;
 }
 
-#define DEF_MACRO(number_of_macro, name_in_asm, name_in_lang)                       \
+int handleIfElse(Node * if_node, Var variables[])
+{
+    if (!if_node->r_son)
+        return 0;
+
+    fprintf(output_file, "push 0\n");  
+
+    handleLangTree(if_node->l_son, variables);
+
+    fprintf(output_file, "je :else_%d\n", if_else_counter);  
+
+    handleLangTree(if_node->r_son->l_son, variables);
+
+    fprintf(output_file,"jmp :endif_%d" 
+                        "else_%d:\n", 
+                        if_else_counter, if_else_counter);  
+
+    handleLangTree(if_node->r_son->r_son, variables);
+
+    fprintf(output_file, "endif_%d:\n", if_else_counter);  
+
+    if_else_counter++;
+
+    return 0;
+
+}
+
+#define DEF_MACRO(macro_name, name_in_lang, code)                  \
     else if (stringEquals(func_name, name_in_lang))                                 \
     {                                                                               \
         result = true;                                                              \
-        fprintf(output_file, "%s\n", name_in_asm);                                  \
-    }
+        code                                                                        \
+    }                                                                               \
 
-bool handleMacro(Node * func)
+bool handleMacro(Node * func, Var variables[])
 {
     bool result = false;
     const char * func_name = func->value.var.name;
@@ -333,6 +355,33 @@ bool handleMacro(Node * func)
     #include "macros.h"
 
     return result;
+}
+
+int pushArgInFuncall(Node *arg, Var variables[])
+{
+    size_t arg_index_in_def = 0;
+
+    if (arg->type == VAR)
+    {
+        arg_index_in_def = getVarIndex(variables, arg->value.var.name);
+
+        fprintf(output_file, "pop [%s+%d]\n", def_reg, arg_index_in_def);
+
+        fprintf(output_file, "dup\n");
+
+        fprintf(output_file, "push [%s+%d]\n", def_reg, arg_index_in_def);
+    
+    } else if (arg->type == NUM)
+    {
+        fprintf(output_file, "push %d\n", (int)arg->value.dbl_value);
+    
+    } else
+    {   
+        PRINT_ERROR_CONSOLE(LANG_ERROR_INCORRECT_ARGUMENT);
+        return -1;
+    }
+
+    return 0;
 }
 
 #undef DEF_MACRO

@@ -1,9 +1,14 @@
 def main ( )
 {
-    why ( x ) ;
-} ;
+    x = 1 ;
+    print ( x ) ;
 
-def why ( )
-{
-    x = 9 ;
+    if ( x - 1 )
+    {
+        print ( 1 ) ;
+    } else 
+    {
+        print ( 2 ) ;
+    }
+
 } ;

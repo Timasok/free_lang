@@ -10,9 +10,18 @@ adr 	cmd   arg   arg2 	source
 0010	42	  01	00 		pop rax
 0012	21	  00	00 		push 0
 0014	c2	  01	00 		pop [rax+0]
-0016	21	  05	00 		push 5
-0018	07  				out
-001b	21	  20	00 		push 32
-001d	04  				sub
-001e	42	  01	00 		pop rax
-0020	09  				ret
+0018	c2	  01	00 		pop [rax+0]
+001a	c2	  01	00 		pop [rax+0]
+001c	08  				dup
+001f	07  				out
+0020	21	  00	00 		push 0
+0026	04  				SUB
+0027	10	  2c	00 		je :else_0
+002b	07  				out
+002c	lb	  2c	else_0:
+002c	21	  02	00 		push 2
+002e	07  				out
+0031	21	  20	00 		push 32
+0033	04  				sub
+0034	42	  01	00 		pop rax
+0036	09  				ret

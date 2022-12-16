@@ -1,27 +1,53 @@
 
 ************************************************************
   code_of_error = 0
-  buf_length = 65
-  number_of_lines = 9
+  buf_length = 341
+  number_of_lines = 43
   buf: 
-def main ( )
-{
-    why ( x ) ;
-} ;
-
-def why ( )
-{
-    x = 9 ;
-} ;
+push 128
 	Lines: 
-(null)
-(null)
-(null)
-(null)
-(null)
-(null)
-(null)
-(null)
-(null)
+push 128
+pop rbx
+push 256
+pop rax
+call :main 
+hlt
+
+main:
+
+push rax
+push 32
+add
+pop rax
+
+push 0
+pop [rax+0]
+push 1
+pop [rax+0]
+
+pop [rax+0]
+dup
+push [rax+0]
+out
+push 0
+push [rax+0] 
+push 1
+SUB
+je :else_0
+
+push 1
+out
+else_0:
+
+push 2
+out
+
+push rax
+push 32
+sub
+pop rax
+
+ret
+
 
 ************************************************************
