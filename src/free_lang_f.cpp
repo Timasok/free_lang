@@ -181,8 +181,8 @@ int handleLangTree(Node *node, Var variables[])
     {
         handleIfElse(node, variables);
 
-    } else if (node->type == FUNC)
-    { 
+    } else if(node->type == FUNC)
+    {
         handleFunccall(node, variables);
     } else
     {
@@ -325,7 +325,7 @@ int handleIfElse(Node * if_node, Var variables[])
 
     handleLangTree(if_node->r_son->l_son, variables);
 
-    fprintf(output_file,"jmp :endif_%d" 
+    fprintf(output_file,"jmp :endif_%d\n" 
                         "else_%d:\n", 
                         if_else_counter, if_else_counter);  
 
@@ -366,10 +366,6 @@ int pushArgInFuncall(Node *arg, Var variables[])
         arg_index_in_def = getVarIndex(variables, arg->value.var.name);
 
         fprintf(output_file, "pop [%s+%d]\n", def_reg, arg_index_in_def);
-
-        fprintf(output_file, "dup\n");
-
-        fprintf(output_file, "push [%s+%d]\n", def_reg, arg_index_in_def);
     
     } else if (arg->type == NUM)
     {

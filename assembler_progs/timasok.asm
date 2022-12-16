@@ -13,26 +13,21 @@ add
 pop rax
 
 push 0
-pop [rax+0]
+pop [rax+1]
 push 1
-pop [rax+0]
-;calling function print
-pop [rax+0]
-dup
-push [rax+0]
-out
+pop [rax+1]
 push 0
-push [rax+0] ;x
 push 1
-SUB
 je :else_0
 ;calling function print
 push 1
 out
+jmp :endif_0
 else_0:
 ;calling function print
 push 2
 out
+endif_0:
 
 push rax
 push 32

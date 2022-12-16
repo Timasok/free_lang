@@ -9,19 +9,17 @@ adr 	cmd   arg   arg2 	source
 000f	03  				add
 0010	42	  01	00 		pop rax
 0012	21	  00	00 		push 0
-0014	c2	  01	00 		pop [rax+0]
-0018	c2	  01	00 		pop [rax+0]
-001a	c2	  01	00 		pop [rax+0]
-001c	08  				dup
-001f	07  				out
-0020	21	  00	00 		push 0
-0026	04  				SUB
-0027	10	  2c	00 		je :else_0
-002b	07  				out
-002c	lb	  2c	else_0:
-002c	21	  02	00 		push 2
-002e	07  				out
-0031	21	  20	00 		push 32
-0033	04  				sub
-0034	42	  01	00 		pop rax
-0036	09  				ret
+0014	e2	  01	01 		pop [rax+1]
+0019	e2	  01	01 		pop [rax+1]
+001c	21	  00	00 		push 0
+0020	10	  27	00 		je :else_0
+0024	07  				out
+0025	0b	  2a	00 		jmp :endif_0
+0027	lb	  27	else_0:
+0027	21	  02	00 		push 2
+0029	07  				out
+002a	lb	  2a	endif_0:
+002c	21	  20	00 		push 32
+002e	04  				sub
+002f	42	  01	00 		pop rax
+0031	09  				ret

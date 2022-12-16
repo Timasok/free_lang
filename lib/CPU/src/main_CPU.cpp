@@ -29,12 +29,12 @@ int main(int argc, const char* argv[])
     CPU_info cpu;
     CPU_Ctor(&cpu, asm_source);
     // dump_CPU(&cpu);
-    DBG_OUT;
+    // DBG_OUT;
 
     process(&cpu);
 
     CPU_Dtor(&cpu);
-    fcloseall();
+    fclose(asm_source);
 
     return EXIT_SUCCESS;
 }

@@ -7,7 +7,7 @@
 const int MAX_NUM_OF_FUNCS = 32;
 const int MAX_STACK_SIZE   = 1024;
 const int REG_CAPACITY     = 7;
-const int RAM_CAPACITY     = 16000;
+const int RAM_CAPACITY     = 4096;
 
 const int INDEX_POISON = -1;
 const int ACCURACY = 1000;
@@ -15,6 +15,8 @@ const int MASK_REMOVER = 0x1F;
 
 #define DEF_CMD(name, num, arg, ...) \
             CMD_##name = num,
+
+#define CPU_DEBUG
 
 struct Window_size
 {

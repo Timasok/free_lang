@@ -117,8 +117,9 @@ Node * getKeyWord()
 
         Token * current_token = program_tokens->tokens[program_tokens->current];
 
+#ifdef SYNTAX_DEBUG
         IF_VERIFY(current_token->type == SEPARATOR && current_token->val.sep_value == '(');
-
+#endif
         if (current_token->type == SEPARATOR && current_token->val.sep_value == '(')
         {
             program_tokens->current++;
@@ -129,7 +130,7 @@ Node * getKeyWord()
         TOKEN_DUMP(current_token);
 #endif     
             condition = getExpression();
-            DBG_OUT;
+            // DBG_OUT;
 
             current_token = program_tokens->tokens[program_tokens->current];        
 
@@ -148,7 +149,7 @@ Node * getKeyWord()
             block = getBlock();
         }
 
-        DBG_OUT;
+        // DBG_OUT;
 
         result = createNode(KEY_WORD, value, condition, block);
         linkSonsToParent(result, condition, block);
@@ -172,7 +173,7 @@ Node * getIfElseBlocks()
     if (current_token->type == KEY_WORD && current_token->val.key_value == ELSE)
     {
         program_tokens->current++;
-        DBG_OUT;
+        // DBG_OUT;
         else_block = getBlock();
     }
 

@@ -1,14 +1,13 @@
 def main ( )
 {
     x = 1 ;
-    print ( x ) ;
 
-    if ( x - 1 )
+    if ( 1 )
     {
         print ( 1 ) ;
     } else 
     {
         print ( 2 ) ;
-    }
+    } ;
 
 } ;

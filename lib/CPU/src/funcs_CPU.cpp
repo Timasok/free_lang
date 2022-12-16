@@ -36,7 +36,6 @@
             do {                                                                  \
                     if (stackPop(&cpuPtr->stack, &first_popped) == EXIT_FAILURE)  \
                     {                                                             \
-                        first_popped /= ACCURACY;                                 \
                         break;                                                    \
                     }                                                             \
                 } while (0)
@@ -45,14 +44,13 @@
             do {                                                                  \
                     if (stackPop(&cpuPtr->stack, &second_popped) == EXIT_FAILURE) \
                     {                                                             \
-                        second_popped /= ACCURACY;                                \
                         break;                                                    \
                     }                                                             \
                 } while (0)    
 
 #define ARITHM(operation, cpuPtr)                                                               \
             do {                                                                                \
-                    stackPush(&cpuPtr->stack, ACCURACY*(second_popped operation first_popped)); \
+                    stackPush(&cpuPtr->stack, (second_popped operation first_popped)); \
                                                                                                 \
                 } while (0)
 
@@ -60,14 +58,13 @@
             do {                                                                  \
                     if (stackPop(&cpuPtr->stack, poppedPtr) == EXIT_FAILURE)      \
                     {                                                             \
-                        *poppedPtr /= ACCURACY;                                   \
                         break;                                                    \
                     }                                                             \
                 } while (0)
 
 #define SINGLE_PUSH(cpuPtr, element)                                              \
             do {                                                                  \
-                    stackPush(&cpuPtr->stack, element*ACCURACY);                  \
+                    stackPush(&cpuPtr->stack, element);                           \
                 } while (0)
 
 #define OUT(cpuPtr, element)                                                       \
@@ -77,8 +74,8 @@
                     } while (0)
 
 #define ARITHM_DBG(operation)                                                       \
-                fprintf(cpu->log_file, "%g %s %g\n", second_popped, #operation, first_popped)
-
+                fprintf(cpu->log_file, "%g %s %g\n", second_popped, #operation, first_popped); \
+                printf("%g %s %g\n", second_popped, #operation, first_popped)
 
 #define JUMP(cpuPtr)                                                                                      \
         do {                                                                                              \
@@ -239,6 +236,7 @@ int draw(CPU_info *cpu, int first_graph_index)
     return 0;
 }
 
+//TODO make argPtr double
 int operateArgs(CPU_info *cpu, int *argPtr)
 {
     int reg_idx = INDEX_POISON;
@@ -253,13 +251,18 @@ int operateArgs(CPU_info *cpu, int *argPtr)
 
         if (num_of_comand & IMMED_MASK)
         {
-            // printf("reg_val = %d immed_value = %d\n", cpu->Reg[reg_idx], cpu->code[cpu->ip]);
-            // printf("sum_of_reg_and_immed_value = %d\n", sum_of_reg_and_immed_value);
+            printf("reg_val = %d immed_value = %d\n", cpu->Reg[reg_idx], cpu->code[cpu->ip]);
             
-            int sum_of_reg_and_immed_value = cpu->Reg[reg_idx] + cpu->code[cpu->ip++];
+            int sum_of_reg_and_immed_value = (cpu->Reg[reg_idx] + cpu->code[cpu->ip]);
+            
+            printf("sum_of_reg_and_immed_value = %d\n", sum_of_reg_and_immed_value);
             
             argPtr = &sum_of_reg_and_immed_value;
+            
+            cpu->ip++;
         }
+
+        printf("*argPtr = %d\n", *argPtr);
 
     } else if (num_of_comand & IMMED_MASK)
     {   
@@ -279,6 +282,8 @@ int operateArgs(CPU_info *cpu, int *argPtr)
         
         ram_idx = *argPtr;
         argPtr = &cpu->RAM[ram_idx];
+
+        printf("ram_idx = *argPtr = %d\n", *argPtr);
     }
 
     int error = checkPushPopForError(cpu, CHECK_FOR_MEM);
@@ -288,16 +293,30 @@ int operateArgs(CPU_info *cpu, int *argPtr)
 
     if ((num_of_comand & MASK_REMOVER) == CMD_PUSH)
     {
-        stackPush(&cpu->stack, *argPtr);
-        
+        stackPush(&cpu->stack, (*argPtr)*ACCURACY);
+
+#ifdef DO_NOT_CLEAN_RAM        
         if (ram_idx != INDEX_POISON)
             cpu->RAM[ram_idx] = 0;
+#endif
+
+#ifdef CPU_DEBUG
+        printf("source_of pushed %d\n", (*argPtr));
+        printf("pushed %d\n", (*argPtr)*ACCURACY);
+#endif
 
     }else if((num_of_comand & MASK_REMOVER) == CMD_POP)
     {
         elem_t result = 0;
         stackPop(&cpu->stack, &result);
-        *argPtr = result;
+        int final_result = (int)(result / ACCURACY);
+        *argPtr = final_result;
+
+#ifdef CPU_DEBUG
+        printf("source_of_popped %g\n", result);
+        printf("popped %d\n", final_result);
+#endif
+
     }
 
     return EXIT_SUCCESS;
@@ -401,13 +420,18 @@ int process(CPU_info * cpu)
         int actual_arg;
         int first_graph_index = 0;
 
-        // fprintf(stderr,"NUMBER OF PROCESSING COMAND %d ip - %d \n", num_of_comand, cpu->ip);
+        printf("NUMBER OF PROCESSING COMAND %d ip - %d \n", num_of_comand, cpu->ip);
 
         switch(num_of_comand & MASK_REMOVER)
         {
             #include "comands.h"
 
         }           
+
+        if (cpu->ip == num_of_comand)
+        {
+            printf("ERROR IN %d command\n", cpu->ip);
+        }
 
     }
 

@@ -33,15 +33,15 @@ if (strchr(arg_string, '[') != nullptr && strchr(arg_string, ']') != nullptr)
         char * reg_var;
         
         char * reg_immed_separator = strchr(arg_string, '+');
+        bool second_argument_defined = false;
 
         if (reg_immed_separator != nullptr)
         {
             if (sscanf(reg_immed_separator + 1, " %d", &second_argument) == 1)
             {
-                if (second_argument != 0)
-                {
-                    output->code[output->ip - 1] |= IMMED_MASK;
-                }
+                second_argument_defined = true;
+
+                output->code[output->ip - 1] |= IMMED_MASK;
                 
                 *reg_immed_separator = '\0';
   
@@ -62,7 +62,7 @@ if (strchr(arg_string, '[') != nullptr && strchr(arg_string, ']') != nullptr)
 
         output->code[output->ip++] = argument;
 
-        if (second_argument != 0)
+        if (second_argument_defined)
         {
             output->code[output->ip++] = second_argument;
         }
@@ -101,12 +101,7 @@ if (strchr(arg_string, '[') != nullptr && strchr(arg_string, ']') != nullptr)
     {
         pushDmp(output->asm_log, argument, isRegister, isMemory);
 
-#ifdef USING_INT
         output->code[output->ip - 1] |= IMMED_MASK;
-#elif defined USING_DOUBLE
-        comand_name_transfer = output->code[output->ip - 1];
-        output->code[output->ip - 1] = comand_name_transfer |= IMMED_MASK;
-#endif
 
         output->code[output->ip++] = argument;
         break;
@@ -117,15 +112,15 @@ if (strchr(arg_string, '[') != nullptr && strchr(arg_string, ']') != nullptr)
         char * reg_var;
         
         char * reg_immed_separator = strchr(arg_string, '+');
+        bool second_argument_defined = false;
 
         if (reg_immed_separator != nullptr)
         {
             if (sscanf(reg_immed_separator + 1, " %d", &second_argument) == 1)
             {
-                if (second_argument != 0)
-                {
-                    output->code[output->ip - 1] |= IMMED_MASK;
-                }
+                second_argument = true;
+                
+                output->code[output->ip - 1] |= IMMED_MASK;
                 *reg_immed_separator = '\0';
   
             } else
@@ -145,7 +140,7 @@ if (strchr(arg_string, '[') != nullptr && strchr(arg_string, ']') != nullptr)
 
         output->code[output->ip++] = argument;
 
-        if (second_argument != 0)
+        if (second_argument)
         {
             output->code[output->ip++] = second_argument;
         }
@@ -197,7 +192,7 @@ DEF_CMD(OUT, 7, 0 , {},
 {
     elem_t tmp;
     SINGLE_POP(cpu, &tmp);
-    tmp /= 1000;
+    // tmp /= 1000;
     OUT(cpu, tmp);
 
 })

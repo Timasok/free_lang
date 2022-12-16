@@ -11,7 +11,7 @@ OBJ_DIR = ./obj/
 I_FLAG := -I./lib/stack/include/ -I./lib/ASM/include/ -I./lib/CPU/include/ -I./lib/inc/ -I./lib/ -I./ -I./include/ -I./include/generators
 
 CC := g++
-CFLAGS := -Wno-format -g #-fsanitize=address
+CFLAGS := -Wno-format -g -fsanitize=address
 CFLAGS_NO_SANITIZER := -Wno-format -g
 
 LANG_EXE := free_lang
