@@ -1,5 +1,18 @@
 adr 	cmd   arg   arg2 	source
-0000	21	  04	00 		push 4
-0002	03  				ADD
-0003	07  				out
-0004	00  				hlt
+0000	21	  80	00 		push 128
+0004	21	  100	00 		push 256
+0006	42	  01	00 		pop rax
+0008	0a	  0b	00 		call :main 
+000a	00  				hlt
+000b	lb	  0b	main:
+000d	21	  20	00 		push 32
+000f	03  				add
+0010	42	  01	00 		pop rax
+0012	21	  00	00 		push 0
+0014	c2	  01	00 		pop [rax+0]
+0016	21	  05	00 		push 5
+0018	07  				out
+001b	21	  20	00 		push 32
+001d	04  				sub
+001e	42	  01	00 		pop rax
+0020	09  				ret

@@ -17,14 +17,14 @@ int main(int argc, const char* argv[])
 
     switch (translateLanguage(input_file, output_file))
     {
-        // case TRANSLATION_SUCCEEDEED: 
-        // {
-        //     char command[MAX_COMMAND_LENGTH] = {};
-        //     sprintf(command, "./Make %s", output_file);
-        //     system(command);
+        case TRANSLATION_SUCCEEDEED: 
+        {
+            char command[MAX_COMMAND_LENGTH] = {};
+            sprintf(command, "./Make %s", output_file);
+            system(command);
          
-        //     break;
-        // }
+            break;
+        }
         default:
         {
 

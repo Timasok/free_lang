@@ -38,7 +38,11 @@ if (strchr(arg_string, '[') != nullptr && strchr(arg_string, ']') != nullptr)
         {
             if (sscanf(reg_immed_separator + 1, " %d", &second_argument) == 1)
             {
-                output->code[output->ip - 1] |= IMMED_MASK;
+                if (second_argument != 0)
+                {
+                    output->code[output->ip - 1] |= IMMED_MASK;
+                }
+                
                 *reg_immed_separator = '\0';
   
             } else
@@ -118,7 +122,10 @@ if (strchr(arg_string, '[') != nullptr && strchr(arg_string, ']') != nullptr)
         {
             if (sscanf(reg_immed_separator + 1, " %d", &second_argument) == 1)
             {
-                output->code[output->ip - 1] |= IMMED_MASK;
+                if (second_argument != 0)
+                {
+                    output->code[output->ip - 1] |= IMMED_MASK;
+                }
                 *reg_immed_separator = '\0';
   
             } else
@@ -418,9 +425,9 @@ DEF_CMD(JNE, 17 , 1,
 DEF_CMD(IN, 18, 0,  {}, 
 { 
     printf("\e[0;32mENTER VALUE: \e[0m");
-    elem_t tmp;
+    double tmp;
     scanf("%lf", &tmp);
-    SINGLE_PUSH(cpu, tmp);
+    SINGLE_PUSH(cpu, (int)(tmp*1000));
 })  
 
 DEF_CMD(SHOW, 19, 0, {}, 
@@ -459,5 +466,5 @@ DEF_CMD(MAKE_CIRCLE, 22, 1,
 
 }, 
 {
-    MAKE_CIRCLE(cpu);
+    // MAKE_CIRCLE(cpu);
 })

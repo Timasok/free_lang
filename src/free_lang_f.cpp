@@ -9,9 +9,42 @@
 #include "lexical_analysis.h"
 #include "syntax_analysis.h"
 
-const char * def_reg = "var_in_def";
-const char * call_reg = "var_in_funccall";
+// const char * def_reg = "var_in_def";
+// const char * call_reg = "var_in_funccall";
+
+const char * def_reg = "rax";
+const char * call_reg = "rbx";
 static FILE * output_file = 0;
+
+static int DefReg(def_change_mode mode)
+{
+    char line[MAX_BUFFER_LENGTH] = {};
+    const char * operation = nullptr;
+
+    switch (mode)
+    {
+        case INCREASE:
+        {
+            operation = "add";
+            break;
+        }
+        case DECREASE:
+        {
+            operation = "sub";
+            break;
+        }
+    }
+
+    sprintf(line,"\npush %s\n"
+                 "push %d\n"
+                 "%s\n"
+                 "pop %s\n\n"
+                , def_reg, SHIFT_IN_DEF, operation, def_reg);
+
+    fputs(line, output_file);
+
+    return 0;
+}
 
 //TODO enum
 int translateLanguage(const char *input_file_name, const char *output_file_name)
@@ -35,15 +68,21 @@ int translateLanguage(const char *input_file_name, const char *output_file_name)
     programTokensDtor(&program_tokens);
     
     TREE_DUMP_OPTIONAL(main_node, "initial tree"); 
-    printIn(main_node);
-    printf("\n");
+    // printIn(main_node);
+    // printf("\n");
 
     output_file = fopen(output_file_name, "w+");
 
     if (output_file == nullptr)
         return TRANSLATION_TERMINATED_SAVE_FILE_ERROR;
 
-    fprintf(output_file,"jmp :main \n"
+    fprintf(output_file,"push %d\n"
+                        "pop %s\n", VAR_IN_FUNCCALL_INDEX, call_reg);
+
+    fprintf(output_file,"push %d\n"
+                        "pop %s\n", VAR_IN_DEF_INDEX, def_reg);
+
+    fprintf(output_file,"call :main \n"
                         "hlt\n");
 
     handleProgram(main_node);
@@ -83,7 +122,7 @@ int handleDefinition(Node *node)
 
     fprintf(output_file,"\n%s:\n", func_name->value.var.name);
 
-    // dumpNode(func_name);
+    DefReg(INCREASE);
 
     if (func_name->r_son)
     {
@@ -98,6 +137,7 @@ int handleDefinition(Node *node)
 
     }
 
+    DefReg(DECREASE);
     fprintf(output_file,"ret\n");
 
     return 0;
@@ -107,8 +147,6 @@ int handleFunc(Node *node, Var variables[])
 {
     if (!node)
         return 0;
-
-    // dumpNode(node->l_son);
 
     if (node->l_son)
         handleLangTree(node->l_son, variables);
@@ -134,7 +172,8 @@ int handleLangTree(Node *node, Var variables[])
 
     if (node->type == OP && node->value.op_value == ASG)
     {
-        handleASG(node, variables);
+        // DBG_OUT;
+        var_index = handleASG(node, variables);
     
     } else
     {
@@ -159,8 +198,10 @@ int handleLangTree(Node *node, Var variables[])
             }
             case VAR:        
             {
-                var_index = getVarIndex(variables,node->value.var.name);
-                fprintf(output_file, "push [%s+%d]\n", def_reg, var_index);
+                var_index = getVarIndex(variables, node->value.var.name);
+
+                // fprintf(output_file, "push [%s+%d]\n", def_reg, var_index);
+                fprintf(output_file, "push [%s+%d] ;%s\n", def_reg, var_index, node->value.var.name);
                 break;
             }
             case FUNC:
@@ -177,30 +218,37 @@ int handleLangTree(Node *node, Var variables[])
     return 0;
 }
 
-int copyFromFunccallMemory(Node * func_name, Var variables[])
+#undef DEF_OP
+
+int copyFromFunccallMemory(Node * func, Var variables[])
 {
     size_t number_of_params = 0;
 
-    if (func_name->l_son != nullptr)
+    if (func->l_son != nullptr)
     {
-        fillVarArray(variables, func_name->l_son, 0);
+        fillVarArray(variables, func->l_son, 0);
         number_of_params = getFreeIndex(variables);
+        // printf("number_of_params = %d\n", number_of_params);
+
         // dumpVarArray(variables);
 
     }
 
-    fillVarArray(variables, func_name->r_son, number_of_params);
+    fillVarArray(variables, func->r_son, 0);
     // dumpVarArray(variables);
     
     size_t number_of_vars = getFreeIndex(variables);
-    // printf("%d\n", number_of_vars);
+    // printf("number_of_vars = %d\n", number_of_vars);
+
+    if (number_of_vars == 0)
+        return 0;
 
     for (size_t counter = 0; counter < number_of_vars; counter++)
     {
         if (counter < number_of_params)
         {
             fprintf(output_file, "push [%s+%d]\n", call_reg, counter);
-        
+
         } else
         {
             fprintf(output_file, "push 0\n");
@@ -212,15 +260,20 @@ int copyFromFunccallMemory(Node * func_name, Var variables[])
         fprintf(output_file, "pop [%s+%d]\n", def_reg, counter);
     }
 
+    fprintf(output_file, "pop [%s+0]\n", def_reg);
+
     return 0;
 
 }
 
-int handleFunccall(Node * func_name, Var variables[])
+int handleFunccall(Node * func, Var variables[])
 {
-    fprintf(output_file, ";calling function %s\n", func_name->value.var.name);
+    if (handleMacro(func))
+        return 0;
+
+    fprintf(output_file, ";calling function %s\n", func->value.var.name);
     
-    Node * arg = func_name->l_son;
+    Node * arg = func->l_son;
     size_t arg_index_in_def = 0;
     size_t arg_index_in_call = 0;
 
@@ -242,13 +295,9 @@ int handleFunccall(Node * func_name, Var variables[])
         arg_index_in_call++;
         arg = arg->l_son;
 
-        // dumpNode(arg);
-        // DBG_OUT;
-
     }
 
-    fprintf(output_file, "call :%s\n", func_name->value.var.name);
-
+    fprintf(output_file, "call :%s\n", func->value.var.name);
 
     return 0;
 
@@ -263,7 +312,27 @@ int handleASG(Node *node, Var variables[])
 
     var_index = getVarIndex(variables, node->l_son->value.var.name);
 
-    return 0;
+    fprintf(output_file, "pop [%s+%d]\n", def_reg, var_index);
+
+    return var_index;
 }
 
-#undef DEF_OP
+#define DEF_MACRO(number_of_macro, name_in_asm, name_in_lang)                       \
+    else if (stringEquals(func_name, name_in_lang))                                 \
+    {                                                                               \
+        result = true;                                                              \
+        fprintf(output_file, "%s\n", name_in_asm);                                  \
+    }
+
+bool handleMacro(Node * func)
+{
+    bool result = false;
+    const char * func_name = func->value.var.name;
+
+    if (0){}
+    #include "macros.h"
+
+    return result;
+}
+
+#undef DEF_MACRO

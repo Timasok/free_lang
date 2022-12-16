@@ -1,28 +1,49 @@
-jmp :main 
+push 128
+pop rbx
+push 256
+pop rax
+call :main 
 hlt
 
 main:
+
+push rax
+push 32
+add
+pop rax
+
 push 0
-push 0
-pop [var_in_def+1]
-push [var_in_def+0]
-push 1
-ADD
-push 5
-push [var_in_def+1]
-;calling function foo
-pop [var_in_def+1]
+pop [rax+0]
+push [rax+0] ;x
+;calling function why
+pop [rax+0]
 dup
-push [var_in_def+1]
-push [var_in_funccall+0]
-call :foo
+push [rax+0]
+push [rbx+0]
+call :why
+
+push rax
+push 32
+sub
+pop rax
+
 ret
 
-foo:
-push [var_in_funccall+0]
+why:
+
+push rax
+push 32
+add
+pop rax
+
 push 0
-pop [var_in_def+1]
-push [var_in_def+0]
-push 1
-ADD
+pop [rax+0]
+push 9
+pop [rax+0]
+
+push rax
+push 32
+sub
+pop rax
+
 ret

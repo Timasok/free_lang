@@ -253,7 +253,11 @@ int operateArgs(CPU_info *cpu, int *argPtr)
 
         if (num_of_comand & IMMED_MASK)
         {
+            // printf("reg_val = %d immed_value = %d\n", cpu->Reg[reg_idx], cpu->code[cpu->ip]);
+            // printf("sum_of_reg_and_immed_value = %d\n", sum_of_reg_and_immed_value);
+            
             int sum_of_reg_and_immed_value = cpu->Reg[reg_idx] + cpu->code[cpu->ip++];
+            
             argPtr = &sum_of_reg_and_immed_value;
         }
 

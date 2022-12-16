@@ -1,11 +1,9 @@
 def main ( )
 {
-    x = x + 1 ;
-    y = 5 ;    
-    foo ( y ) ;
+    why ( x ) ;
 } ;
 
-def foo ( x )
+def why ( )
 {
-    x = x + 1 ;
+    x = 9 ;
 } ;
