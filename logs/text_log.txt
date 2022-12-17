@@ -1,40 +1,42 @@
 
 ************************************************************
   code_of_error = 0
-  buf_length = 242
-  number_of_lines = 32
+  buf_length = 351
+  number_of_lines = 34
   buf: 
-push 128
+push 1032
 	Lines: 
-push 128
-pop rbx
-push 256
-pop rax
+push 1032
+pop var_in_funccall
+push 1064
+pop var_in_def
 call :main 
 hlt
 
 main:
 
-push rax
+push var_in_def
 push 32
 add
-pop rax
+pop var_in_def
 
 
 in
-pop [rax+0]
-push [rax+0] 
+pop [var_in_def+0]
+push 0
+push [var_in_def+0] 
 push 3
-POW
-pop [rax+1]
+SUB
+ABS
+pop [var_in_def+1]
+push [var_in_def+2] 
+pop [var_in_def+1]
+push [var_in_def+1] 
 
-push [rax+1]
-out
-
-push rax
+push var_in_def
 push 32
 sub
-pop rax
+pop var_in_def
 
 ret
 

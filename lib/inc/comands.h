@@ -425,11 +425,14 @@ DEF_CMD(IN, 18, 0,  {},
 DEF_CMD(SHOW, 19, 0, {}, 
 {
     
-    for (int counter = 0; (cpu->RAM[counter] != 0) && (counter < RAM_CAPACITY); counter++)
+    for (int counter = 0; counter < VISIBLE_RAM_AREA; counter++)
     {
-        printf("\e[0;31m%c\e[0m", cpu->RAM[counter]);
-        cpu->RAM[counter] = 0;
-        
+        if (cpu->RAM[counter] != 0)
+        {
+            printf("\e[0;31m%c\e[0m", cpu->RAM[counter]/ACCURACY);
+            cpu->RAM[counter] = 0;
+        }
+        ;
     }
     printf("\n");
 
@@ -493,4 +496,12 @@ DEF_CMD (POW, 26, 0 , {},
     BINAR( pow, cpu );
     BINAR_DBG(pow);    
     
+})
+
+DEF_CMD(ABS, 27, 0, {}, 
+{
+    FIRST_POP(cpu);
+    SECOND_POP(cpu);                
+    UNAR( abs , cpu);
+    UNAR_DBG(abs);
 })

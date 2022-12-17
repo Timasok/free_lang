@@ -10,7 +10,6 @@ FILE *text_logs;
 
 int main(int argc, char ** argv)
 {
-    
     openAsmLogs();
 
     char * text_name = argv[1];

@@ -1,7 +1,9 @@
 def main ( )
 {
-    input ( x ) ;
-    y =  x ^ 3 ;
-    print ( y ) ;
+    input ( y ) ;
+
+    x = abs ( y - 3 ) ;
+
+    x = print ( x ) ;
 
 } ;

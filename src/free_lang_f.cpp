@@ -1,19 +1,19 @@
-#include <stdio.h>
+#include <string.h>
 #include <stdlib.h>
 
+#include "cpu_control.h"
+
 #include "tree.h"
-#include "free_lang_f.h"
 #include "text_funcs.h"
 #include "tree_debug.h"
+#include "free_lang_f.h"
 
 #include "lexical_analysis.h"
 #include "syntax_analysis.h"
 
-// const char * def_reg = "var_in_def";
-// const char * call_reg = "var_in_funccall";
-
-const char * def_reg = "rax";
-const char * call_reg = "rbx";
+const char * def_reg  = "var_in_def";
+const char * call_reg = "var_in_funccall";
+const char * ret_reg  = "ret_value";
 
 static FILE * output_file  = 0;
 static int if_else_counter = 0;
@@ -310,23 +310,25 @@ int handleIfElse(Node * if_node, Var variables[])
     if (!if_node->r_son)
         return 0;
 
+    int current_if_else = if_else_counter;
+    if_else_counter++;
+
     fprintf(output_file, "push 0\n");  
 
     handleLangTree(if_node->l_son, variables);
 
-    fprintf(output_file, "je :else_%d\n", if_else_counter);  
+    fprintf(output_file, "je :else_%d\n", current_if_else);  
 
     handleLangTree(if_node->r_son->l_son, variables);
 
     fprintf(output_file,"jmp :endif_%d\n" 
                         "else_%d:\n", 
-                        if_else_counter, if_else_counter);  
+                        current_if_else, current_if_else);  
 
     handleLangTree(if_node->r_son->r_son, variables);
 
-    fprintf(output_file, "endif_%d:\n", if_else_counter);  
+    fprintf(output_file, "endif_%d:\n", current_if_else);  
 
-    if_else_counter++;
 
     return 0;
 
@@ -337,26 +339,27 @@ int handleWhile(Node * if_node, Var variables[])
     if (!if_node->r_son)
         return 0;
 
-    fprintf(output_file, "while_%d:\n", while_counter);  
+    int current_while = while_counter;
+    while_counter++;
+
+    fprintf(output_file, "while_%d:\n", current_while);  
     fprintf(output_file, "push 0\n");  
 
     handleLangTree(if_node->l_son, variables);
 
-    fprintf(output_file, "je :end_while_%d\n", while_counter);  
+    fprintf(output_file, "je :end_while_%d\n", current_while);  
 
     handleLangTree(if_node->r_son, variables);
 
-    fprintf(output_file,"jmp :while_%d\n", while_counter);  
+    fprintf(output_file,"jmp :while_%d\n", current_while);  
 
-    fprintf(output_file, "end_while_%d:\n", while_counter);  
-
-    while_counter++;
+    fprintf(output_file, "end_while_%d:\n", current_while);  
 
     return 0;
 
 }
 
-#define DEF_MACRO(macro_name, name_in_lang, code)                  \
+#define DEF_MACRO(macro_name, name_in_lang, code)                                   \
     else if (stringEquals(func_name, name_in_lang))                                 \
     {                                                                               \
         result = true;                                                              \

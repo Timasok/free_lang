@@ -1,31 +1,33 @@
-push 128
-pop rbx
-push 256
-pop rax
+push 1032
+pop var_in_funccall
+push 1064
+pop var_in_def
 call :main 
 hlt
 
 main:
 
-push rax
+push var_in_def
 push 32
 add
-pop rax
+pop var_in_def
 
 ;calling function input
 in
-pop [rax+0]
-push [rax+0] ;x
+pop [var_in_def+0]
+push 0
+push [var_in_def+0] ;y
 push 3
-POW
-pop [rax+1]
-;calling function print
-push [rax+1]
-out
+SUB
+ABS
+pop [var_in_def+1]
+push [var_in_def+2] ;print
+pop [var_in_def+1]
+push [var_in_def+1] ;x
 
-push rax
+push var_in_def
 push 32
 sub
-pop rax
+pop var_in_def
 
 ret

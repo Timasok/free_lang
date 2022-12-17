@@ -4,43 +4,43 @@ asmCtor at lib/ASM/src/inout_ASM.cpp(42)
 CODE OF ERROR: 1057
 compile at lib/ASM/src/funcs_ASM.cpp(47)
 CODE OF ERROR: 1057
-COMAND - push COMAND_LENGTH - 4 ARG - 128
+COMAND - push COMAND_LENGTH - 4 ARG - 1032
 getArgs at lib/ASM/src/funcs_ASM.cpp(187)
 CODE OF ERROR: 1057
-128
-128
-ARGUMENT: 128 REGISTER: 0 MEMORY: 0
+1032
+1032
+ARGUMENT: 1032 REGISTER: 0 MEMORY: 0
 getArgs at lib/ASM/src/funcs_ASM.cpp(221)
 CODE OF ERROR: 1057
 line - 0 comand - push argument - 1
-COMAND - pop COMAND_LENGTH - 3 ARG - rbx
+COMAND - pop COMAND_LENGTH - 3 ARG - var_in_funccall
 getArgs at lib/ASM/src/funcs_ASM.cpp(187)
 CODE OF ERROR: 1057
-rbx
+var_in_funccall
 0
-rbx
-ARGUMENT: 2 REGISTER: 1 MEMORY: 0
-ARGUMENT: 2 REGISTER: 1 MEMORY: 0
+var_in_funccall
+ARGUMENT: 6 REGISTER: 1 MEMORY: 0
+ARGUMENT: 6 REGISTER: 1 MEMORY: 0
 getArgs at lib/ASM/src/funcs_ASM.cpp(221)
 CODE OF ERROR: 1057
-line - 1 comand - pop
-COMAND - push COMAND_LENGTH - 4 ARG - 256
+line - 1 comand - pop argument - 1
+COMAND - push COMAND_LENGTH - 4 ARG - 1064
 getArgs at lib/ASM/src/funcs_ASM.cpp(187)
 CODE OF ERROR: 1057
-256
-256
-ARGUMENT: 256 REGISTER: 0 MEMORY: 0
+1064
+1064
+ARGUMENT: 1064 REGISTER: 0 MEMORY: 0
 getArgs at lib/ASM/src/funcs_ASM.cpp(221)
 CODE OF ERROR: 1057
 line - 2 comand - push argument - 1
-COMAND - pop COMAND_LENGTH - 3 ARG - rax
+COMAND - pop COMAND_LENGTH - 3 ARG - var_in_def
 getArgs at lib/ASM/src/funcs_ASM.cpp(187)
 CODE OF ERROR: 1057
-rax
+var_in_def
 0
-rax
-ARGUMENT: 1 REGISTER: 1 MEMORY: 0
-ARGUMENT: 1 REGISTER: 1 MEMORY: 0
+var_in_def
+ARGUMENT: 5 REGISTER: 1 MEMORY: 0
+ARGUMENT: 5 REGISTER: 1 MEMORY: 0
 getArgs at lib/ASM/src/funcs_ASM.cpp(221)
 CODE OF ERROR: 1057
 line - 3 comand - pop argument - 1
@@ -63,17 +63,17 @@ CODE OF ERROR: 1065
 line - 7 comand - main argument - 0
 writeLabelInFile at lib/ASM/src/funcs_ASM.cpp(175)
 CODE OF ERROR: 1065
-COMAND - push COMAND_LENGTH - 4 ARG - rax
+COMAND - push COMAND_LENGTH - 4 ARG - var_in_def
 getArgs at lib/ASM/src/funcs_ASM.cpp(187)
 CODE OF ERROR: 1065
-rax
+var_in_def
 0
-rax
-ARGUMENT: 1 REGISTER: 1 MEMORY: 0
-ARGUMENT: 1 REGISTER: 1 MEMORY: 0
+var_in_def
+ARGUMENT: 5 REGISTER: 1 MEMORY: 0
+ARGUMENT: 5 REGISTER: 1 MEMORY: 0
 getArgs at lib/ASM/src/funcs_ASM.cpp(221)
 CODE OF ERROR: 1065
-line - 9 comand - push
+line - 9 comand - push argument - 1
 COMAND - push COMAND_LENGTH - 4 ARG - 32
 getArgs at lib/ASM/src/funcs_ASM.cpp(187)
 CODE OF ERROR: 1065
@@ -85,41 +85,50 @@ CODE OF ERROR: 1065
 line - 10 comand - push argument - 1
 COMAND - add COMAND_LENGTH - 3 ARG - (null)
 line - 11 comand - add
-COMAND - pop COMAND_LENGTH - 3 ARG - rax
+COMAND - pop COMAND_LENGTH - 3 ARG - var_in_def
 getArgs at lib/ASM/src/funcs_ASM.cpp(187)
 CODE OF ERROR: 1065
-rax
+var_in_def
 0
-rax
-ARGUMENT: 1 REGISTER: 1 MEMORY: 0
-ARGUMENT: 1 REGISTER: 1 MEMORY: 0
+var_in_def
+ARGUMENT: 5 REGISTER: 1 MEMORY: 0
+ARGUMENT: 5 REGISTER: 1 MEMORY: 0
 getArgs at lib/ASM/src/funcs_ASM.cpp(221)
 CODE OF ERROR: 1065
 line - 12 comand - pop argument - 1
 COMAND - in COMAND_LENGTH - 2 ARG - (null)
 line - 15 comand - in
-COMAND - pop COMAND_LENGTH - 3 ARG - [rax+0]
+COMAND - pop COMAND_LENGTH - 3 ARG - [var_in_def+0]
 getArgs at lib/ASM/src/funcs_ASM.cpp(187)
 CODE OF ERROR: 1065
- rax+0
+ var_in_def+0
 0
-rax
-ARGUMENT: 1 REGISTER: 1 MEMORY: 1
-ARGUMENT: 1 REGISTER: 1 MEMORY: 1
+var_in_def
+ARGUMENT: 5 REGISTER: 1 MEMORY: 1
+ARGUMENT: 5 REGISTER: 1 MEMORY: 1
 getArgs at lib/ASM/src/funcs_ASM.cpp(221)
 CODE OF ERROR: 1065
 line - 16 comand - pop argument - 1
-COMAND - push COMAND_LENGTH - 4 ARG - [rax+0]
+COMAND - push COMAND_LENGTH - 4 ARG - 0
 getArgs at lib/ASM/src/funcs_ASM.cpp(187)
 CODE OF ERROR: 1065
- rax+0
 0
-rax
-ARGUMENT: 1 REGISTER: 1 MEMORY: 1
-ARGUMENT: 1 REGISTER: 1 MEMORY: 1
+0
+ARGUMENT: 0 REGISTER: 0 MEMORY: 0
 getArgs at lib/ASM/src/funcs_ASM.cpp(221)
 CODE OF ERROR: 1065
 line - 17 comand - push argument - 1
+COMAND - push COMAND_LENGTH - 4 ARG - [var_in_def+0]
+getArgs at lib/ASM/src/funcs_ASM.cpp(187)
+CODE OF ERROR: 1065
+ var_in_def+0
+0
+var_in_def
+ARGUMENT: 5 REGISTER: 1 MEMORY: 1
+ARGUMENT: 5 REGISTER: 1 MEMORY: 1
+getArgs at lib/ASM/src/funcs_ASM.cpp(221)
+CODE OF ERROR: 1065
+line - 18 comand - push argument - 1
 COMAND - push COMAND_LENGTH - 4 ARG - 3
 getArgs at lib/ASM/src/funcs_ASM.cpp(187)
 CODE OF ERROR: 1065
@@ -128,44 +137,66 @@ CODE OF ERROR: 1065
 ARGUMENT: 3 REGISTER: 0 MEMORY: 0
 getArgs at lib/ASM/src/funcs_ASM.cpp(221)
 CODE OF ERROR: 1065
-line - 18 comand - push argument - 1
-COMAND - POW COMAND_LENGTH - 3 ARG - (null)
-line - 19 comand - POW
-COMAND - pop COMAND_LENGTH - 3 ARG - [rax+1]
+line - 19 comand - push argument - 1
+COMAND - SUB COMAND_LENGTH - 3 ARG - (null)
+line - 20 comand - SUB
+COMAND - ABS COMAND_LENGTH - 3 ARG - (null)
+line - 21 comand - ABS
+COMAND - pop COMAND_LENGTH - 3 ARG - [var_in_def+1]
 getArgs at lib/ASM/src/funcs_ASM.cpp(187)
 CODE OF ERROR: 1065
- rax+1
+ var_in_def+1
 0
-rax
-ARGUMENT: 1 REGISTER: 1 MEMORY: 1
-ARGUMENT: 1 REGISTER: 1 MEMORY: 1
+var_in_def
+ARGUMENT: 5 REGISTER: 1 MEMORY: 1
+ARGUMENT: 5 REGISTER: 1 MEMORY: 1
 getArgs at lib/ASM/src/funcs_ASM.cpp(221)
 CODE OF ERROR: 1065
-line - 20 comand - pop argument - 1
-COMAND - push COMAND_LENGTH - 4 ARG - [rax+1]
+line - 22 comand - pop argument - 1
+COMAND - push COMAND_LENGTH - 4 ARG - [var_in_def+2]
 getArgs at lib/ASM/src/funcs_ASM.cpp(187)
 CODE OF ERROR: 1065
- rax+1
+ var_in_def+2
 0
-rax
-ARGUMENT: 1 REGISTER: 1 MEMORY: 1
-ARGUMENT: 1 REGISTER: 1 MEMORY: 1
+var_in_def
+ARGUMENT: 5 REGISTER: 1 MEMORY: 1
+ARGUMENT: 5 REGISTER: 1 MEMORY: 1
 getArgs at lib/ASM/src/funcs_ASM.cpp(221)
 CODE OF ERROR: 1065
-line - 22 comand - push
-COMAND - out COMAND_LENGTH - 3 ARG - (null)
-line - 23 comand - out
-COMAND - push COMAND_LENGTH - 4 ARG - rax
+line - 23 comand - push argument - 1
+COMAND - pop COMAND_LENGTH - 3 ARG - [var_in_def+1]
 getArgs at lib/ASM/src/funcs_ASM.cpp(187)
 CODE OF ERROR: 1065
-rax
+ var_in_def+1
 0
-rax
-ARGUMENT: 1 REGISTER: 1 MEMORY: 0
-ARGUMENT: 1 REGISTER: 1 MEMORY: 0
+var_in_def
+ARGUMENT: 5 REGISTER: 1 MEMORY: 1
+ARGUMENT: 5 REGISTER: 1 MEMORY: 1
+getArgs at lib/ASM/src/funcs_ASM.cpp(221)
+CODE OF ERROR: 1065
+line - 24 comand - pop argument - 1
+COMAND - push COMAND_LENGTH - 4 ARG - [var_in_def+1]
+getArgs at lib/ASM/src/funcs_ASM.cpp(187)
+CODE OF ERROR: 1065
+ var_in_def+1
+0
+var_in_def
+ARGUMENT: 5 REGISTER: 1 MEMORY: 1
+ARGUMENT: 5 REGISTER: 1 MEMORY: 1
 getArgs at lib/ASM/src/funcs_ASM.cpp(221)
 CODE OF ERROR: 1065
 line - 25 comand - push
+COMAND - push COMAND_LENGTH - 4 ARG - var_in_def
+getArgs at lib/ASM/src/funcs_ASM.cpp(187)
+CODE OF ERROR: 1065
+var_in_def
+0
+var_in_def
+ARGUMENT: 5 REGISTER: 1 MEMORY: 0
+ARGUMENT: 5 REGISTER: 1 MEMORY: 0
+getArgs at lib/ASM/src/funcs_ASM.cpp(221)
+CODE OF ERROR: 1065
+line - 27 comand - push argument - 1
 COMAND - push COMAND_LENGTH - 4 ARG - 32
 getArgs at lib/ASM/src/funcs_ASM.cpp(187)
 CODE OF ERROR: 1065
@@ -174,22 +205,22 @@ CODE OF ERROR: 1065
 ARGUMENT: 32 REGISTER: 0 MEMORY: 0
 getArgs at lib/ASM/src/funcs_ASM.cpp(221)
 CODE OF ERROR: 1065
-line - 26 comand - push argument - 1
+line - 28 comand - push argument - 1
 COMAND - sub COMAND_LENGTH - 3 ARG - (null)
-line - 27 comand - sub
-COMAND - pop COMAND_LENGTH - 3 ARG - rax
+line - 29 comand - sub
+COMAND - pop COMAND_LENGTH - 3 ARG - var_in_def
 getArgs at lib/ASM/src/funcs_ASM.cpp(187)
 CODE OF ERROR: 1065
-rax
+var_in_def
 0
-rax
-ARGUMENT: 1 REGISTER: 1 MEMORY: 0
-ARGUMENT: 1 REGISTER: 1 MEMORY: 0
+var_in_def
+ARGUMENT: 5 REGISTER: 1 MEMORY: 0
+ARGUMENT: 5 REGISTER: 1 MEMORY: 0
 getArgs at lib/ASM/src/funcs_ASM.cpp(221)
 CODE OF ERROR: 1065
-line - 28 comand - pop argument - 1
+line - 30 comand - pop argument - 1
 COMAND - ret COMAND_LENGTH - 3 ARG - (null)
-line - 30 comand - ret
+line - 32 comand - ret
 	Label[0] = {11, main}
 	Label[1] = {-1, imp}
 	Label[2] = {-1, imp}
@@ -234,43 +265,43 @@ compile at lib/ASM/src/funcs_ASM.cpp(96)
 CODE OF ERROR: 1065
 compile at lib/ASM/src/funcs_ASM.cpp(47)
 CODE OF ERROR: 1577
-COMAND - push COMAND_LENGTH - 4 ARG - 128
+COMAND - push COMAND_LENGTH - 4 ARG - 1032
 getArgs at lib/ASM/src/funcs_ASM.cpp(187)
 CODE OF ERROR: 1577
-128
-128
-ARGUMENT: 128 REGISTER: 0 MEMORY: 0
+1032
+1032
+ARGUMENT: 1032 REGISTER: 0 MEMORY: 0
 getArgs at lib/ASM/src/funcs_ASM.cpp(221)
 CODE OF ERROR: 1577
 line - 0 comand - push argument - 1
-COMAND - pop COMAND_LENGTH - 3 ARG - rbx
+COMAND - pop COMAND_LENGTH - 3 ARG - var_in_funccall
 getArgs at lib/ASM/src/funcs_ASM.cpp(187)
 CODE OF ERROR: 1577
-rbx
+var_in_funccall
 0
-rbx
-ARGUMENT: 2 REGISTER: 1 MEMORY: 0
-ARGUMENT: 2 REGISTER: 1 MEMORY: 0
+var_in_funccall
+ARGUMENT: 6 REGISTER: 1 MEMORY: 0
+ARGUMENT: 6 REGISTER: 1 MEMORY: 0
 getArgs at lib/ASM/src/funcs_ASM.cpp(221)
 CODE OF ERROR: 1577
-line - 1 comand - pop
-COMAND - push COMAND_LENGTH - 4 ARG - 256
+line - 1 comand - pop argument - 1
+COMAND - push COMAND_LENGTH - 4 ARG - 1064
 getArgs at lib/ASM/src/funcs_ASM.cpp(187)
 CODE OF ERROR: 1577
-256
-256
-ARGUMENT: 256 REGISTER: 0 MEMORY: 0
+1064
+1064
+ARGUMENT: 1064 REGISTER: 0 MEMORY: 0
 getArgs at lib/ASM/src/funcs_ASM.cpp(221)
 CODE OF ERROR: 1577
 line - 2 comand - push argument - 1
-COMAND - pop COMAND_LENGTH - 3 ARG - rax
+COMAND - pop COMAND_LENGTH - 3 ARG - var_in_def
 getArgs at lib/ASM/src/funcs_ASM.cpp(187)
 CODE OF ERROR: 1577
-rax
+var_in_def
 0
-rax
-ARGUMENT: 1 REGISTER: 1 MEMORY: 0
-ARGUMENT: 1 REGISTER: 1 MEMORY: 0
+var_in_def
+ARGUMENT: 5 REGISTER: 1 MEMORY: 0
+ARGUMENT: 5 REGISTER: 1 MEMORY: 0
 getArgs at lib/ASM/src/funcs_ASM.cpp(221)
 CODE OF ERROR: 1577
 line - 3 comand - pop argument - 1
@@ -291,17 +322,17 @@ CODE OF ERROR: 1577
 line - 7 comand - main argument - 0
 writeLabelInFile at lib/ASM/src/funcs_ASM.cpp(175)
 CODE OF ERROR: 1577
-COMAND - push COMAND_LENGTH - 4 ARG - rax
+COMAND - push COMAND_LENGTH - 4 ARG - var_in_def
 getArgs at lib/ASM/src/funcs_ASM.cpp(187)
 CODE OF ERROR: 1577
-rax
+var_in_def
 0
-rax
-ARGUMENT: 1 REGISTER: 1 MEMORY: 0
-ARGUMENT: 1 REGISTER: 1 MEMORY: 0
+var_in_def
+ARGUMENT: 5 REGISTER: 1 MEMORY: 0
+ARGUMENT: 5 REGISTER: 1 MEMORY: 0
 getArgs at lib/ASM/src/funcs_ASM.cpp(221)
 CODE OF ERROR: 1577
-line - 9 comand - push
+line - 9 comand - push argument - 1
 COMAND - push COMAND_LENGTH - 4 ARG - 32
 getArgs at lib/ASM/src/funcs_ASM.cpp(187)
 CODE OF ERROR: 1577
@@ -313,41 +344,50 @@ CODE OF ERROR: 1577
 line - 10 comand - push argument - 1
 COMAND - add COMAND_LENGTH - 3 ARG - (null)
 line - 11 comand - add
-COMAND - pop COMAND_LENGTH - 3 ARG - rax
+COMAND - pop COMAND_LENGTH - 3 ARG - var_in_def
 getArgs at lib/ASM/src/funcs_ASM.cpp(187)
 CODE OF ERROR: 1577
-rax
+var_in_def
 0
-rax
-ARGUMENT: 1 REGISTER: 1 MEMORY: 0
-ARGUMENT: 1 REGISTER: 1 MEMORY: 0
+var_in_def
+ARGUMENT: 5 REGISTER: 1 MEMORY: 0
+ARGUMENT: 5 REGISTER: 1 MEMORY: 0
 getArgs at lib/ASM/src/funcs_ASM.cpp(221)
 CODE OF ERROR: 1577
 line - 12 comand - pop argument - 1
 COMAND - in COMAND_LENGTH - 2 ARG - (null)
 line - 15 comand - in
-COMAND - pop COMAND_LENGTH - 3 ARG - [rax+0]
+COMAND - pop COMAND_LENGTH - 3 ARG - [var_in_def+0]
 getArgs at lib/ASM/src/funcs_ASM.cpp(187)
 CODE OF ERROR: 1577
- rax+0
+ var_in_def+0
 0
-rax
-ARGUMENT: 1 REGISTER: 1 MEMORY: 1
-ARGUMENT: 1 REGISTER: 1 MEMORY: 1
+var_in_def
+ARGUMENT: 5 REGISTER: 1 MEMORY: 1
+ARGUMENT: 5 REGISTER: 1 MEMORY: 1
 getArgs at lib/ASM/src/funcs_ASM.cpp(221)
 CODE OF ERROR: 1577
 line - 16 comand - pop argument - 1
-COMAND - push COMAND_LENGTH - 4 ARG - [rax+0]
+COMAND - push COMAND_LENGTH - 4 ARG - 0
 getArgs at lib/ASM/src/funcs_ASM.cpp(187)
 CODE OF ERROR: 1577
- rax+0
 0
-rax
-ARGUMENT: 1 REGISTER: 1 MEMORY: 1
-ARGUMENT: 1 REGISTER: 1 MEMORY: 1
+0
+ARGUMENT: 0 REGISTER: 0 MEMORY: 0
 getArgs at lib/ASM/src/funcs_ASM.cpp(221)
 CODE OF ERROR: 1577
 line - 17 comand - push argument - 1
+COMAND - push COMAND_LENGTH - 4 ARG - [var_in_def+0]
+getArgs at lib/ASM/src/funcs_ASM.cpp(187)
+CODE OF ERROR: 1577
+ var_in_def+0
+0
+var_in_def
+ARGUMENT: 5 REGISTER: 1 MEMORY: 1
+ARGUMENT: 5 REGISTER: 1 MEMORY: 1
+getArgs at lib/ASM/src/funcs_ASM.cpp(221)
+CODE OF ERROR: 1577
+line - 18 comand - push argument - 1
 COMAND - push COMAND_LENGTH - 4 ARG - 3
 getArgs at lib/ASM/src/funcs_ASM.cpp(187)
 CODE OF ERROR: 1577
@@ -356,44 +396,66 @@ CODE OF ERROR: 1577
 ARGUMENT: 3 REGISTER: 0 MEMORY: 0
 getArgs at lib/ASM/src/funcs_ASM.cpp(221)
 CODE OF ERROR: 1577
-line - 18 comand - push argument - 1
-COMAND - POW COMAND_LENGTH - 3 ARG - (null)
-line - 19 comand - POW
-COMAND - pop COMAND_LENGTH - 3 ARG - [rax+1]
+line - 19 comand - push argument - 1
+COMAND - SUB COMAND_LENGTH - 3 ARG - (null)
+line - 20 comand - SUB
+COMAND - ABS COMAND_LENGTH - 3 ARG - (null)
+line - 21 comand - ABS
+COMAND - pop COMAND_LENGTH - 3 ARG - [var_in_def+1]
 getArgs at lib/ASM/src/funcs_ASM.cpp(187)
 CODE OF ERROR: 1577
- rax+1
+ var_in_def+1
 0
-rax
-ARGUMENT: 1 REGISTER: 1 MEMORY: 1
-ARGUMENT: 1 REGISTER: 1 MEMORY: 1
+var_in_def
+ARGUMENT: 5 REGISTER: 1 MEMORY: 1
+ARGUMENT: 5 REGISTER: 1 MEMORY: 1
 getArgs at lib/ASM/src/funcs_ASM.cpp(221)
 CODE OF ERROR: 1577
-line - 20 comand - pop argument - 1
-COMAND - push COMAND_LENGTH - 4 ARG - [rax+1]
+line - 22 comand - pop argument - 1
+COMAND - push COMAND_LENGTH - 4 ARG - [var_in_def+2]
 getArgs at lib/ASM/src/funcs_ASM.cpp(187)
 CODE OF ERROR: 1577
- rax+1
+ var_in_def+2
 0
-rax
-ARGUMENT: 1 REGISTER: 1 MEMORY: 1
-ARGUMENT: 1 REGISTER: 1 MEMORY: 1
+var_in_def
+ARGUMENT: 5 REGISTER: 1 MEMORY: 1
+ARGUMENT: 5 REGISTER: 1 MEMORY: 1
 getArgs at lib/ASM/src/funcs_ASM.cpp(221)
 CODE OF ERROR: 1577
-line - 22 comand - push
-COMAND - out COMAND_LENGTH - 3 ARG - (null)
-line - 23 comand - out
-COMAND - push COMAND_LENGTH - 4 ARG - rax
+line - 23 comand - push argument - 1
+COMAND - pop COMAND_LENGTH - 3 ARG - [var_in_def+1]
 getArgs at lib/ASM/src/funcs_ASM.cpp(187)
 CODE OF ERROR: 1577
-rax
+ var_in_def+1
 0
-rax
-ARGUMENT: 1 REGISTER: 1 MEMORY: 0
-ARGUMENT: 1 REGISTER: 1 MEMORY: 0
+var_in_def
+ARGUMENT: 5 REGISTER: 1 MEMORY: 1
+ARGUMENT: 5 REGISTER: 1 MEMORY: 1
+getArgs at lib/ASM/src/funcs_ASM.cpp(221)
+CODE OF ERROR: 1577
+line - 24 comand - pop argument - 1
+COMAND - push COMAND_LENGTH - 4 ARG - [var_in_def+1]
+getArgs at lib/ASM/src/funcs_ASM.cpp(187)
+CODE OF ERROR: 1577
+ var_in_def+1
+0
+var_in_def
+ARGUMENT: 5 REGISTER: 1 MEMORY: 1
+ARGUMENT: 5 REGISTER: 1 MEMORY: 1
 getArgs at lib/ASM/src/funcs_ASM.cpp(221)
 CODE OF ERROR: 1577
 line - 25 comand - push
+COMAND - push COMAND_LENGTH - 4 ARG - var_in_def
+getArgs at lib/ASM/src/funcs_ASM.cpp(187)
+CODE OF ERROR: 1577
+var_in_def
+0
+var_in_def
+ARGUMENT: 5 REGISTER: 1 MEMORY: 0
+ARGUMENT: 5 REGISTER: 1 MEMORY: 0
+getArgs at lib/ASM/src/funcs_ASM.cpp(221)
+CODE OF ERROR: 1577
+line - 27 comand - push argument - 1
 COMAND - push COMAND_LENGTH - 4 ARG - 32
 getArgs at lib/ASM/src/funcs_ASM.cpp(187)
 CODE OF ERROR: 1577
@@ -402,22 +464,22 @@ CODE OF ERROR: 1577
 ARGUMENT: 32 REGISTER: 0 MEMORY: 0
 getArgs at lib/ASM/src/funcs_ASM.cpp(221)
 CODE OF ERROR: 1577
-line - 26 comand - push argument - 1
+line - 28 comand - push argument - 1
 COMAND - sub COMAND_LENGTH - 3 ARG - (null)
-line - 27 comand - sub
-COMAND - pop COMAND_LENGTH - 3 ARG - rax
+line - 29 comand - sub
+COMAND - pop COMAND_LENGTH - 3 ARG - var_in_def
 getArgs at lib/ASM/src/funcs_ASM.cpp(187)
 CODE OF ERROR: 1577
-rax
+var_in_def
 0
-rax
-ARGUMENT: 1 REGISTER: 1 MEMORY: 0
-ARGUMENT: 1 REGISTER: 1 MEMORY: 0
+var_in_def
+ARGUMENT: 5 REGISTER: 1 MEMORY: 0
+ARGUMENT: 5 REGISTER: 1 MEMORY: 0
 getArgs at lib/ASM/src/funcs_ASM.cpp(221)
 CODE OF ERROR: 1577
-line - 28 comand - pop argument - 1
+line - 30 comand - pop argument - 1
 COMAND - ret COMAND_LENGTH - 3 ARG - (null)
-line - 30 comand - ret
+line - 32 comand - ret
 	Label[0] = {11, main}
 	Label[1] = {-1, imp}
 	Label[2] = {-1, imp}
@@ -460,7 +522,7 @@ line - 30 comand - ret
 	Label[39] = {-1, imp}
 compile at lib/ASM/src/funcs_ASM.cpp(96)
 CODE OF ERROR: 1577
-33	128	66	2	33	256	66	1	10	11	0	65	1	33	32	3	66	1	18	226	1	0	225	1	0	33	3	26	226	1	1	225	1	1	7	65	1	33	32	4	66	1	9	writeAssemblerInFile at lib/ASM/src/inout_ASM.cpp(48)
+33	1032	66	6	33	1064	66	5	10	11	0	65	5	33	32	3	66	5	18	226	5	0	33	0	225	5	0	33	3	4	27	226	5	1	225	5	2	226	5	1	225	5	1	65	5	33	32	4	66	5	9	writeAssemblerInFile at lib/ASM/src/inout_ASM.cpp(48)
 CODE OF ERROR: 1577
 asmDtor at lib/ASM/src/inout_ASM.cpp(85)
 CODE OF ERROR: 1577

@@ -44,3 +44,4 @@ input
 ./graph_dumps/**
 ./logs/**
 ./timasok_sources/**
+./generators/macros_attempt.h

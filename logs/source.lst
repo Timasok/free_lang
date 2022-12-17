@@ -1,21 +1,27 @@
 adr 	cmd   arg   arg2 	source
-0000	21	  80	00 		push 128
-0004	21	  100	00 		push 256
-0006	42	  01	00 		pop rax
+0000	21	  408	00 		push 1032
+0002	42	  06	00 		pop var_in_funccall
+0004	21	  428	00 		push 1064
+0006	42	  05	00 		pop var_in_def
 0008	0a	  0b	00 		call :main 
 000a	00  				hlt
 000b	lb	  0b	main:
+000b	41	  05	00 		push var_in_def
 000d	21	  20	00 		push 32
 000f	03  				add
-0010	42	  01	00 		pop rax
+0010	42	  05	00 		pop var_in_def
 0012	12  				in
-0014	01	  00	00 		pop [rax+0]
-0017	01	  00	00 		push [rax+0] 
-0019	21	  03	00 		push 3
-001b	1a  				POW
-001c	e2	  01	01 		pop [rax+1]
-0022	07  				out
-0025	21	  20	00 		push 32
-0027	04  				sub
-0028	42	  01	00 		pop rax
-002a	09  				ret
+0014	05	  00	00 		pop [var_in_def+0]
+0016	21	  00	00 		push 0
+0019	05	  00	00 		push [var_in_def+0] 
+001b	21	  03	00 		push 3
+001d	04  				SUB
+001e	1b  				ABS
+001f	e2	  05	01 		pop [var_in_def+1]
+0022	e1	  05	02 		push [var_in_def+2] 
+0025	e2	  05	01 		pop [var_in_def+1]
+002b	41	  05	00 		push var_in_def
+002d	21	  20	00 		push 32
+002f	04  				sub
+0030	42	  05	00 		pop var_in_def
+0032	09  				ret

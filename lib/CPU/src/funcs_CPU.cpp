@@ -311,7 +311,7 @@ int process(CPU_info *cpu)
 #endif
         switch (num_of_comand & MASK_REMOVER)
         {
-#include "comands.h"
+            #include "comands.h"
         }
 
 #ifdef CPU_DEBUG

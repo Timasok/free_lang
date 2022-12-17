@@ -20,15 +20,38 @@ DEF_MACRO(PRINT_LINE, "print_line",
 
     char * string  = (char *)calloc(MAX_LINE_LENGTH, sizeof(char));
 
-    // string = strdup("");
     size_t str_length = 0;
 
-    while (arg != nullptr)
+    while (arg != nullptr && arg->type != NUM)
     {
-        // STRING_DUMP(arg->value.var.name);
+        size_t tmp_len = 0;
 
-        size_t tmp_len = strlen(arg->value.var.name);
+        /* switch(arg->type)
+        // {
+        //     case NUM:
+        //     {
+        //         // STRING_DUMP(string);
+
+        //         // char buffer [MAX_LINE_LENGTH] = {};
+        //         // sprintf(buffer, "%g", arg->value.dbl_value);
+                
+        //         // strcat(string, buffer);
+        //         // tmp_len = strlen(string + str_length);
+        //         break;
+        //     }
+        //     case VAR:
+        //     {
+        //         strncat(string, arg->value.var.name, tmp_len);
+        //         tmp_len = strlen(arg->value.var.name);
+        //         break;
+        //     }
+        // };
+        // STRING_DUMP(arg->value.var.name); */   
+
         strncat(string, arg->value.var.name, tmp_len);
+        tmp_len = strlen(arg->value.var.name);
+
+        printf("tmp_len = %lu\n", tmp_len);
 
         strcat(string, " ");
 
@@ -37,7 +60,7 @@ DEF_MACRO(PRINT_LINE, "print_line",
 
     }
 
-    // STRING_DUMP(string);
+    STRING_DUMP(string);
 
     for (int idx = str_length - 1; idx >= 0; idx--)
     {
@@ -74,12 +97,8 @@ DEF_MACRO(INPUT, "input",
   
 })
 
-DEF_MACRO(RETURN, "return", 
-{
-    Node * arg = func->l_son;
+// DEF_MACRO(RETURN, "return", 
+// {
+//     Node * arg = func->l_son;
 
-    pushArgInFuncall(arg, variables);
-
-    fprintf(output_file, "pop %s\n", ret_reg);
-
-})
+// }

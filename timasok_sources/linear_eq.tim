@@ -1,0 +1,42 @@
+def main ( )
+{
+    print_line ( ENTER , LINEAR , COEFFS ) ;
+    input ( a ) ;
+    input ( b ) ;
+
+    solve_linear ( a , b ) ;
+
+} ;
+
+def solve_linear ( a , b ) 
+{
+
+    if ( b )
+    {
+        if ( a )
+        {    
+            x = ( 0 - b ) / a ;
+            print_line ( ROOT , IS ) ;
+            print ( x ) ;
+        
+        } else
+        {   
+            print_line ( NO , ROOTS ) ;
+        } ;
+    
+    } else 
+    {
+        if ( a )
+        {
+            x = 0;
+            print_line ( ROOT , IS ) ;
+            print ( x ) ;
+
+        } else
+        {       
+            print_line ( INF , ROOTS ) ;
+        } ;
+
+    } ;
+
+} ;

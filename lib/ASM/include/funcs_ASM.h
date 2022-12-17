@@ -59,7 +59,8 @@ enum REGISTERS
     RCX              =  3,
     RDX              =  4,
     VAR_IN_DEF       =  5,
-    VAR_IN_FUNCCALL  =  6, 
+    VAR_IN_FUNCCALL  =  6,
+    RET_VALUE        =  7, 
     INVALID_REGISTER = -1,
 
 };
@@ -90,8 +91,11 @@ enum REGISTERS
         {                                                                       \
             argument = VAR_IN_FUNCCALL;                                         \
                                                                                 \
-        }                                                                       \
-        else                                                                    \
+        }else if(stringEquals(reg_var, "ret_value"))                            \
+        {                                                                       \
+            argument = RET_VALUE;                                               \
+                                                                                \
+        } else                                                                  \
         {                                                                       \
             argument = INVALID_REGISTER;                                        \
                                                                                 \

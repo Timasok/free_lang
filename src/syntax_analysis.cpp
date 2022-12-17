@@ -608,6 +608,10 @@ Node * getUnarOperation()
 
         }
 
+    } else if (current_token->type == FUNC)
+    {
+        result = getFunc();
+        
     } else 
     {
         result = getVariable();

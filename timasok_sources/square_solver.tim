@@ -1,0 +1,61 @@
+def main ( )
+{
+    print_line ( ENTER , SQUArE , COEFFS ) ;
+    input ( a ) ;
+    input ( b ) ;
+    input ( c ) ;
+
+    if ( a )
+    {
+        solve_linear ( b , c ) ;
+    } else 
+    {
+        solve_square ( a , b , c ) ;
+    } ;
+
+} ;
+
+def solve_square ( a , b , c) 
+{
+    if ( b )
+    {
+
+    } else 
+    {
+        if ( (0 - c) )
+    } ;
+
+} ;
+
+def solve_linear ( a , b ) 
+{
+
+    if ( b )
+    {
+        if ( a )
+        {    
+            x = ( 0 - b ) / a ;
+            print_line ( ROOT , IS ) ;
+            print ( x ) ;
+        
+        } else
+        {   
+            print_line ( NO , ROOTS ) ;
+        } ;
+    
+    } else 
+    {
+        if ( a )
+        {
+            x = 0;
+            print_line ( ROOT , IS ) ;
+            print ( x ) ;
+
+        } else
+        {       
+            print_line ( INF , ROOTS ) ;
+        } ;
+
+    } ;
+
+} ;

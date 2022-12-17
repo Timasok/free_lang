@@ -1,4 +1,3 @@
-
 #define PRINT_ERR(...)                      \
     do                                      \
     {                                       \
@@ -56,7 +55,7 @@
     do                                                   \
     {                                                    \
         fprintf(cpuPtr->log_file, "OUT: = %g", element); \
-        printf("\e[0;32m\nOUT: = %g\e[0m\n", element);   \
+        printf("\e[0;32m%g\e[0m\n", element);   \
     } while (0)
 
 #define ARITHM_DBG(operation)                                                          \

@@ -6,8 +6,9 @@
 
 const int MAX_NUM_OF_FUNCS = 32;
 const int MAX_STACK_SIZE   = 1024;
-const int REG_CAPACITY     = 7;
+const int REG_CAPACITY     = 8;
 const int RAM_CAPACITY     = 4096;
+const int VISIBLE_RAM_AREA = 1032;
 
 const int INDEX_POISON = -1;
 const int ACCURACY = 1000;
@@ -60,7 +61,6 @@ enum Stage
 {
     CHECK_FOR_IMMED_REG,
     CHECK_FOR_MEM,
-
 };
 
 #undef DEF_CMD
