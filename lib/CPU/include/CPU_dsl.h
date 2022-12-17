@@ -29,8 +29,15 @@
 #define UNAR(operation, cpuPtr)                              \
     do                                                       \
     {                                                        \
-        stackPush(&cpuPtr->stack, operation(second_popped)); \
+        stackPush(&cpuPtr->stack, operation(first_popped)); \
                                                              \
+    } while (0)
+
+#define BINAR(operation, cpuPtr)                                            \
+    do                                                                      \
+    {                                                                       \
+        stackPush(&cpuPtr->stack, operation(second_popped, first_popped));  \
+                                                                            \
     } while (0)
 
 #define SINGLE_POP(cpuPtr, poppedPtr)                            \
@@ -51,6 +58,7 @@
         fprintf(cpuPtr->log_file, "OUT: = %g", element); \
         printf("\e[0;32m\nOUT: = %g\e[0m\n", element);   \
     } while (0)
+
 #define ARITHM_DBG(operation)                                                          \
     do                                                                                 \
     {                                                                                  \
@@ -60,15 +68,14 @@
 #define UNAR_DBG(operation)                                             \
     do                                                                  \
     {                                                                   \
-        fprintf(cpu->log_file, " %s(%g)\n", #operation, second_popped); \
+        fprintf(cpu->log_file, " %s(%g)\n", #operation, first_popped); \
     } while (0)
 
-// #define ARITHM_DBG(operation)                                                                   \
-//         do {                                                                                    \
-//                 fprintf(cpu->log_file, "%g %s %g\n", second_popped, #operation, first_popped);  \
-//                 printf("%g %s %g\n", second_popped, #operation, first_popped);                  \
-//                                                                                                 \
-//             } while (0)                                                                         \
+#define BINAR_DBG(operation)                                                              \
+    do                                                                                    \
+    {                                                                                     \
+        fprintf(cpu->log_file, " %s(%g, %g)\n", #operation, second_popped, first_popped); \
+    } while (0)
 
 #define JUMP(cpuPtr)                                                                      \
     do                                                                                    \

@@ -8,35 +8,14 @@ adr 	cmd   arg   arg2 	source
 000d	21	  20	00 		push 32
 000f	03  				add
 0010	42	  01	00 		pop rax
-0012	21	  00	00 		push 0
-0014	21	  00	00 		push 0
-0018	01	  00	00 		pop [rax+0]
-001a	21	  0a	00 		push 10
+0012	12  				in
+0014	01	  00	00 		pop [rax+0]
+0017	01	  00	00 		push [rax+0] 
+0019	21	  03	00 		push 3
+001b	1a  				POW
 001c	e2	  01	01 		pop [rax+1]
-001f	21	  0f	00 		push 15
-0025	01	  00	00 		push [rax+0]
-0028	02	  00	00 		pop [rbx+0]
-002d	e2	  02	01 		pop [rbx+1]
-0030	e1	  01	02 		push [rax+2]
-0036	0a	  40	00 		call :yo
-003a	21	  20	00 		push 32
-003c	04  				sub
-003d	42	  01	00 		pop rax
-003f	09  				ret
-0040	lb	  40	yo:
-0042	21	  20	00 		push 32
-0044	03  				add
-0045	42	  01	00 		pop rax
-0048	02	  00	00 		push [rbx+0]
-004d	e1	  02	02 		push [rbx+2]
-0053	e2	  01	01 		pop [rax+1]
-0057	01	  00	00 		pop [rax+0]
-0059	e1	  01	02 		push [rax+2]
-005c	07  				out
-0060	07  				out
-0062	01	  00	00 		push [rax+0]
-0064	07  				out
-0067	21	  20	00 		push 32
-0069	04  				sub
-006a	42	  01	00 		pop rax
-006c	09  				ret
+0022	07  				out
+0025	21	  20	00 		push 32
+0027	04  				sub
+0028	42	  01	00 		pop rax
+002a	09  				ret

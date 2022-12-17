@@ -7,6 +7,17 @@
 // #ifndef DEBUG_MODE
 // #define DBG_OUT do{}while(0)
 // #endif
+#ifdef DEBUG_MODE
+#define DBG_OUT fprintf(stderr, "Compiled nicely -line: %d file: %s func: %s\n", \
+                        __LINE__, __FILE__, __FUNCTION__)
+
+#define PARSE_ERROR(cpuPtr, condition, error_specifier) \
+    cpuPtr->code_of_error |= ((condition)&error_specifier);
+
+#endif
+#ifndef DEBUG_MODE
+#endif
+
 
 #define DBG_OUT printf("DBG at %s at %s(%d)\n", __PRETTY_FUNCTION__, __FILE__, __LINE__)
 

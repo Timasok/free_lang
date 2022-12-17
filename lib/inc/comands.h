@@ -461,7 +461,7 @@ DEF_CMD(MAKE_CIRCLE, 22, 1,
     // MAKE_CIRCLE(cpu);
 })
 
-DEF_CMD(SIN, 23, 1, {}, 
+DEF_CMD(SIN, 23, 0, {}, 
 {
     FIRST_POP(cpu);
     SECOND_POP(cpu);                
@@ -469,10 +469,28 @@ DEF_CMD(SIN, 23, 1, {},
     UNAR_DBG(sin);
 })
 
-DEF_CMD(COS, 24, 1, {}, 
+DEF_CMD(COS, 24, 0, {}, 
 {
     FIRST_POP(cpu);
     SECOND_POP(cpu);                
     UNAR( cos , cpu);
     UNAR_DBG(cos);
+})
+
+DEF_CMD(SQRT, 25, 0, {}, 
+{
+    FIRST_POP(cpu);
+    SECOND_POP(cpu);                
+    UNAR( sqrt , cpu);
+    UNAR_DBG(sqrt);
+})
+
+DEF_CMD (POW, 26, 0 , {}, 
+{
+    FIRST_POP(cpu);
+    SECOND_POP(cpu);
+    // second_popped*=ACCURACY;
+    BINAR( pow, cpu );
+    BINAR_DBG(pow);    
+    
 })

@@ -482,10 +482,11 @@ Node * getDegree()
 #endif
         while (current_token->type == OP && current_token->val.op_value == '^')
         {
+#ifdef SYNTAX_DEBUG
             printf("tokens->current = %lu\n", program_tokens->current);
             TOKEN_DUMP(program_tokens->tokens[program_tokens->current]);
             DBG_OUT;
-
+#endif
             INCREMENT_TOKENS;
             Node * tmp_result = getPolice();
 
@@ -493,8 +494,10 @@ Node * getDegree()
             result = nodeConnect(OP, value, result, tmp_result);
 
             current_token = program_tokens->tokens[program_tokens->current];
-            WHILE_VERIFY(current_token->type == OP && current_token->val.op_value == '^');
 
+#ifdef SYNTAX_DEBUG
+            WHILE_VERIFY(current_token->type == OP && current_token->val.op_value == '^');
+#endif
         }
 
     }

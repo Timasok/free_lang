@@ -1,15 +1,7 @@
 def main ( )
 {
-    x = cos ( 0 ) ;
-    y = 10 ;
-    z = 15 ;
-    
-    yo ( x , y , z ) ;
-
-} ;
-
-def yo ( x , y , z )
-{
-    print ( z , y , x ) ;
+    input ( x ) ;
+    y =  x ^ 3 ;
+    print ( y ) ;
 
 } ;
