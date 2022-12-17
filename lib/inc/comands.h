@@ -170,7 +170,7 @@ DEF_CMD (MUL, 5, 0 , {},
 {
     FIRST_POP(cpu);
     SECOND_POP(cpu);
-    second_popped/=ACCURACY;             
+    // second_popped/=ACCURACY;             
     ARITHM( * , cpu);
     ARITHM_DBG(*);
 })
@@ -179,7 +179,7 @@ DEF_CMD (DIV, 6, 0 , {},
 {
     FIRST_POP(cpu);
     SECOND_POP(cpu);
-    second_popped*=ACCURACY;
+    // second_popped*=ACCURACY;
     ARITHM( /, cpu);
     ARITHM_DBG(/);    
     

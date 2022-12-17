@@ -1,156 +1,156 @@
 
-	token 0x559d6cdcea30
+	token 0x55ec929eda30
 KEY_WORD D
 
-	token 0x559d6cdcea50
+	token 0x55ec929eda50
 VARIABLE "main"
 
-	token 0x559d6cdcea90
+	token 0x55ec929eda90
 SEPARATOR (
 
-	token 0x559d6cdceab0
+	token 0x55ec929edab0
 SEPARATOR )
 
-	token 0x559d6cdcead0
+	token 0x55ec929edad0
 SEPARATOR {
 
-	token 0x559d6cdceaf0
+	token 0x55ec929edaf0
 VARIABLE "x"
 
-	token 0x559d6cdceb30
+	token 0x55ec929edb30
 OPERATION =
 
-	token 0x559d6cdceb50
+	token 0x55ec929edb50
 OPERATION C
 
-	token 0x559d6cdceb70
+	token 0x55ec929edb70
 SEPARATOR (
 
-	token 0x559d6cdceb90
-NUMBER 5
+	token 0x55ec929edb90
+NUMBER 0
 
-	token 0x559d6cdcebb0
+	token 0x55ec929edbb0
 SEPARATOR )
 
-	token 0x559d6cdcebd0
+	token 0x55ec929edbd0
 SEPARATOR ;
 
-	token 0x559d6cdcebf0
+	token 0x55ec929edbf0
 VARIABLE "y"
 
-	token 0x559d6cdcec30
+	token 0x55ec929edc30
 OPERATION =
 
-	token 0x559d6cdcec50
+	token 0x55ec929edc50
 NUMBER 10
 
-	token 0x559d6cdcec70
+	token 0x55ec929edc70
 SEPARATOR ;
 
-	token 0x559d6cdcec90
+	token 0x55ec929edc90
 VARIABLE "z"
 
-	token 0x559d6cdcecd0
+	token 0x55ec929edcd0
 OPERATION =
 
-	token 0x559d6cdcecf0
+	token 0x55ec929edcf0
 NUMBER 15
 
-	token 0x559d6cdced10
+	token 0x55ec929edd10
 SEPARATOR ;
 
-	token 0x559d6cdced30
+	token 0x55ec929edd30
 VARIABLE "yo"
 
-	token 0x559d6cdced70
+	token 0x55ec929edd70
 SEPARATOR (
 
-	token 0x559d6cdced90
+	token 0x55ec929edd90
 VARIABLE "x"
 
-	token 0x559d6cdcedd0
+	token 0x55ec929eddd0
 SEPARATOR ,
 
-	token 0x559d6cdcedf0
+	token 0x55ec929eddf0
 VARIABLE "y"
 
-	token 0x559d6cdcee30
+	token 0x55ec929ede30
 SEPARATOR ,
 
-	token 0x559d6cdcee50
+	token 0x55ec929ede50
 VARIABLE "z"
 
-	token 0x559d6cdcee90
+	token 0x55ec929ede90
 SEPARATOR )
 
-	token 0x559d6cdceeb0
+	token 0x55ec929edeb0
 SEPARATOR ;
 
-	token 0x559d6cdceed0
+	token 0x55ec929eded0
 SEPARATOR }
 
-	token 0x559d6cdceef0
+	token 0x55ec929edef0
 SEPARATOR ;
 
-	token 0x559d6cdcef10
+	token 0x55ec929edf10
 KEY_WORD D
 
-	token 0x559d6cdcef30
+	token 0x55ec929edf30
 VARIABLE "yo"
 
-	token 0x559d6cdcef70
+	token 0x55ec929edf70
 SEPARATOR (
 
-	token 0x559d6cdcef90
+	token 0x55ec929edf90
 VARIABLE "x"
 
-	token 0x559d6cdcefd0
+	token 0x55ec929edfd0
 SEPARATOR ,
 
-	token 0x559d6cdceff0
+	token 0x55ec929edff0
 VARIABLE "y"
 
-	token 0x559d6cdcf030
+	token 0x55ec929ee030
 SEPARATOR ,
 
-	token 0x559d6cdcf050
+	token 0x55ec929ee050
 VARIABLE "z"
 
-	token 0x559d6cdcf090
+	token 0x55ec929ee090
 SEPARATOR )
 
-	token 0x559d6cdcf0b0
+	token 0x55ec929ee0b0
 SEPARATOR {
 
-	token 0x559d6cdcf0d0
+	token 0x55ec929ee0d0
 VARIABLE "print"
 
-	token 0x559d6cdcf110
+	token 0x55ec929ee110
 SEPARATOR (
 
-	token 0x559d6cdcf130
+	token 0x55ec929ee130
 VARIABLE "z"
 
-	token 0x559d6cdcf170
+	token 0x55ec929ee170
 SEPARATOR ,
 
-	token 0x559d6cdcf190
+	token 0x55ec929ee190
 VARIABLE "y"
 
-	token 0x559d6cdcf1d0
+	token 0x55ec929ee1d0
 SEPARATOR ,
 
-	token 0x559d6cdcf1f0
+	token 0x55ec929ee1f0
 VARIABLE "x"
 
-	token 0x559d6cdcf230
+	token 0x55ec929ee230
 SEPARATOR )
 
-	token 0x559d6cdcf250
+	token 0x55ec929ee250
 SEPARATOR ;
 
-	token 0x559d6cdcf270
+	token 0x55ec929ee270
 SEPARATOR }
 
-	token 0x559d6cdcf290
+	token 0x55ec929ee290
 SEPARATOR ;

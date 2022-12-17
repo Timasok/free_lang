@@ -14,163 +14,25 @@
 // #define DEBUG_MODE
 
 #ifdef DEBUG_MODE
-#define DBG_OUT fprintf(stderr, "Compiled nicely -line: %d file: %s func: %s\n",            \
-                                                __LINE__, __FILE__, __FUNCTION__)
+#define DBG_OUT fprintf(stderr, "Compiled nicely -line: %d file: %s func: %s\n", \
+                        __LINE__, __FILE__, __FUNCTION__)
 
-#define PARSE_ERROR(cpuPtr, condition, error_specifier)                                        \
-        cpuPtr->code_of_error  |= ((condition) & error_specifier);
+#define PARSE_ERROR(cpuPtr, condition, error_specifier) \
+    cpuPtr->code_of_error |= ((condition)&error_specifier);
 
 #endif
 #ifndef DEBUG_MODE
 #endif
 
-#define PRINT_ERR(...)                                                  \
-        do {                                                            \
-            fprintf(stderr,"\e[0;31mERROR: " );                         \
-            fprintf(stderr, __VA_ARGS__);                               \
-            fprintf(stderr,"\e[0m\n" );                                 \
-        } while(0)
+#include "CPU_dsl.h"
 
-
-#define FIRST_POP(cpuPtr)                                                         \
-            do {                                                                  \
-                    if (stackPop(&cpuPtr->stack, &first_popped) == EXIT_FAILURE)  \
-                    {                                                             \
-                        break;                                                    \
-                    }                                                             \
-                } while (0)
-
-#define SECOND_POP(cpuPtr)                                                        \
-            do {                                                                  \
-                    if (stackPop(&cpuPtr->stack, &second_popped) == EXIT_FAILURE) \
-                    {                                                             \
-                        break;                                                    \
-                    }                                                             \
-                } while (0)    
-
-#define ARITHM(operation, cpuPtr)                                                               \
-            do {                                                                                \
-                    stackPush(&cpuPtr->stack, (second_popped operation first_popped));          \
-                                                                                                \
-                } while (0)
-
-#define UNAR(operation, cpuPtr)                                                                \
-            do {                                                                               \
-                    stackPush(&cpuPtr->stack,  operation(second_popped));                      \
-                                                                                               \
-                } while (0)
-
-
-#define SINGLE_POP(cpuPtr, poppedPtr)                                             \
-            do {                                                                  \
-                    if (stackPop(&cpuPtr->stack, poppedPtr) == EXIT_FAILURE)      \
-                    {                                                             \
-                        break;                                                    \
-                    }                                                             \
-                } while (0)
-
-#define SINGLE_PUSH(cpuPtr, element)                                              \
-            do {                                                                  \
-                    stackPush(&cpuPtr->stack, element);                           \
-                } while (0)
-
-#define OUT(cpuPtr, element)                                                       \
-                    do {                                                           \
-                        fprintf(cpuPtr->log_file, "OUT: = %g", element);           \
-                        printf("\e[0;32m\nOUT: = %g\e[0m\n", element);             \
-                    } while (0)
-#define ARITHM_DBG(operation)                                                                   \
-        do {                                                                                    \
-                fprintf(cpu->log_file, "%g %s %g\n", second_popped, #operation, first_popped);  \
-            } while (0)            
-
-#define UNAR_DBG(operation)                                                                     \
-        do {                                                                                    \
-                fprintf(cpu->log_file, " %s(%g)\n", #operation, second_popped);                 \
-            } while (0)    
-
-// #define ARITHM_DBG(operation)                                                                   \
-//         do {                                                                                    \
-//                 fprintf(cpu->log_file, "%g %s %g\n", second_popped, #operation, first_popped);  \
-//                 printf("%g %s %g\n", second_popped, #operation, first_popped);                  \
-//                                                                                                 \
-//             } while (0)                                                                         \
-
-#define JUMP(cpuPtr)                                                                                      \
-        do {                                                                                              \
-                if (cpuPtr->code[cpuPtr->ip] < 0 || cpuPtr->code[cpuPtr->ip] >= cpuPtr->quantity)         \
-                    PRINT_ERR("LABEL POINTS OUTDOORS ip = %d", cpuPtr->ip);                               \
-                cpuPtr->ip = cpuPtr->code[cpuPtr->ip];                                                    \
-            } while (0)
-
-#define COND_JUMP(cpuPtr, condition)                                                \
-        do {                                                                        \
-                if (second_popped condition first_popped)                           \
-                {                                                                   \
-                    JUMP(cpuPtr);                                                   \
-                    /*PRINT_ERR("Condition succeded\n");  */                        \
-                } else {                                                            \
-                    /*PRINT_ERR("Condition failed\n");      */                      \
-                    cpuPtr->ip++;                                                   \
-                }                                                                   \
-            } while (0)
-
-#define CALL(cpuPtr)                                                                                \
-        do {                                                                                        \
-                if (cpuPtr->code[cpuPtr->ip] < 0 || cpuPtr->code[cpuPtr->ip] >= cpuPtr->quantity)   \
-                {                                                                                   \
-                    break;                                                                          \
-                }                                                                                   \
-                stackPush(&cpuPtr->funcs_stack, cpu->ip);                                           \
-                cpuPtr->ip = cpuPtr->code[cpuPtr->ip];                                              \
-                /*fprintf(stderr, "CALL to ip = %d\n", cpu->ip); */                                 \
-            } while (0)              
-
-//add assert
-#define RET(cpuPtr)                                                                 \
-        do {                                                                        \
-                elem_t ret_position;                                                \
-                stackPop(&cpuPtr->funcs_stack, &ret_position);                      \
-                /*fprintf(stderr, "RET to ip = %d\n", ret_position);*/              \
-                cpu->ip = ++ret_position;                                           \
-                                                                                    \
-            } while (0)   
-
-#define GRAPH(cpuPtr)                                                               \
-        do {                                                                        \
-                first_graph_index = cpuPtr->code[cpuPtr->ip++];                     \
-                                                                                    \
-                if (first_graph_index < 0 || first_graph_index > RAM_CAPACITY)      \
-                {                                                                   \
-                    printf("GRAPH_ARG_OVERFLOW!\n");                                \
-                    return -1;                                                      \
-                }                                                                   \
-                draw(cpuPtr, first_graph_index);                                    \
-            } while (0)                                                             \
-
-#define MAKE_CIRCLE(cpuPtr)                                                         \
-        do {                                                                        \
-                int radius = cpuPtr->code[cpuPtr->ip++];                            \
-                int center = first_graph_index                                      \
-                    + cpuPtr->win_size.width*((cpuPtr->win_size.height)/2 + 1);     \
-                                                                                    \
-                cpuPtr->RAM[center] = 1;                                            \
-            } while (0)                                                             \
-
-#define DUMP()                                                                     \
-        do {                                                                       \
-                PRINT_ERR("ENABLE TO CALCULATE FACTORIAL");                        \
-                                                                                   \
-            } while(0)                                                             \
-
-
-bool checkSignature(CPU_info * cpu, FILE * asm_source)
+bool checkSignature(CPU_info *cpu, FILE *asm_source)
 {
     assert(cpu != nullptr);
     assert(asm_source != nullptr);
-    fread(&cpu->signature, sizeof(int), 1, asm_source); 
+    fread(&cpu->signature, sizeof(int), 1, asm_source);
 
-    int correctSignature = 'C' + 'P'*256;
+    int correctSignature = 'C' + 'P' * 256;
 
     bool matchSignature = (correctSignature == cpu->signature);
 
@@ -178,24 +40,23 @@ bool checkSignature(CPU_info * cpu, FILE * asm_source)
         PRINT_ERR("NOT CORRECT SIGNATURE = %s\n", &(cpu->signature));
 
     return matchSignature;
-
 }
 
-int CPU_Ctor(CPU_info * cpu, FILE * asm_source)
+int CPU_Ctor(CPU_info *cpu, FILE *asm_source)
 {
     // DBG_OUT;
 
     cpu->code_of_error = 0;
 
     if (checkSignature(cpu, asm_source) == false)
-    {   
+    {
         cpu->code_of_error |= CPU_ERROR_INCORRECT_SIGNATURE;
         return EXIT_FAILURE;
-    } 
+    }
 
     // DBG_OUT;
-    fread(&cpu->quantity, sizeof(int), 1, asm_source);    
-    // DBG_OUT;    
+    fread(&cpu->quantity, sizeof(int), 1, asm_source);
+    // DBG_OUT;
     fread(&cpu->number_of_comands, sizeof(int), 1, asm_source);
     // DBG_OUT;
 
@@ -212,13 +73,12 @@ int CPU_Ctor(CPU_info * cpu, FILE * asm_source)
     return EXIT_SUCCESS;
 }
 
-#define DEF_CMD(name, num, arg, asmcode, cpucode)                            \
-    case num:                                                                \
-            cpucode                                                          \
-            break;                                                           \
+#define DEF_CMD(name, num, arg, asmcode, cpucode) \
+    case num:                                     \
+        cpucode break;
 
 int draw(CPU_info *cpu, int first_graph_index)
-{   
+{
     int counter = first_graph_index;
 
     for (int y = 1; y < cpu->win_size.height; y++)
@@ -235,16 +95,15 @@ int draw(CPU_info *cpu, int first_graph_index)
             if (cpu->RAM[counter] != 0)
             {
                 printf("■ ");
-
-            }else if (cpu->RAM[counter] == 0)
+            }
+            else if (cpu->RAM[counter] == 0)
             {
                 printf("□ ");
             }
-
         }
         printf("\n");
 
-        if (counter == RAM_CAPACITY-1)
+        if (counter == RAM_CAPACITY - 1)
         {
             break;
         }
@@ -255,44 +114,47 @@ int draw(CPU_info *cpu, int first_graph_index)
     return 0;
 }
 
-//TODO make argPtr double
+// TODO make argPtr double
 int operateArgs(CPU_info *cpu, int *argPtr)
 {
+    elem_t push = 0;
     int reg_idx = INDEX_POISON;
     int ram_idx = INDEX_POISON;
     int sum_of_reg_and_immed_value = 0;
+    bool operating_with_reg_or_ram = false;
 
     int num_of_comand = cpu->code[cpu->ip - 1];
 
     if (num_of_comand & REG_MASK)
     {
         reg_idx = cpu->code[cpu->ip++];
-        argPtr  = &cpu->Reg[reg_idx];
+        argPtr = &cpu->Reg[reg_idx];
+
+        operating_with_reg_or_ram = true;
 
         if (num_of_comand & IMMED_MASK)
         {
-            
-            sum_of_reg_and_immed_value = (cpu->Reg[reg_idx] + cpu->code[cpu->ip]);
+            sum_of_reg_and_immed_value = cpu->Reg[reg_idx]/ACCURACY + cpu->code[cpu->ip];
             argPtr = &sum_of_reg_and_immed_value;
-            
+
 #ifdef CPU_DEBUG
             printf("reg_val = %d immed_value = %d\n", cpu->Reg[reg_idx], cpu->code[cpu->ip]);
             printf("sum_of_reg_and_immed_value = %d\n", sum_of_reg_and_immed_value);
 #endif
-            
+
             cpu->ip++;
         }
 #ifdef CPU_DEBUG
         printf("*argPtr = %d\n", *argPtr);
 #endif
-    } else if (num_of_comand & IMMED_MASK)
-    {   
-        argPtr = &cpu->code[cpu->ip++];     
-        
-    } else 
+    }
+    else if (num_of_comand & IMMED_MASK)
+    {
+        argPtr = &cpu->code[cpu->ip++];
+    }
+    else
     {
         return checkPushPopForError(cpu, CHECK_FOR_IMMED_REG);
-
     }
 
     if (num_of_comand & MEM_MASK)
@@ -300,7 +162,9 @@ int operateArgs(CPU_info *cpu, int *argPtr)
         // printf("*****************************************************************************\n");
 
         // sleep(0.5);
-        
+
+        operating_with_reg_or_ram = true;
+
         ram_idx = *argPtr;
         argPtr = &cpu->RAM[ram_idx];
 #ifdef CPU_DEBUG
@@ -315,10 +179,20 @@ int operateArgs(CPU_info *cpu, int *argPtr)
 
     if ((num_of_comand & MASK_REMOVER) == CMD_PUSH)
     {
-        elem_t push = (double)(*argPtr)/ACCURACY;
+        
+        if (operating_with_reg_or_ram)
+        {
+            push = (double)(*argPtr) / ACCURACY;
+        }
+        else
+        {
+            push = *argPtr;
+        }
+
         stackPush(&cpu->stack, push);
 
-#ifdef DO_NOT_CLEAN_RAM        
+#ifdef DO_NOT_CLEAN_RAM
+        printf("pushed %g in ip = %d\n", push, cpu->ip);
         if (ram_idx != INDEX_POISON)
             cpu->RAM[ram_idx] = 0;
 #endif
@@ -326,22 +200,21 @@ int operateArgs(CPU_info *cpu, int *argPtr)
 #ifdef CPU_DEBUG
         printf("source_of pushed %d\n", (*argPtr));
         printf("pushed %g\n", push);
-                printf("\tafter = %g\n", push);
+        printf("\tafter = %g\n", push);
 #endif
-
-    }else if((num_of_comand & MASK_REMOVER) == CMD_POP)
+    }
+    else if ((num_of_comand & MASK_REMOVER) == CMD_POP)
     {
         elem_t result = 0;
         stackPop(&cpu->stack, &result);
-        int final_result = (int)(result*ACCURACY);
+        int final_result = (int)(result * ACCURACY);
         *argPtr = final_result;
 
 #ifdef CPU_DEBUG
-        printf("source_of_popped %g\n", result);
         printf("popped %d\n", final_result);
+        printf("source_of_popped %g\n", result);
         printf("\tafter = %d\n", *argPtr);
 #endif
-
     }
 
     return EXIT_SUCCESS;
@@ -360,7 +233,7 @@ int checkPushPopForError(CPU_info *cpu, Stage stage)
     //         CPU_ERROR_INCORRECT_PUSH_MASK
 
     //         break;
-    //     }    
+    //     }
     //     case CHECK_FOR_MEM:
     //     {
     //         CPU_ERROR_ACCESSING_TO_EMPTY_RAM
@@ -410,32 +283,32 @@ int checkPushPopForError(CPU_info *cpu, Stage stage)
 
 #undef DEF_CMD
 
-#define DEF_CMD(name, num, arg, asmcode, cpucode)                                \
-        case num:                                                                \
-        {                                                                        \
-            cpu->ip++;                                                           \
-                                                                                 \
-            if(num == CMD_PUSH || num == CMD_POP)                                \
-            {                                                                    \
-                operateArgs(cpu, &actual_arg);                                   \
-                                                                                 \
-            }else{                                                               \
-                cpucode                                                          \
-            }                                                                    \
-                                                                                 \
-            if (!(num == CMD_DMP || num == CMD_HLT                               \
-                                 || num == CMD_IN || num == CMD_JMP))            \
-            {                                                                    \
-                dump_CMD_CPU(cpu->ip - 1, cpu->code[cpu->ip - 2], cpu, 1);       \
-            }else                                                                \
-            {                                                                    \
-                dump_CMD_CPU(cpu->ip - 1, cpu->code[cpu->ip - 1], cpu, 0);       \
-            }                                                                    \
-            break;                                                               \
-        }                                                                        \
+#define DEF_CMD(name, num, arg, asmcode, cpucode)                                   \
+    case num:                                                                       \
+    {                                                                               \
+        cpu->ip++;                                                                  \
+                                                                                    \
+        if (num == CMD_PUSH || num == CMD_POP)                                      \
+        {                                                                           \
+            operateArgs(cpu, &actual_arg);                                          \
+        }                                                                           \
+        else                                                                        \
+        {                                                                           \
+            cpucode                                                                 \
+        }                                                                           \
+                                                                                    \
+        if (!(num == CMD_DMP || num == CMD_HLT || num == CMD_IN || num == CMD_JMP)) \
+        {                                                                           \
+            dump_CMD_CPU(cpu->ip - 1, cpu->code[cpu->ip - 2], cpu, 1);              \
+        }                                                                           \
+        else                                                                        \
+        {                                                                           \
+            dump_CMD_CPU(cpu->ip - 1, cpu->code[cpu->ip - 1], cpu, 0);              \
+        }                                                                           \
+        break;                                                                      \
+    }
 
-
-int process(CPU_info * cpu)
+int process(CPU_info *cpu)
 {
     while (cpu->ip < cpu->quantity)
     {
@@ -447,9 +320,9 @@ int process(CPU_info * cpu)
 #ifdef CPU_DEBUG
         printf("NUMBER OF PROCESSING COMAND %d ip - %d \n", num_of_comand, cpu->ip);
 #endif
-        switch(num_of_comand & MASK_REMOVER)
+        switch (num_of_comand & MASK_REMOVER)
         {
-            #include "comands.h"
+#include "comands.h"
         }
 
 #ifdef CPU_DEBUG
@@ -465,11 +338,11 @@ int process(CPU_info * cpu)
 
 #undef DEF_CMD
 
-int CPU_Dtor(CPU_info * cpu)
+int CPU_Dtor(CPU_info *cpu)
 {
     stackDtor(&cpu->stack);
     stackDtor(&cpu->funcs_stack);
-    
+
     fclose(cpu->log_file);
     free(cpu->code);
     return EXIT_SUCCESS;
