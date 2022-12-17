@@ -1,64 +1,24 @@
 
 ************************************************************
   code_of_error = 0
-  buf_length = 392
-  number_of_lines = 54
+  buf_length = 72
+  number_of_lines = 14
   buf: 
-push 128
+call :yo
 	Lines: 
-push 128
-pop rbx
-push 256
-pop rax
-call :main 
+call :yo
 hlt
 
-main:
+yo:
 
-push rax
-push 32
-add
+push 12
 pop rax
 
-push 0
+in
 pop [rax+0]
-push 1
-pop [rax+0]
-
-push 1
-pop [rbx+0]
-call :fly
-
-push rax
-push 32
-sub
-pop rax
-
-ret
-
-fly:
-
-push rax
-push 32
-add
-pop rax
-
-push [rbx+0]
-pop [rax+0]
-push [rax+0] 
-push 1000
-DIV
-pop [rax+0]
-
 push [rax+0]
 out
 
-push rax
-push 32
-sub
-pop rax
-
 ret
-
 
 ************************************************************

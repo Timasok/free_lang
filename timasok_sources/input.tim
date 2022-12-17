@@ -1,13 +1,15 @@
 def main ( )
 {
-    x = 1 ;
-
-    fly ( 1 ) ;
+    x = cos ( 5 ) ;
+    y = 10 ;
+    z = 15 ;
+    
+    yo ( x , y , z ) ;
 
 } ;
 
-def fly ( z )
+def yo ( x , y , z )
 {
-    z = z / 1000 ;
-    print ( z ) ; 
+    print ( z , y , x ) ;
+
 } ;

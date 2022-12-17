@@ -41,5 +41,6 @@ int handleFunccall(Node * func, Var variables[]);
 bool handleMacro(Node * func, Var variables[]);
 int pushArgInFuncall(Node *arg, Var variables[]);
 int handleIfElse(Node * if_node, Var variables[]);
+int handleWhile(Node * if_node, Var variables[]);
 
 #endif

@@ -15,9 +15,9 @@
 const char * def_reg = "rax";
 const char * call_reg = "rbx";
 
-
 static FILE * output_file  = 0;
 static int if_else_counter = 0;
+static int while_counter = 0;
 
 static int DefReg(def_change_mode mode)
 {
@@ -176,6 +176,10 @@ int handleLangTree(Node *node, Var variables[])
     {
         handleIfElse(node, variables);
 
+    } else if (node->type == KEY_WORD && node->value.key_value == WHILE)
+    {
+        handleWhile(node, variables);
+
     } else if(node->type == FUNC)
     {
         handleFunccall(node, variables);
@@ -241,24 +245,18 @@ int copyFromFunccallMemory(Node * func, Var variables[])
     if (number_of_vars == 0)
         return 0;
 
-    for (size_t counter = 0; counter < number_of_vars; counter++)
+    for (size_t counter = 0; counter < number_of_params; counter++)
     {
-        if (counter < number_of_params)
-        {
-            fprintf(output_file, "push [%s+%d]\n", call_reg, counter);
+        fprintf(output_file, "push [%s+%d]\n", call_reg, counter);
 
-        } else
-        {
-            fprintf(output_file, "push 0\n");
-        }
     }
 
-    for (size_t counter = number_of_vars - 1; counter != 0 ; counter--)
+    for (int counter = number_of_params - 1; counter >= 0 ; counter--)
     {
         fprintf(output_file, "pop [%s+%d]\n", def_reg, counter);
     }
 
-    fprintf(output_file, "pop [%s+0]\n", def_reg);
+    // fprintf(output_file, "pop [%s+0]\n", def_reg);
 
     return 0;
 
@@ -329,6 +327,30 @@ int handleIfElse(Node * if_node, Var variables[])
     fprintf(output_file, "endif_%d:\n", if_else_counter);  
 
     if_else_counter++;
+
+    return 0;
+
+}
+
+int handleWhile(Node * if_node, Var variables[])
+{
+    if (!if_node->r_son)
+        return 0;
+
+    fprintf(output_file, "while_%d:\n", while_counter);  
+    fprintf(output_file, "push 0\n");  
+
+    handleLangTree(if_node->l_son, variables);
+
+    fprintf(output_file, "je :end_while_%d\n", while_counter);  
+
+    handleLangTree(if_node->r_son, variables);
+
+    fprintf(output_file,"jmp :while_%d\n", while_counter);  
+
+    fprintf(output_file, "end_while_%d:\n", while_counter);  
+
+    while_counter++;
 
     return 0;
 

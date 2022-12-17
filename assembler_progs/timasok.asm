@@ -13,13 +13,21 @@ add
 pop rax
 
 push 0
+push 5
+COS
 pop [rax+0]
-push 1
-pop [rax+0]
-;calling function fly
-push 1
+push 10
+pop [rax+1]
+push 15
+pop [rax+2]
+;calling function yo
+push [rax+0]
 pop [rbx+0]
-call :fly
+push [rax+1]
+pop [rbx+1]
+push [rax+2]
+pop [rbx+2]
+call :yo
 
 push rax
 push 32
@@ -28,7 +36,7 @@ pop rax
 
 ret
 
-fly:
+yo:
 
 push rax
 push 32
@@ -36,12 +44,16 @@ add
 pop rax
 
 push [rbx+0]
-pop [rax+0]
-push [rax+0] ;z
-push 1000
-DIV
+push [rbx+1]
+push [rbx+2]
+pop [rax+2]
+pop [rax+1]
 pop [rax+0]
 ;calling function print
+push [rax+2]
+out
+push [rax+1]
+out
 push [rax+0]
 out
 

@@ -16,4 +16,6 @@ DEF_OP(SIN, 2, 'S', "sin")
 
 DEF_OP(COS, 2, 'C', "cos")
 
+DEF_OP(SQRT, 2, 'K', "sqrt")
+
 DEF_OP(ASG, 1, '=', "=")

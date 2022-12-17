@@ -189,7 +189,7 @@ DEF_CMD(OUT, 7, 0 , {},
 {
     elem_t tmp;
     SINGLE_POP(cpu, &tmp);
-    tmp /= 1000;
+    // tmp /= 1000;
     OUT(cpu, tmp);
 
 })
@@ -419,7 +419,7 @@ DEF_CMD(IN, 18, 0,  {},
     printf("\e[0;32mENTER VALUE: \e[0m");
     double tmp;
     scanf("%lf", &tmp);
-    SINGLE_PUSH(cpu, (int)(tmp*1000));
+    SINGLE_PUSH(cpu, tmp);
 })  
 
 DEF_CMD(SHOW, 19, 0, {}, 
@@ -459,4 +459,20 @@ DEF_CMD(MAKE_CIRCLE, 22, 1,
 }, 
 {
     // MAKE_CIRCLE(cpu);
+})
+
+DEF_CMD(SIN, 23, 1, {}, 
+{
+    FIRST_POP(cpu);
+    SECOND_POP(cpu);                
+    UNAR( sin , cpu);
+    UNAR_DBG(sin);
+})
+
+DEF_CMD(COS, 24, 1, {}, 
+{
+    FIRST_POP(cpu);
+    SECOND_POP(cpu);                
+    UNAR( cos , cpu);
+    UNAR_DBG(cos);
 })

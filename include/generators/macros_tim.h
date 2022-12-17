@@ -1,4 +1,4 @@
-DEF_MACRO(PRINT, "print", 
+DEF_MACRO(PRINT, "sending_this_to_my_man", 
 {
     Node * arg = func->l_son;
 
@@ -14,7 +14,7 @@ DEF_MACRO(PRINT, "print",
   
 })
 
-DEF_MACRO(INPUT, "input", 
+DEF_MACRO(INPUT, "I'm_dope", 
 {
     Node * arg = func->l_son;
 

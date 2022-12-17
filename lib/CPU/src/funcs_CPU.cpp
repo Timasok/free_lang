@@ -50,9 +50,16 @@
 
 #define ARITHM(operation, cpuPtr)                                                               \
             do {                                                                                \
-                    stackPush(&cpuPtr->stack, (second_popped operation first_popped)); \
+                    stackPush(&cpuPtr->stack, (second_popped operation first_popped));          \
                                                                                                 \
                 } while (0)
+
+#define UNAR(operation, cpuPtr)                                                                \
+            do {                                                                               \
+                    stackPush(&cpuPtr->stack,  operation(second_popped));                      \
+                                                                                               \
+                } while (0)
+
 
 #define SINGLE_POP(cpuPtr, poppedPtr)                                             \
             do {                                                                  \
@@ -76,6 +83,11 @@
         do {                                                                                    \
                 fprintf(cpu->log_file, "%g %s %g\n", second_popped, #operation, first_popped);  \
             } while (0)            
+
+#define UNAR_DBG(operation)                                                                     \
+        do {                                                                                    \
+                fprintf(cpu->log_file, " %s(%g)\n", #operation, second_popped);                 \
+            } while (0)    
 
 // #define ARITHM_DBG(operation)                                                                   \
 //         do {                                                                                    \
@@ -285,9 +297,9 @@ int operateArgs(CPU_info *cpu, int *argPtr)
 
     if (num_of_comand & MEM_MASK)
     {
-        printf("*****************************************************************************\n");
+        // printf("*****************************************************************************\n");
 
-        sleep(0.5);
+        // sleep(0.5);
         
         ram_idx = *argPtr;
         argPtr = &cpu->RAM[ram_idx];
@@ -303,7 +315,7 @@ int operateArgs(CPU_info *cpu, int *argPtr)
 
     if ((num_of_comand & MASK_REMOVER) == CMD_PUSH)
     {
-        elem_t push = (double)(*argPtr)*ACCURACY;
+        elem_t push = (double)(*argPtr)/ACCURACY;
         stackPush(&cpu->stack, push);
 
 #ifdef DO_NOT_CLEAN_RAM        
@@ -321,7 +333,7 @@ int operateArgs(CPU_info *cpu, int *argPtr)
     {
         elem_t result = 0;
         stackPop(&cpu->stack, &result);
-        int final_result = (int)(result / ACCURACY);
+        int final_result = (int)(result*ACCURACY);
         *argPtr = final_result;
 
 #ifdef CPU_DEBUG
