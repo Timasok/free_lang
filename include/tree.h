@@ -120,6 +120,7 @@ Node *createNode(Node_type type, Value value, Node *l_son, Node *r_son);
 Node *createNum(double number);
 Node *createVar(char var);
 Node *createVar(char *var_name);
+Node *createFunc(char * var_name);
 Node *createKeyWord(Key_word key_word);
 Node *createOp(Operator op);
 Node *createOp(int operation);

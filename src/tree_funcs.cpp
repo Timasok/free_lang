@@ -435,6 +435,13 @@ Node * createVar(char * var_name)
     return createNode(VAR, val, nullptr, nullptr);
 }
 
+Node * createFunc(char * var_name)
+{
+    Value val = {};
+    val.var.name = strdup(var_name);
+    return createNode(FUNC, val, nullptr, nullptr);
+}
+
 Node * createOp(Operator op)
 {
     Value val = {};

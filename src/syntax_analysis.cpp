@@ -73,10 +73,29 @@ Node * getAssignment()
         if (current_token->type == OP && current_token->val.op_value == '=')
         {
             program_tokens->current++;
-            Node * tmp_result = getExpression();
+            current_token = program_tokens->tokens[program_tokens->current];
+
+            Node * tmp_result = nullptr;
+
+#ifdef SYNTAX_DEBUG
+        TOKEN_DUMP(current_token);
+        printf("tokens->current = %lu\n", program_tokens->current);
+        IF_VERIFY(current_token->type == VAR && next_token->type == SEPARATOR && next_token->val.sep_value == '(');
+#endif
+            next_token = program_tokens->tokens[program_tokens->current + 1];
+            if (current_token->type == VAR && next_token->type == SEPARATOR && next_token->val.sep_value == '(')
+            {
+                tmp_result = getFunc();
+                // TREE_DUMP_OPTIONAL(result, "kick it");
+
+            } else
+            {
+                tmp_result = getExpression();
+            }
 
             value.op_value = ASG;
             result = nodeConnect(OP, value, result, tmp_result);
+
         }
         
     } else if (current_token->type == KEY_WORD)
@@ -608,10 +627,6 @@ Node * getUnarOperation()
 
         }
 
-    } else if (current_token->type == FUNC)
-    {
-        result = getFunc();
-        
     } else 
     {
         result = getVariable();
@@ -622,7 +637,6 @@ Node * getUnarOperation()
 
 Node * getVariable()
 {
-
     Token * current_token = program_tokens->tokens[program_tokens->current];
 
 #ifdef SYNTAX_DEBUG

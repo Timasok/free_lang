@@ -298,6 +298,9 @@ int handleASG(Node *node, Var variables[])
     if (node->r_son)
         handleLangTree(node->r_son, variables);
 
+    if (node->r_son->type == FUNC)
+        fprintf(output_file, "push %s\n", ret_reg);        
+
     var_index = getVarIndex(variables, node->l_son->value.var.name);
 
     fprintf(output_file, "pop [%s+%d]\n", def_reg, var_index);

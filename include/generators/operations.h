@@ -22,6 +22,12 @@ DEF_OP(ABS, 2, 'A', "abs")
 
 DEF_OP(EQUAlS, 1, 'e', "==")
 
-DEF_OP(ABOVE, 1, '>', ">")
+// DEF_OP(ASG, 1, '=', "<=")
+
+// DEF_OP(ASG, 1, '=', ">=")
+
+// DEF_OP(ABOVE, 1, '>', ">")
+
+DEF_OP(ABOVE, 1, '<', "<")
 
 DEF_OP(ASG, 1, '=', "=")

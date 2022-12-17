@@ -12,16 +12,31 @@ adr 	cmd   arg   arg2 	source
 0010	42	  05	00 		pop var_in_def
 0012	12  				in
 0014	05	  00	00 		pop [var_in_def+0]
-0016	21	  00	00 		push 0
-0019	05	  00	00 		push [var_in_def+0] 
-001b	21	  03	00 		push 3
-001d	04  				SUB
-001e	1b  				ABS
-001f	e2	  05	01 		pop [var_in_def+1]
-0022	e1	  05	02 		push [var_in_def+2] 
-0025	e2	  05	01 		pop [var_in_def+1]
-002b	41	  05	00 		push var_in_def
-002d	21	  20	00 		push 32
-002f	04  				sub
-0030	42	  05	00 		pop var_in_def
-0032	09  				ret
+0017	05	  00	00 		push [var_in_def+0]
+001a	06	  00	00 		pop [var_in_funccall+0]
+001c	0a	  2f	00 		call :tupok
+001e	41	  07	00 		push ret_value
+0020	e2	  05	01 		pop [var_in_def+1]
+0026	07  				out
+0027	41	  05	00 		push var_in_def
+0029	21	  20	00 		push 32
+002b	04  				sub
+002c	42	  05	00 		pop var_in_def
+002e	09  				ret
+002f	lb	  2f	tupok:
+002f	41	  05	00 		push var_in_def
+0031	21	  20	00 		push 32
+0033	03  				add
+0034	42	  05	00 		pop var_in_def
+0037	06	  00	00 		push [var_in_funccall+0]
+003a	05	  00	00 		pop [var_in_def+0]
+003d	05	  00	00 		push [var_in_def+0] 
+0041	03  				ADD
+0043	05	  00	00 		pop [var_in_def+0]
+0046	05	  00	00 		push [var_in_def+0]
+0048	42	  07	00 		pop ret_value
+004a	41	  05	00 		push var_in_def
+004c	21	  20	00 		push 32
+004e	04  				sub
+004f	42	  05	00 		pop var_in_def
+0051	09  				ret

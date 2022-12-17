@@ -1,84 +1,129 @@
 
-	token 0x55deda4d8980
+	token 0x56345debfa40
 KEY_WORD D
 
-	token 0x55deda4d89a0
+	token 0x56345debfa60
 VARIABLE "main"
 
-	token 0x55deda4d89e0
+	token 0x56345debfaa0
 SEPARATOR (
 
-	token 0x55deda4d8a00
+	token 0x56345debfac0
 SEPARATOR )
 
-	token 0x55deda4d8a20
+	token 0x56345debfae0
 SEPARATOR {
 
-	token 0x55deda4d8a40
+	token 0x56345debfb00
 VARIABLE "input"
 
-	token 0x55deda4d8a80
+	token 0x56345debfb40
 SEPARATOR (
 
-	token 0x55deda4d8aa0
+	token 0x56345debfb60
 VARIABLE "y"
 
-	token 0x55deda4d8ae0
+	token 0x56345debfba0
 SEPARATOR )
 
-	token 0x55deda4d8b00
+	token 0x56345debfbc0
 SEPARATOR ;
 
-	token 0x55deda4d8b20
+	token 0x56345debfbe0
 VARIABLE "x"
 
-	token 0x55deda4d8b60
+	token 0x56345debfc20
 OPERATION =
 
-	token 0x55deda4d8b80
-OPERATION A
+	token 0x56345debfc40
+VARIABLE "tupok"
 
-	token 0x55deda4d8ba0
+	token 0x56345debfc80
 SEPARATOR (
 
-	token 0x55deda4d8bc0
+	token 0x56345debfca0
 VARIABLE "y"
 
-	token 0x55deda4d8c00
-OPERATION -
-
-	token 0x55deda4d8c20
-NUMBER 3
-
-	token 0x55deda4d8c40
+	token 0x56345debfce0
 SEPARATOR )
 
-	token 0x55deda4d8c60
+	token 0x56345debfd00
 SEPARATOR ;
 
-	token 0x55deda4d8c80
-VARIABLE "x"
-
-	token 0x55deda4d8cc0
-OPERATION =
-
-	token 0x55deda4d8ce0
+	token 0x56345debfd20
 VARIABLE "print"
 
-	token 0x55deda4d8d20
+	token 0x56345debfd60
 SEPARATOR (
 
-	token 0x55deda4d8d40
+	token 0x56345debfd80
 VARIABLE "x"
 
-	token 0x55deda4d8d80
+	token 0x56345debfdc0
 SEPARATOR )
 
-	token 0x55deda4d8da0
+	token 0x56345debfde0
 SEPARATOR ;
 
-	token 0x55deda4d8dc0
+	token 0x56345debfe00
 SEPARATOR }
 
-	token 0x55deda4d8de0
+	token 0x56345debfe20
+SEPARATOR ;
+
+	token 0x56345debfe40
+KEY_WORD D
+
+	token 0x56345debfe60
+VARIABLE "tupok"
+
+	token 0x56345debfea0
+SEPARATOR (
+
+	token 0x56345debfec0
+VARIABLE "x"
+
+	token 0x56345debff00
+SEPARATOR )
+
+	token 0x56345debff20
+SEPARATOR {
+
+	token 0x56345debff40
+VARIABLE "x"
+
+	token 0x56345debff80
+OPERATION =
+
+	token 0x56345debffa0
+VARIABLE "x"
+
+	token 0x56345debffe0
+OPERATION +
+
+	token 0x56345dec0000
+NUMBER 1
+
+	token 0x56345dec0020
+SEPARATOR ;
+
+	token 0x56345dec0040
+VARIABLE "return"
+
+	token 0x56345dec0080
+SEPARATOR (
+
+	token 0x56345dec00a0
+VARIABLE "x"
+
+	token 0x56345dec00e0
+SEPARATOR )
+
+	token 0x56345dec0100
+SEPARATOR ;
+
+	token 0x56345dec0120
+SEPARATOR }
+
+	token 0x56345dec0140
 SEPARATOR ;

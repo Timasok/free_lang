@@ -2,8 +2,15 @@ def main ( )
 {
     input ( y ) ;
 
-    x = abs ( y - 3 ) ;
+    x = tupok ( y ) ;
 
-    x = print ( x ) ;
+    print ( x ) ;
 
+} ;
+
+def tupok ( x )
+{
+    x = x + 1 ;
+
+    return ( x ) ;
 } ;
