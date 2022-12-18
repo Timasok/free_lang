@@ -13,6 +13,8 @@ const int VAR_IN_FUNCCALL_INDEX = 1032;//14336;
 const int VAR_IN_DEF_INDEX      = 1064;//10240;
 const int SHIFT_IN_DEF          = 32;
 
+const int COMPAR                = 47;
+
 enum def_change_mode
 {
     INCREASE = 0,
@@ -44,5 +46,6 @@ bool handleMacro(Node * func, Var variables[]);
 int pushArgInFuncall(Node *arg, Var variables[]);
 int handleIfElse(Node * if_node, Var variables[]);
 int handleWhile(Node * if_node, Var variables[]);
+int handleComparision(Node * node, Var variables[]);
 
 #endif

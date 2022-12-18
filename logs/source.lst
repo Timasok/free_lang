@@ -12,31 +12,36 @@ adr 	cmd   arg   arg2 	source
 0010	42	  05	00 		pop var_in_def
 0012	12  				in
 0014	05	  00	00 		pop [var_in_def+0]
-0017	05	  00	00 		push [var_in_def+0]
-001a	06	  00	00 		pop [var_in_funccall+0]
-001c	0a	  2f	00 		call :tupok
-001e	41	  07	00 		push ret_value
-0020	e2	  05	01 		pop [var_in_def+1]
-0026	07  				out
-0027	41	  05	00 		push var_in_def
-0029	21	  20	00 		push 32
-002b	04  				sub
-002c	42	  05	00 		pop var_in_def
-002e	09  				ret
-002f	lb	  2f	tupok:
-002f	41	  05	00 		push var_in_def
-0031	21	  20	00 		push 32
-0033	03  				add
-0034	42	  05	00 		pop var_in_def
-0037	06	  00	00 		push [var_in_funccall+0]
-003a	05	  00	00 		pop [var_in_def+0]
-003d	05	  00	00 		push [var_in_def+0] 
-0041	03  				ADD
-0043	05	  00	00 		pop [var_in_def+0]
-0046	05	  00	00 		push [var_in_def+0]
-0048	42	  07	00 		pop ret_value
-004a	41	  05	00 		push var_in_def
-004c	21	  20	00 		push 32
-004e	04  				sub
-004f	42	  05	00 		pop var_in_def
-0051	09  				ret
+0016	21	  00	00 		push 0
+0018	1c  				clean
+001a	05	  00	00 		push [var_in_def+0] 
+001c	21	  00	00 		push 0
+001e	0d	  4b	00 		jbe :else_0
+0020	21	  20	00 		push 32
+0022	21	  21	00 		push 33
+0024	21	  20	00 		push 32
+0026	21	  4e	00 		push 78
+0028	21	  4f	00 		push 79
+002a	21	  57	00 		push 87
+002c	21	  20	00 		push 32
+002e	21	  55	00 		push 85
+0030	21	  4f	00 		push 79
+0032	21	  59	00 		push 89
+0034	a2	  00	00 		pop [0]
+0036	a2	  01	00 		pop [1]
+003a	a2	  03	00 		pop [3]
+003c	a2	  04	00 		pop [4]
+003e	a2	  05	00 		pop [5]
+0040	a2	  06	00 		pop [6]
+0042	a2	  07	00 		pop [7]
+0044	a2	  08	00 		pop [8]
+0046	a2	  09	00 		pop [9]
+0048	13  				show
+0049	0b	  4b	00 		jmp :endif_0
+004b	lb	  4b	else_0:
+004b	lb	  4b	endif_0:
+004b	41	  05	00 		push var_in_def
+004d	21	  20	00 		push 32
+004f	04  				sub
+0050	42	  05	00 		pop var_in_def
+0052	09  				ret

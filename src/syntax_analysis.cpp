@@ -380,6 +380,91 @@ Node * getBlock()
 
 Node * getExpression()
 {
+    Node * result = getComparison();
+
+    if (!checkTokensForEnd(program_tokens))
+    {
+        Value value = {};
+        Token * current_token = program_tokens->tokens[program_tokens->current];
+
+#ifdef SYNTAX_DEBUG
+        TOKEN_DUMP(current_token);
+        printf("tokens->current = %lu\n", program_tokens->current);
+        WHILE_VERIFY(current_token->type == OP && (current_token->val.op_value == '+' || current_token->val.op_value == '-'));
+#endif
+
+        while (current_token->type == OP && (current_token->val.op_value == '>' || current_token->val.op_value == '<' 
+        || current_token->val.op_value == EQUAlS || current_token->val.op_value == BELOW_OR_EQUALS 
+        || current_token->val.op_value == ABOVE_OR_EQUALS))
+        {
+            INCREMENT_TOKENS;
+            
+            Node * tmp_result = getComparison();
+
+#ifdef SYNTAX_DEBUG
+            IF_VERIFY(current_token->val.op_value == '+');
+#endif
+            switch(current_token->val.op_value)
+            {
+                case EQUAlS:
+                {
+                    value.op_value = EQUAlS;
+                    result = nodeConnect(OP, value, result, tmp_result);
+                    break;
+                }
+                case NOT_EQUAlS:
+                {
+                    value.op_value = NOT_EQUAlS;
+                    result = nodeConnect(OP, value, result, tmp_result);
+                    break;
+                }
+                case BELOW_OR_EQUALS:
+                {
+                    value.op_value = BELOW_OR_EQUALS;
+                    result = nodeConnect(OP, value, result, tmp_result);
+                    break;
+                }
+                case ABOVE_OR_EQUALS:
+                {
+                    value.op_value = ABOVE_OR_EQUALS;
+                    result = nodeConnect(OP, value, result, tmp_result);
+                    break;
+                }
+                case BELOW:
+                {
+                    value.op_value = BELOW;
+                    result = nodeConnect(OP, value, result, tmp_result);
+                    break; 
+                }
+                case ABOVE:
+                {
+                    value.op_value = ABOVE;
+                    result = nodeConnect(OP, value, result, tmp_result);
+                    break;
+                }
+            };
+
+            current_token = program_tokens->tokens[program_tokens->current];
+
+#ifdef SYNTAX_DEBUG
+            WHILE_VERIFY(current_token->type == OP && (current_token->val.op_value == '+' || current_token->val.op_value == '-'));
+#endif
+        
+        
+        }
+    }
+
+#ifdef SYNTAX_DEBUG
+    dumpExpNode(result);
+#endif
+
+    // TREE_DUMP_OPTIONAL(result, "where all crushes");
+
+    return result;
+}
+
+Node * getComparison()
+{
     Node * result = getTerm();
 
     if (!checkTokensForEnd(program_tokens))
@@ -419,8 +504,6 @@ Node * getExpression()
 #ifdef SYNTAX_DEBUG
             WHILE_VERIFY(current_token->type == OP && (current_token->val.op_value == '+' || current_token->val.op_value == '-'));
 #endif
-        
-        
         }
     }
 
@@ -431,6 +514,7 @@ Node * getExpression()
     // TREE_DUMP_OPTIONAL(result, "where all crushes");
 
     return result;
+
 }
 
 Node * getTerm()

@@ -169,8 +169,7 @@ DEF_CMD (SUB, 4, 0 , {},
 DEF_CMD (MUL, 5, 0 , {},  
 {
     FIRST_POP(cpu);
-    SECOND_POP(cpu);
-    // second_popped/=ACCURACY;             
+    SECOND_POP(cpu);         
     ARITHM( * , cpu);
     ARITHM_DBG(*);
 })
@@ -179,7 +178,6 @@ DEF_CMD (DIV, 6, 0 , {},
 {
     FIRST_POP(cpu);
     SECOND_POP(cpu);
-    // second_popped*=ACCURACY;
     ARITHM( /, cpu);
     ARITHM_DBG(/);    
     
@@ -189,7 +187,6 @@ DEF_CMD(OUT, 7, 0 , {},
 {
     elem_t tmp;
     SINGLE_POP(cpu, &tmp);
-    // tmp /= 1000;
     OUT(cpu, tmp);
 
 })
@@ -214,7 +211,6 @@ DEF_CMD(CALL, 10 , 1,
     {
         output->compile_once *= 0;
          
-          
         // assert((strchr(arg_string, ':') + 1) != NULL);
         sscanf(strchr(arg_string, ':'), " :%s", label_name);        
          
@@ -239,7 +235,6 @@ DEF_CMD(JMP, 11 , 1,
     if (strchr(arg_string, ':') != nullptr)
     {
         output->compile_once *= 0;
-         
 
         sscanf(strchr(arg_string, ':'), " :%s", label_name);        
 
@@ -292,7 +287,6 @@ DEF_CMD(JBE, 13 , 1,
     {
         output->compile_once *= 0;
          
-          
         // assert((strchr(arg_string, ':') + 1) != NULL);
         sscanf(strchr(arg_string, ':'), " :%s", label_name);        
          
@@ -366,8 +360,7 @@ DEF_CMD(JE, 16, 1,
 {
     if (strchr(arg_string, ':') != nullptr)
     {
-        output->compile_once *= 0;
-         
+        output->compile_once *= 0;     
           
         // assert((strchr(arg_string, ':') + 1) != NULL);
         sscanf(strchr(arg_string, ':'), " :%s", label_name);        
@@ -394,7 +387,6 @@ DEF_CMD(JNE, 17 , 1,
     {
         output->compile_once *= 0;
           
-
         // assert((strchr(arg_string, ':') + 1) != NULL);
         sscanf(strchr(arg_string, ':'), " :%s", label_name);        
          
@@ -424,7 +416,6 @@ DEF_CMD(IN, 18, 0,  {},
 
 DEF_CMD(SHOW, 19, 0, {}, 
 {
-    
     for (int counter = 0; counter < VISIBLE_RAM_AREA; counter++)
     {
         if (cpu->RAM[counter] != 0)
@@ -501,7 +492,16 @@ DEF_CMD (POW, 26, 0 , {},
 DEF_CMD(ABS, 27, 0, {}, 
 {
     FIRST_POP(cpu);
-    SECOND_POP(cpu);                
+    SECOND_POP(cpu);
     UNAR( abs , cpu);
     UNAR_DBG(abs);
+})
+
+DEF_CMD(CLEAN, 28, 0, {}, 
+{
+    while (cpu->stack.size != 0)
+    {
+        elem_t tmp = 0;
+        stackPop(&cpu->stack, &tmp);
+    }
 })

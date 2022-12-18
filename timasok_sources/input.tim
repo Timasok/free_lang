@@ -2,15 +2,9 @@ def main ( )
 {
     input ( y ) ;
 
-    x = tupok ( y ) ;
+    if ( y > 0 )
+    {
+        print_line ( YOU , WON , ! ) ;
+    } ;
 
-    print ( x ) ;
-
-} ;
-
-def tupok ( x )
-{
-    x = x + 1 ;
-
-    return ( x ) ;
 } ;

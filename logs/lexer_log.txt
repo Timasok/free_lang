@@ -1,129 +1,90 @@
 
-	token 0x56345debfa40
+	token 0x55a30200d9d0
 KEY_WORD D
 
-	token 0x56345debfa60
+	token 0x55a30200d9f0
 VARIABLE "main"
 
-	token 0x56345debfaa0
+	token 0x55a30200da30
 SEPARATOR (
 
-	token 0x56345debfac0
+	token 0x55a30200da50
 SEPARATOR )
 
-	token 0x56345debfae0
+	token 0x55a30200da70
 SEPARATOR {
 
-	token 0x56345debfb00
+	token 0x55a30200da90
 VARIABLE "input"
 
-	token 0x56345debfb40
+	token 0x55a30200dad0
 SEPARATOR (
 
-	token 0x56345debfb60
+	token 0x55a30200daf0
 VARIABLE "y"
 
-	token 0x56345debfba0
+	token 0x55a30200db30
 SEPARATOR )
 
-	token 0x56345debfbc0
+	token 0x55a30200db50
 SEPARATOR ;
 
-	token 0x56345debfbe0
-VARIABLE "x"
+	token 0x55a30200db70
+KEY_WORD I
 
-	token 0x56345debfc20
-OPERATION =
-
-	token 0x56345debfc40
-VARIABLE "tupok"
-
-	token 0x56345debfc80
+	token 0x55a30200db90
 SEPARATOR (
 
-	token 0x56345debfca0
+	token 0x55a30200dbb0
 VARIABLE "y"
 
-	token 0x56345debfce0
+	token 0x55a30200dbf0
+OPERATION >
+
+	token 0x55a30200dc10
+NUMBER 0
+
+	token 0x55a30200dc30
 SEPARATOR )
 
-	token 0x56345debfd00
-SEPARATOR ;
-
-	token 0x56345debfd20
-VARIABLE "print"
-
-	token 0x56345debfd60
-SEPARATOR (
-
-	token 0x56345debfd80
-VARIABLE "x"
-
-	token 0x56345debfdc0
-SEPARATOR )
-
-	token 0x56345debfde0
-SEPARATOR ;
-
-	token 0x56345debfe00
-SEPARATOR }
-
-	token 0x56345debfe20
-SEPARATOR ;
-
-	token 0x56345debfe40
-KEY_WORD D
-
-	token 0x56345debfe60
-VARIABLE "tupok"
-
-	token 0x56345debfea0
-SEPARATOR (
-
-	token 0x56345debfec0
-VARIABLE "x"
-
-	token 0x56345debff00
-SEPARATOR )
-
-	token 0x56345debff20
+	token 0x55a30200dc50
 SEPARATOR {
 
-	token 0x56345debff40
-VARIABLE "x"
+	token 0x55a30200dc70
+VARIABLE "print_line"
 
-	token 0x56345debff80
-OPERATION =
-
-	token 0x56345debffa0
-VARIABLE "x"
-
-	token 0x56345debffe0
-OPERATION +
-
-	token 0x56345dec0000
-NUMBER 1
-
-	token 0x56345dec0020
-SEPARATOR ;
-
-	token 0x56345dec0040
-VARIABLE "return"
-
-	token 0x56345dec0080
+	token 0x55a30200dcb0
 SEPARATOR (
 
-	token 0x56345dec00a0
-VARIABLE "x"
+	token 0x55a30200dcd0
+VARIABLE "YOU"
 
-	token 0x56345dec00e0
+	token 0x55a30200dd10
+SEPARATOR ,
+
+	token 0x55a30200dd30
+VARIABLE "WON"
+
+	token 0x55a30200dd70
+SEPARATOR ,
+
+	token 0x55a30200dd90
+VARIABLE "!"
+
+	token 0x55a30200ddd0
 SEPARATOR )
 
-	token 0x56345dec0100
+	token 0x55a30200ddf0
 SEPARATOR ;
 
-	token 0x56345dec0120
+	token 0x55a30200de10
 SEPARATOR }
 
-	token 0x56345dec0140
+	token 0x55a30200de30
+SEPARATOR ;
+
+	token 0x55a30200de50
+SEPARATOR }
+
+	token 0x55a30200de70
 SEPARATOR ;

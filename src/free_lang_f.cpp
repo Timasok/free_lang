@@ -172,6 +172,10 @@ int handleLangTree(Node *node, Var variables[])
     {
         var_index = handleASG(node, variables);
     
+    } else if (getPriority(node) == ASG_PRIORITY)
+    {
+        return COMPAR;
+
     } else if (node->type == KEY_WORD && node->value.key_value == IF)
     {
         handleIfElse(node, variables);
@@ -308,6 +312,51 @@ int handleASG(Node *node, Var variables[])
     return var_index;
 }
 
+int handleComparision(Node * node, Var variables[])
+{
+    if (node->l_son)
+        handleLangTree(node->l_son, variables);
+
+    if (node->r_son)
+        handleLangTree(node->r_son, variables);
+
+    switch(node->value.op_value)
+    {
+        case EQUAlS:
+        {
+            fprintf(output_file, "jne");
+            break;
+        }
+        case NOT_EQUAlS:
+        {
+            fprintf(output_file, "je");
+            break;
+        }
+        case BELOW_OR_EQUALS:
+        {
+            fprintf(output_file, "ja");
+            break;
+        }
+        case ABOVE_OR_EQUALS:
+        {
+            fprintf(output_file, "jb");
+            break;
+        }
+        case BELOW:
+        {
+            fprintf(output_file, "jae");
+            break;
+        }
+        case ABOVE:
+        {
+            fprintf(output_file, "jbe");
+            break;
+        }
+    };
+
+    return 0;
+}
+
 int handleIfElse(Node * if_node, Var variables[])
 {
     if (!if_node->r_son)
@@ -318,9 +367,17 @@ int handleIfElse(Node * if_node, Var variables[])
 
     fprintf(output_file, "push 0\n");  
 
-    handleLangTree(if_node->l_son, variables);
+    if ( handleLangTree(if_node->l_son, variables) == COMPAR )
+    {
+        fprintf(output_file, "clean\n"); 
+        handleComparision(if_node->l_son, variables);
 
-    fprintf(output_file, "je :else_%d\n", current_if_else);  
+    } else
+    {
+        fprintf(output_file, "je");
+    }
+
+    fprintf(output_file, " :else_%d\n", current_if_else);  
 
     handleLangTree(if_node->r_son->l_son, variables);
 
@@ -348,9 +405,17 @@ int handleWhile(Node * if_node, Var variables[])
     fprintf(output_file, "while_%d:\n", current_while);  
     fprintf(output_file, "push 0\n");  
 
-    handleLangTree(if_node->l_son, variables);
+    if ( handleLangTree(if_node->l_son, variables) == COMPAR )
+    {
+        fprintf(output_file, "clean\n"); 
+        handleComparision(if_node->l_son, variables);
 
-    fprintf(output_file, "je :end_while_%d\n", current_while);  
+    } else
+    {
+        fprintf(output_file, "je");
+    }
+
+    fprintf(output_file, " :end_while_%d\n", current_while);  
 
     handleLangTree(if_node->r_son, variables);
 

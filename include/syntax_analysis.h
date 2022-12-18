@@ -6,6 +6,7 @@
 
 Node * getGeneral       (Program_tokens * tokens);
 Node * getExpression    ();
+Node * getComparison    ();
 Node * getTerm          ();
 Node * getDegree        ();
 Node * getPolice        ();
