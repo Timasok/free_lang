@@ -68,7 +68,7 @@ Translation_result translateLanguage(const char *input_file_name, const char *ou
 
     programTokensDtor(&program_tokens);
     
-    TREE_DUMP_OPTIONAL(main_node, "initial tree"); 
+    // TREE_DUMP_OPTIONAL(main_node, "initial tree"); 
 
     output_file = fopen(output_file_name, "w+");
 

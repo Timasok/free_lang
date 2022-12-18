@@ -1,10 +1,10 @@
 def main ( )
 {
-    input ( y ) ;
+    input ( x ) ;
 
-    if ( y > 0 )
+    if ( x > 1 )
     {
-        print_line ( YOU , WON , ! ) ;
+        print_line ( OH , YES , ! ) ;
     } ;
 
 } ;

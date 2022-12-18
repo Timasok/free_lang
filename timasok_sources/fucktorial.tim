@@ -1,0 +1,27 @@
+def main ( )
+{
+    print_line ( ENTER , NUMBER ) ;
+    input ( n ) ;
+
+    fuck = fucktorial ( n ) ;
+
+    print_line ( FACTORIAL , OF ) ;
+    print ( n ) ;
+    print_line ( EQUALS ) ;
+    print ( fuck ) ;
+
+} ;
+
+def fucktorial ( n )
+{
+    res = n ;
+
+    if ( n > 1 )
+    {
+        y = n - 1 ;
+        tmp = fucktorial ( y ) ; 
+        res = res * tmp ;    
+    } ;
+
+    return ( res ) ;
+} ;

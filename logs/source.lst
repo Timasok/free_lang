@@ -10,38 +10,303 @@ adr 	cmd   arg   arg2 	source
 000d	21	  20	00 		push 32
 000f	03  				add
 0010	42	  05	00 		pop var_in_def
-0012	12  				in
-0014	05	  00	00 		pop [var_in_def+0]
-0016	21	  00	00 		push 0
-0018	1c  				clean
-001a	05	  00	00 		push [var_in_def+0] 
-001c	21	  00	00 		push 0
-001e	0d	  4b	00 		jbe :else_0
+0012	21	  20	00 		push 32
+0014	21	  53	00 		push 83
+0016	21	  46	00 		push 70
+0018	21	  46	00 		push 70
+001a	21	  45	00 		push 69
+001c	21	  4f	00 		push 79
+001e	21	  43	00 		push 67
 0020	21	  20	00 		push 32
-0022	21	  21	00 		push 33
-0024	21	  20	00 		push 32
-0026	21	  4e	00 		push 78
-0028	21	  4f	00 		push 79
-002a	21	  57	00 		push 87
-002c	21	  20	00 		push 32
-002e	21	  55	00 		push 85
-0030	21	  4f	00 		push 79
-0032	21	  59	00 		push 89
-0034	a2	  00	00 		pop [0]
-0036	a2	  01	00 		pop [1]
-003a	a2	  03	00 		pop [3]
-003c	a2	  04	00 		pop [4]
-003e	a2	  05	00 		pop [5]
-0040	a2	  06	00 		pop [6]
-0042	a2	  07	00 		pop [7]
-0044	a2	  08	00 		pop [8]
-0046	a2	  09	00 		pop [9]
-0048	13  				show
-0049	0b	  4b	00 		jmp :endif_0
-004b	lb	  4b	else_0:
-004b	lb	  4b	endif_0:
-004b	41	  05	00 		push var_in_def
-004d	21	  20	00 		push 32
-004f	04  				sub
-0050	42	  05	00 		pop var_in_def
-0052	09  				ret
+0022	21	  45	00 		push 69
+0024	21	  52	00 		push 82
+0026	21	  41	00 		push 65
+0028	21	  55	00 		push 85
+002a	21	  51	00 		push 81
+002c	21	  53	00 		push 83
+002e	21	  20	00 		push 32
+0030	21	  52	00 		push 82
+0032	21	  45	00 		push 69
+0034	21	  54	00 		push 84
+0036	21	  4e	00 		push 78
+0038	21	  45	00 		push 69
+003a	a2	  00	00 		pop [0]
+003c	a2	  01	00 		pop [1]
+0040	a2	  03	00 		pop [3]
+0042	a2	  04	00 		pop [4]
+0044	a2	  05	00 		pop [5]
+0046	a2	  06	00 		pop [6]
+0048	a2	  07	00 		pop [7]
+004a	a2	  08	00 		pop [8]
+004c	a2	  09	00 		pop [9]
+004e	a2	  0a	00 		pop [10]
+0050	a2	  0b	00 		pop [11]
+0052	a2	  0c	00 		pop [12]
+0054	a2	  0d	00 		pop [13]
+0056	a2	  0e	00 		pop [14]
+0058	a2	  0f	00 		pop [15]
+005a	a2	  10	00 		pop [16]
+005c	a2	  11	00 		pop [17]
+005e	a2	  12	00 		pop [18]
+0060	a2	  13	00 		pop [19]
+0062	13  				show
+0063	12  				in
+0064	e2	  05	03 		pop [var_in_def+3]
+0067	12  				in
+0068	e2	  05	04 		pop [var_in_def+4]
+006b	12  				in
+006c	e2	  05	05 		pop [var_in_def+5]
+006f	21	  00	00 		push 0
+0071	e1	  05	03 		push [var_in_def+3] 
+0074	10	  8c	00 		je :else_0
+0076	e1	  05	03 		push [var_in_def+3]
+007a	06	  00	00 		pop [var_in_funccall+0]
+007c	e1	  05	04 		push [var_in_def+4]
+007f	e2	  06	01 		pop [var_in_funccall+1]
+0082	e1	  05	05 		push [var_in_def+5]
+0088	0a	  a2	00 		call :solve_square
+008a	0b	  9a	00 		jmp :endif_0
+008c	lb	  8c	else_0:
+008c	e1	  05	04 		push [var_in_def+4]
+0090	06	  00	00 		pop [var_in_funccall+0]
+0092	e1	  05	05 		push [var_in_def+5]
+0095	e2	  06	01 		pop [var_in_funccall+1]
+0098	0a	  1a3	00 		call :solve_linear
+009a	lb	  9a	endif_0:
+009a	41	  05	00 		push var_in_def
+009c	21	  20	00 		push 32
+009e	04  				sub
+009f	42	  05	00 		pop var_in_def
+00a1	09  				ret
+00a2	lb	  a2	solve_square:
+00a2	41	  05	00 		push var_in_def
+00a4	21	  20	00 		push 32
+00a6	03  				add
+00a7	42	  05	00 		pop var_in_def
+00aa	06	  00	00 		push [var_in_funccall+0]
+00af	e1	  06	02 		push [var_in_funccall+2]
+00b5	e2	  05	01 		pop [var_in_def+1]
+00b9	05	  00	00 		pop [var_in_def+0]
+00c1	05  				MUL
+00c2	21	  04	00 		push 4
+00c5	05	  00	00 		push [var_in_def+0] 
+00c7	05  				MUL
+00c8	e1	  05	02 		push [var_in_def+2] 
+00cb	05  				MUL
+00cc	04  				SUB
+00cd	e2	  05	03 		pop [var_in_def+3]
+00d0	21	  00	00 		push 0
+00d2	e1	  05	03 		push [var_in_def+3] 
+00d5	10	  166	00 		je :else_1
+00d7	21	  00	00 		push 0
+00d9	1c  				clean
+00da	e1	  05	03 		push [var_in_def+3] 
+00dd	21	  00	00 		push 0
+00df	0d	  13f	00 		jbe :else_2
+00e1	21	  00	00 		push 0
+00e3	e1	  05	03 		push [var_in_def+3] 
+00e6	19  				SQRT
+00ea	04  				SUB
+00eb	21	  02	00 		push 2
+00ee	05	  00	00 		push [var_in_def+0] 
+00f0	05  				MUL
+00f1	06  				DIV
+00f2	e2	  05	04 		pop [var_in_def+4]
+00f5	21	  00	00 		push 0
+00f7	21	  00	00 		push 0
+00f9	e1	  05	03 		push [var_in_def+3] 
+00fc	19  				SQRT
+00fd	04  				SUB
+0101	04  				SUB
+0102	21	  02	00 		push 2
+0105	05	  00	00 		push [var_in_def+0] 
+0107	05  				MUL
+0108	06  				DIV
+0109	e2	  05	05 		pop [var_in_def+5]
+010c	21	  20	00 		push 32
+010e	21	  45	00 		push 69
+0110	21	  52	00 		push 82
+0112	21	  41	00 		push 65
+0114	21	  20	00 		push 32
+0116	21	  53	00 		push 83
+0118	21	  54	00 		push 84
+011a	21	  4f	00 		push 79
+011c	21	  4f	00 		push 79
+011e	21	  52	00 		push 82
+0120	a2	  00	00 		pop [0]
+0122	a2	  01	00 		pop [1]
+0126	a2	  03	00 		pop [3]
+0128	a2	  04	00 		pop [4]
+012a	a2	  05	00 		pop [5]
+012c	a2	  06	00 		pop [6]
+012e	a2	  07	00 		pop [7]
+0130	a2	  08	00 		pop [8]
+0132	a2	  09	00 		pop [9]
+0134	13  				show
+0135	e1	  05	04 		push [var_in_def+4]
+0138	07  				out
+0139	e1	  05	05 		push [var_in_def+5]
+013c	07  				out
+013d	0b	  164	00 		jmp :endif_2
+013f	lb	  13f	else_2:
+013f	21	  20	00 		push 32
+0141	21	  53	00 		push 83
+0143	21	  54	00 		push 84
+0145	21	  4f	00 		push 79
+0147	21	  4f	00 		push 79
+0149	21	  52	00 		push 82
+014b	21	  20	00 		push 32
+014d	21	  4f	00 		push 79
+014f	21	  4e	00 		push 78
+0151	a2	  00	00 		pop [0]
+0153	a2	  01	00 		pop [1]
+0157	a2	  03	00 		pop [3]
+0159	a2	  04	00 		pop [4]
+015b	a2	  05	00 		pop [5]
+015d	a2	  06	00 		pop [6]
+015f	a2	  07	00 		pop [7]
+0161	a2	  08	00 		pop [8]
+0163	13  				show
+0164	lb	  164	endif_2:
+0164	0b	  19b	00 		jmp :endif_1
+0166	lb	  166	else_1:
+0166	21	  00	00 		push 0
+016b	04  				SUB
+016c	21	  02	00 		push 2
+016f	05	  00	00 		push [var_in_def+0] 
+0171	05  				MUL
+0172	06  				DIV
+0173	e2	  05	0a 		pop [var_in_def+10]
+0176	21	  20	00 		push 32
+0178	21	  53	00 		push 83
+017a	21	  49	00 		push 73
+017c	21	  20	00 		push 32
+017e	21	  54	00 		push 84
+0180	21	  4f	00 		push 79
+0182	21	  4f	00 		push 79
+0184	21	  52	00 		push 82
+0186	a2	  00	00 		pop [0]
+0188	a2	  01	00 		pop [1]
+018c	a2	  03	00 		pop [3]
+018e	a2	  04	00 		pop [4]
+0190	a2	  05	00 		pop [5]
+0192	a2	  06	00 		pop [6]
+0194	a2	  07	00 		pop [7]
+0196	13  				show
+0197	e1	  05	0a 		push [var_in_def+10]
+019a	07  				out
+019b	lb	  19b	endif_1:
+019b	41	  05	00 		push var_in_def
+019d	21	  20	00 		push 32
+019f	04  				sub
+01a0	42	  05	00 		pop var_in_def
+01a2	09  				ret
+01a3	lb	  1a3	solve_linear:
+01a3	41	  05	00 		push var_in_def
+01a5	21	  20	00 		push 32
+01a7	03  				add
+01a8	42	  05	00 		pop var_in_def
+01ab	06	  00	00 		push [var_in_funccall+0]
+01b0	e2	  05	01 		pop [var_in_def+1]
+01b4	05	  00	00 		pop [var_in_def+0]
+01b6	21	  00	00 		push 0
+01bb	10	  21f	00 		je :else_3
+01bd	21	  00	00 		push 0
+01c0	05	  00	00 		push [var_in_def+0] 
+01c2	10	  1f8	00 		je :else_4
+01c4	21	  00	00 		push 0
+01c9	04  				SUB
+01cb	05	  00	00 		push [var_in_def+0] 
+01cd	06  				DIV
+01d1	21	  20	00 		push 32
+01d3	21	  53	00 		push 83
+01d5	21	  49	00 		push 73
+01d7	21	  20	00 		push 32
+01d9	21	  54	00 		push 84
+01db	21	  4f	00 		push 79
+01dd	21	  4f	00 		push 79
+01df	21	  52	00 		push 82
+01e1	a2	  00	00 		pop [0]
+01e3	a2	  01	00 		pop [1]
+01e7	a2	  03	00 		pop [3]
+01e9	a2	  04	00 		pop [4]
+01eb	a2	  05	00 		pop [5]
+01ed	a2	  06	00 		pop [6]
+01ef	a2	  07	00 		pop [7]
+01f1	13  				show
+01f2	e1	  05	02 		push [var_in_def+2]
+01f5	07  				out
+01f6	0b	  21d	00 		jmp :endif_4
+01f8	lb	  1f8	else_4:
+01f8	21	  20	00 		push 32
+01fa	21	  53	00 		push 83
+01fc	21	  54	00 		push 84
+01fe	21	  4f	00 		push 79
+0200	21	  4f	00 		push 79
+0202	21	  52	00 		push 82
+0204	21	  20	00 		push 32
+0206	21	  4f	00 		push 79
+0208	21	  4e	00 		push 78
+020a	a2	  00	00 		pop [0]
+020c	a2	  01	00 		pop [1]
+0210	a2	  03	00 		pop [3]
+0212	a2	  04	00 		pop [4]
+0214	a2	  05	00 		pop [5]
+0216	a2	  06	00 		pop [6]
+0218	a2	  07	00 		pop [7]
+021a	a2	  08	00 		pop [8]
+021c	13  				show
+021d	lb	  21d	endif_4:
+021d	0b	  27b	00 		jmp :endif_3
+021f	lb	  21f	else_3:
+021f	21	  00	00 		push 0
+0222	05	  00	00 		push [var_in_def+0] 
+0224	10	  252	00 		je :else_5
+0226	21	  00	00 		push 0
+022b	21	  20	00 		push 32
+022d	21	  53	00 		push 83
+022f	21	  49	00 		push 73
+0231	21	  20	00 		push 32
+0233	21	  54	00 		push 84
+0235	21	  4f	00 		push 79
+0237	21	  4f	00 		push 79
+0239	21	  52	00 		push 82
+023b	a2	  00	00 		pop [0]
+023d	a2	  01	00 		pop [1]
+0241	a2	  03	00 		pop [3]
+0243	a2	  04	00 		pop [4]
+0245	a2	  05	00 		pop [5]
+0247	a2	  06	00 		pop [6]
+0249	a2	  07	00 		pop [7]
+024b	13  				show
+024c	e1	  05	02 		push [var_in_def+2]
+024f	07  				out
+0250	0b	  27b	00 		jmp :endif_5
+0252	lb	  252	else_5:
+0252	21	  20	00 		push 32
+0254	21	  53	00 		push 83
+0256	21	  54	00 		push 84
+0258	21	  4f	00 		push 79
+025a	21	  4f	00 		push 79
+025c	21	  52	00 		push 82
+025e	21	  20	00 		push 32
+0260	21	  46	00 		push 70
+0262	21	  4e	00 		push 78
+0264	21	  49	00 		push 73
+0266	a2	  00	00 		pop [0]
+0268	a2	  01	00 		pop [1]
+026c	a2	  03	00 		pop [3]
+026e	a2	  04	00 		pop [4]
+0270	a2	  05	00 		pop [5]
+0272	a2	  06	00 		pop [6]
+0274	a2	  07	00 		pop [7]
+0276	a2	  08	00 		pop [8]
+0278	a2	  09	00 		pop [9]
+027a	13  				show
+027b	lb	  27b	endif_5:
+027b	lb	  27b	endif_3:
+027b	41	  05	00 		push var_in_def
+027d	21	  20	00 		push 32
+027f	04  				sub
+0280	42	  05	00 		pop var_in_def
+0282	09  				ret

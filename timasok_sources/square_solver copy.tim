@@ -1,0 +1,104 @@
+def main ( )
+{
+    print_line ( ENTER , SQUARE , COEFFS ) ;
+    input ( a ) ;
+    input ( b ) ;
+    input ( c ) ;
+
+    if ( a )
+    {
+        solve_square ( a , b , c ) ;
+    
+    } else 
+    {
+    
+        solve_linear ( b , c ) ;
+    } ;
+
+} ;
+
+def solve_square ( a , b , c ) 
+{
+    if ( b )
+    {
+        D = b * b - 4 * a * c ;
+
+        if ( D )
+        {
+            if ( D > 0 )
+            {
+                x_1 = ( sqrt ( D ) - b ) / ( 2 * a ) ;
+                x_2 = ( 0 - sqrt ( D ) - b ) / ( 2 * a ) ;
+
+                print_line ( ROOTS , ARE ) ;
+                print ( x_1 , x_2 ) ;
+
+            } else {
+
+                print_line ( NO , ROOTS ) ;
+
+            } ;
+        } else 
+        {
+            x = ( 0 - b ) / ( 2 * a ) ;
+            print_line ( ROOT , IS ) ;
+            print ( x ) ;
+        } ;
+
+    } else 
+    {
+        k = ( ( 0 - c ) / a ) ;
+        if ( k < 0 )
+        {
+            print_line ( NO , ROOTS ) ;
+
+        } else 
+        {
+            if ( k ) 
+            {
+                x_1 = sqrt ( k ) ;
+                x_2 = 0 - sqrt ( k ) ;
+
+                print_line ( ROOTS , ARE ) ;
+                print ( x_1 , x_2 ) ;
+
+            } else
+            {
+                x = sqrt ( k ) ;
+                print_line ( ROOT , IS ) ;
+                print ( x ) ;
+            };
+        } ;
+    } ;
+
+} ;
+
+def solve_linear ( a , b ) 
+{
+    if ( b )
+    {
+        if ( a )
+        {    
+            x = ( 0 - b ) / a ;
+            print_line ( ROOT , IS ) ;
+            print ( x ) ;
+        
+        } else
+        {   
+            print_line ( NO , ROOTS ) ;
+        } ;    
+    } else 
+    {
+        if ( a )
+        {
+            x = 0;
+            print_line ( ROOT , IS ) ;
+            print ( x ) ;
+
+        } else
+        {       
+            print_line ( INF , ROOTS ) ;
+        } ;
+    } ;
+
+} ;

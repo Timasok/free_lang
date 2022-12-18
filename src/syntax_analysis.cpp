@@ -173,7 +173,7 @@ Node * getKeyWord()
         result = createNode(KEY_WORD, value, condition, block);
         linkSonsToParent(result, condition, block);
 
-        TREE_DUMP_OPTIONAL(result, "key word tree");
+        // TREE_DUMP_OPTIONAL(result, "key word tree");
 
     }  
 
