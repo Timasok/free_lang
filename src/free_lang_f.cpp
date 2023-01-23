@@ -55,19 +55,23 @@ Translation_result translateLanguage(const char *input_file_name, const char *ou
     
     textCtorOnlyBuffer(&text1, input_file_name);
 
-    printText(&text1);
+    printText(&text1);//log
 
     openLogs();
 
     Program_tokens program_tokens = {};
     programTokensCtor(text1.buf, &program_tokens);
 
-    programTokensDump(&program_tokens);
+#ifdef LEXER
+    return TRANSLATION_TERMINATED_SYNTAX_ERROR;
+#endif
+    programTokensDump(&program_tokens);//log
 
     Node * main_node = getGeneral(&program_tokens);
 
     programTokensDtor(&program_tokens);
     
+
     // TREE_DUMP_OPTIONAL(main_node, "initial tree"); 
 
     output_file = fopen(output_file_name, "w+");
@@ -93,7 +97,7 @@ Translation_result translateLanguage(const char *input_file_name, const char *ou
     nodeDtor(&main_node);
     textDtor(&text1);
 
-    // return TRANSLATION_TERMINATED_SYNTAX_ERROR;
+
     return TRANSLATION_SUCCEEDEED;
 
 }

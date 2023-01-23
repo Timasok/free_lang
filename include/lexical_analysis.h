@@ -2,12 +2,14 @@
 #define LEXICAL_ANALYS_H
 
 // #define SYNTAX_DEBUG
+#define LEXER
 
 #include "tree_debug.h"
 #include "text_funcs.h"
 
 const char * deleteSpaces(const char * str);
 char * getNextLineSlice(const char * line);
+char * getStrTok(char * line);
 
 bool stringEquals(const char *s_1, const char * s_2);
 
@@ -47,11 +49,13 @@ int programTokensCtor(const char * input_line, Program_tokens *program_tokens);
 int programTokensDtor(Program_tokens *program_tokens);
 int programTokensDump(Program_tokens *program_tokens);
 
-double      checkForNum       (char *line, size_t * shift);
-Operator    checkForOperator  (char *line, size_t * shift);
-Key_word    checkForKeyWord   (char *line, size_t * shift);
-Separator   checkForSeparator (char *line, size_t * shift);
-char *      checkForVar       (char *line, size_t * shift);
+int handleProgramPiece(char *line, Program_tokens *program_tokens);
+
+char *      checkForVar       (char *line, size_t * shift, Program_tokens *program_tokens);
+double      checkForNum       (char *line, size_t * shift, Program_tokens *program_tokens);
+Key_word    checkForKeyWord   (char *line, size_t * shift, Program_tokens *program_tokens);
+Separator   checkForSeparator (char *line, size_t * shift, Program_tokens *program_tokens);
+Operator    checkForOperator  (char *line, size_t * shift, Program_tokens *program_tokens);
 
 bool checkTokensForEnd(Program_tokens *program_tokens);
 bool checkForEndOfBlock(Program_tokens *program_tokens);

@@ -94,6 +94,11 @@ char * getNextLineSlice(const char * line)
 
 }
 
+char * getStrTok(char * line)
+{
+    return strtok(line, " \n\0");
+}
+
 #define PRINT_ERROR(error_specifier)                                    \
         fprintf(lexer_log, "%s", #error_specifier);
 
@@ -118,7 +123,63 @@ static int closeLexLogs()
     return 0;
 }
 
-double checkForNum(char *line, size_t * shift)
+int handleProgramPiece(char *line, Program_tokens *program_tokens)
+{
+    size_t shift = 0;
+
+    Value val = {};
+    size_t initial_len = strlen(line);
+
+    while (line[shift] != '\0' && shift < initial_len)
+    {
+
+        val.dbl_value = checkForNum(&line[shift], &shift, program_tokens);
+        if (!isnan(val.dbl_value))
+        {
+            // DBG_OUT;
+            program_tokens->tokens[program_tokens->size++] = tokenCtor(NUM, val);
+            continue;
+        }
+
+        val.key_value = checkForKeyWord(&line[shift], &shift, program_tokens);
+        if (val.key_value != NOT_KEY)
+        {
+            // DBG_OUT;
+            program_tokens->tokens[program_tokens->size++] = tokenCtor(KEY_WORD, val);         
+            continue;
+        }
+
+        val.var.name = checkForVar(&line[shift], &shift, program_tokens);
+        if (val.var.name != nullptr)
+        {
+            // DBG_OUT;
+            program_tokens->tokens[program_tokens->size++] = tokenCtor(val.var.name);      
+            continue;
+        }
+
+        val.sep_value = checkForSeparator(&line[shift], &shift, program_tokens);
+        if (val.sep_value != NOT_SEP)
+        {
+            // DBG_OUT;
+            program_tokens->tokens[program_tokens->size++] = tokenCtor(SEPARATOR, val);         
+            continue;
+        }
+
+        val.op_value = checkForOperator(&line[shift], &shift, program_tokens);
+        if (val.op_value != NOT_OP)
+        {
+            // DBG_OUT;
+            program_tokens->tokens[program_tokens->size++] = tokenCtor(OP, val);         
+            continue;
+        }
+        
+        // break;TODO
+    }
+
+    return 0;
+}
+
+double checkForNum(char *line, size_t * shift, Program_tokens *program_tokens)
 {
     double result = NAN;
 
@@ -151,7 +212,7 @@ double checkForNum(char *line, size_t * shift)
                 result = op_name;                                                      \
             }                                                                          \
         
-Operator checkForOperator(char *line, size_t * shift)
+Operator checkForOperator(char *line, size_t * shift, Program_tokens *program_tokens)
 {
     Operator result = NOT_OP;
 
@@ -186,7 +247,7 @@ Operator checkForOperator(char *line, size_t * shift)
                 result = key_name;                                                       \
             }                                                                            \
         
-Key_word checkForKeyWord(char *line, size_t * shift)
+Key_word checkForKeyWord(char *line, size_t * shift, Program_tokens *program_tokens)
 {
     Key_word result = NOT_KEY;
 
@@ -222,7 +283,7 @@ Key_word checkForKeyWord(char *line, size_t * shift)
                 result = sep_name;                                                       \
             }                                                                            \
         
-Separator checkForSeparator(char *line, size_t * shift)
+Separator checkForSeparator(char *line, size_t * shift, Program_tokens *program_tokens)
 {
     Separator result = NOT_SEP;
 
@@ -269,22 +330,51 @@ int getPriority(const Token * token)
 
 #undef DEF_OP
 
-char * checkForVar(char *line, size_t * shift)
+char * checkForVar(char *line, size_t * shift, Program_tokens *program_tokens)
 {
-
     if(!(*line))
         return nullptr;
+
+    size_t local_shift = *shift;
+    Value val = {};
+
+    // val.sep_value = checkForSeparator(&line[local_shift], &local_shift, program_tokens);
+    // if (val.sep_value != NOT_SEP)
+    // {
+    //     program_tokens->tokens[program_tokens->size++] = tokenCtor(SEPARATOR, val);         
+    // }
+
+    // val.op_value = checkForOperator(&line[local_shift], &local_shift, program_tokens);
+    // if (val.op_value != NOT_OP)
+    // {
+    //     program_tokens->tokens[program_tokens->size++] = tokenCtor(OP, val);         
+    // }
 
 #ifdef LEX_DEBUG
     STRING_DUMP(line);
 #endif
 
     char * resulted_name = strtok(line, " \n");
-    *shift += strlen(resulted_name) + 1;
+    local_shift += strlen(resulted_name) + 1;
 
 #ifdef LEX_DEBUG
     STRING_DUMP(resulted_name);
 #endif
+
+    // val.sep_value = checkForSeparator(&line[local_shift], &local_shift, program_tokens);
+    // if (val.sep_value != NOT_SEP)
+    // {
+    //     program_tokens->tokens[program_tokens->size++] = tokenCtor(SEPARATOR, val);         
+    // }
+
+    // val.op_value = checkForOperator(&line[local_shift], &local_shift, program_tokens);
+    // if (val.op_value != NOT_OP)
+    // {
+    //     program_tokens->tokens[program_tokens->size++] = tokenCtor(OP, val);         
+    // }
+
+
+    local_shift = *shift;
 
     return resulted_name;
 
@@ -342,57 +432,28 @@ int programTokensCtor(const char * input_line, Program_tokens *program_tokens)
     // DBG_OUT;
     while (line[shift] != '\0' && shift < initial_len)
     {
-        Value val = {};
         while (isspace(line[shift]))
         {
             shift++;
-            // printf("SHIFT\n");
         }
+        
+        char * tmp_line = getStrTok(&line[shift]);
+        STRING_DUMP(tmp_line);
 
-        val.dbl_value = checkForNum(&line[shift], &shift);
-        if (!isnan(val.dbl_value))
-        {
-            // DBG_OUT;
-            program_tokens->tokens[program_tokens->size++] = tokenCtor(NUM, val);
-            continue;
-        }
+        handleProgramPiece(tmp_line, program_tokens);
 
-        val.sep_value = checkForSeparator(&line[shift], &shift);
-        if (val.sep_value != NOT_SEP)
-        {
-            // DBG_OUT;
-            program_tokens->tokens[program_tokens->size++] = tokenCtor(SEPARATOR, val);         
-            continue;
-        }
+        size_t strtok_len = strlen(tmp_line);
+        printf("shift = %lu, strtok_len = %lu\n", shift, strtok_len);
 
-        val.op_value = checkForOperator(&line[shift], &shift);
-        if (val.op_value != NOT_OP)
-        {
-            // DBG_OUT;
-            program_tokens->tokens[program_tokens->size++] = tokenCtor(OP, val);         
-            continue;
-        }
+        shift += strtok_len + 1;
 
-        val.key_value = checkForKeyWord(&line[shift], &shift);
-        if (val.key_value != NOT_KEY)
-        {
-            // DBG_OUT;
-            program_tokens->tokens[program_tokens->size++] = tokenCtor(KEY_WORD, val);         
-            continue;
-        }
-
-        val.var.name = checkForVar(&line[shift], &shift);
-        if (val.var.name != nullptr)
-        {
-            // DBG_OUT;
-            program_tokens->tokens[program_tokens->size++] = tokenCtor(val.var.name);      
-            continue;
-        }
-
-        break;
+        // STRING_DUMP(&line[shift]);
+        // break;
     }
 
     free(line_start);
+
+    abort;
 
     return 0;
 
