@@ -46,7 +46,9 @@ Node * nodeConnect(Node *parent, const char dest)
 
 Node * nodeCtor()
 {
-    return (Node *)calloc(1, sizeof(Node));
+    Node * result = (Node *)calloc(1, sizeof(Node));
+ 
+    return result;
 }
 
 int copySingle(const Node * node, Node *new_node)
@@ -538,7 +540,7 @@ int linkSonsToParent(Node *node, Node *left_son, Node *right_son)
     return 0;
 }
 
-int pickCubs(Node * prev_parent, Node * new_parent)
+int changeParentOfSons(Node * prev_parent, Node * new_parent)
 {
     if (!hasSons(prev_parent))
         return -1;

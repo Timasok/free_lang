@@ -548,7 +548,7 @@ Node * getTerm()
 
 Node * getDegree()
 {
-    Node * result = getPolice();
+    Node * result = getStaples();
     
     // DBG_OUT;
 
@@ -570,7 +570,7 @@ Node * getDegree()
             DBG_OUT;
 #endif
             INCREMENT_TOKENS;
-            Node * tmp_result = getPolice();
+            Node * tmp_result = getStaples();
 
             value.op_value = POW;
             result = nodeConnect(OP, value, result, tmp_result);
@@ -593,7 +593,7 @@ Node * getDegree()
 
 }
 
-Node * getPolice() // TODO rename
+Node * getStaples()
 {
     Node * result = nullptr;
 

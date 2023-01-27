@@ -136,7 +136,7 @@ bool checkExistence(Var v_arr[], const char *name);
 
 int linkToParent(Node *parent, Node *orphan);
 int linkSonsToParent(Node *node);
-int pickCubs(Node *prev_parent, Node *new_parent);
+int changeParentOfSons(Node *prev_parent, Node *new_parent);
 // int tearNode(Node * prev_parent, Node * new_parent);
 
 bool isTerminal(Node *node);

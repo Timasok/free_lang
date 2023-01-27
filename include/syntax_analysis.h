@@ -9,7 +9,7 @@ Node * getExpression    ();
 Node * getComparison    ();
 Node * getTerm          ();
 Node * getDegree        ();
-Node * getPolice        ();
+Node * getStaples       ();
 Node * getVariable      ();
 Node * getUnarOperation ();
 Node * getNumber        ();
