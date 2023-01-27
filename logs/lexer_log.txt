@@ -1,0 +1,48 @@
+
+	token 0x55a15847e920
+KEY_WORD D
+
+	token 0x55a15847e960
+VARIABLE "main"
+
+	token 0x55a15847e9a0
+SEPARATOR (
+
+	token 0x55a15847e9c0
+SEPARATOR )
+
+	token 0x55a15847e9e0
+SEPARATOR {
+
+	token 0x55a15847ea20
+VARIABLE "x"
+
+	token 0x55a15847ea60
+OPERATION =
+
+	token 0x55a15847ea80
+NUMBER 1
+
+	token 0x55a15847eaa0
+SEPARATOR ;
+
+	token 0x55a15847eae0
+VARIABLE "print"
+
+	token 0x55a15847eb20
+SEPARATOR (
+
+	token 0x55a15847eb60
+VARIABLE "x"
+
+	token 0x55a15847eba0
+SEPARATOR )
+
+	token 0x55a15847ebc0
+SEPARATOR ;
+
+	token 0x55a15847ebe0
+SEPARATOR }
+
+	token 0x55a15847ec00
+SEPARATOR ;

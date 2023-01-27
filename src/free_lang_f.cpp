@@ -62,9 +62,6 @@ Translation_result translateLanguage(const char *input_file_name, const char *ou
     Program_tokens program_tokens = {};
     programTokensCtor(text1.buf, &program_tokens);
 
-#ifdef LEXER
-    return TRANSLATION_TERMINATED_SYNTAX_ERROR;
-#endif
     programTokensDump(&program_tokens);//log
 
     Node * main_node = getGeneral(&program_tokens);
@@ -96,7 +93,6 @@ Translation_result translateLanguage(const char *input_file_name, const char *ou
 
     nodeDtor(&main_node);
     textDtor(&text1);
-
 
     return TRANSLATION_SUCCEEDEED;
 

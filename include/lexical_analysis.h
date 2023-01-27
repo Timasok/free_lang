@@ -14,6 +14,8 @@ char * getStrTok(char * line);
 bool stringEquals(const char *s_1, const char * s_2);
 
 const int INITIAL_TOKEN_NUMBER = 512;
+const int MAX_SEP_OPER_LENGTH  = 32;
+const int MAX_WORD_LENGTH      = 128;
 // const char SEPARATOR = '~';
 
 struct Token
@@ -51,11 +53,11 @@ int programTokensDump(Program_tokens *program_tokens);
 
 int handleProgramPiece(char *line, Program_tokens *program_tokens);
 
-char *      checkForVar       (char *line, size_t * shift, Program_tokens *program_tokens);
-double      checkForNum       (char *line, size_t * shift, Program_tokens *program_tokens);
-Key_word    checkForKeyWord   (char *line, size_t * shift, Program_tokens *program_tokens);
-Separator   checkForSeparator (char *line, size_t * shift, Program_tokens *program_tokens);
-Operator    checkForOperator  (char *line, size_t * shift, Program_tokens *program_tokens);
+char *      checkForVar       (char *line, size_t visible_len);
+double      checkForNum       (char *line, size_t visible_len);
+Key_word    checkForKeyWord   (char *line, size_t visible_len);
+Separator   checkForSeparator (char *line, size_t visible_len);
+Operator    checkForOperator  (char *line, size_t visible_len);
 
 bool checkTokensForEnd(Program_tokens *program_tokens);
 bool checkForEndOfBlock(Program_tokens *program_tokens);

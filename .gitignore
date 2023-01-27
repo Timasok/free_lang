@@ -40,8 +40,8 @@ Make
 
 input
 
-./assembler_progs/**
-./graph_dumps/**
-./logs/**
-./timasok_sources/**
-./generators/macros_attempt.h
+assembler_progs/*
+graph_dumps/*
+logs/*
+timasok_sources/*
+generators/macros_attempt.h

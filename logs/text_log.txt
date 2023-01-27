@@ -1,11 +1,37 @@
 
 ************************************************************
   code_of_error = 0
-  buf_length = 26
-  number_of_lines = 1
+  buf_length = 246
+  number_of_lines = 27
   buf: 
-def main(    ){  x =x+1;};
+push 1032
 	Lines: 
-(null)
+push 1032
+pop var_in_funccall
+push 1064
+pop var_in_def
+call :main 
+hlt
+
+main:
+
+push var_in_def
+push 32
+add
+pop var_in_def
+
+push 1
+pop [var_in_def+0]
+
+push [var_in_def+0]
+out
+
+push var_in_def
+push 32
+sub
+pop var_in_def
+
+ret
+
 
 ************************************************************

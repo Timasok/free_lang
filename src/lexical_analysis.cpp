@@ -6,7 +6,7 @@
 
 #include "lexical_analysis.h"
 
-const char * deleteSpaces(const char * str)
+const char *deleteSpaces(const char *str)
 {
     size_t initial_len = strlen(str);
     size_t new_len = 0;
@@ -15,7 +15,7 @@ const char * deleteSpaces(const char * str)
     STRING_DUMP(str);
 #endif
 
-    char * tmp_string = (char *)calloc(initial_len, sizeof(char));
+    char *tmp_string = (char *)calloc(initial_len, sizeof(char));
 
     for (int counter = 0; counter < initial_len; counter++)
     {
@@ -39,25 +39,23 @@ const char * deleteSpaces(const char * str)
 
     tmp_string[new_len] = '\0';
 
-    const char * result = strdup(tmp_string);
+    const char *result = strdup(tmp_string);
 
     free(tmp_string);
-    return result;  
-
+    return result;
 }
 
-//своя strtok
-char * getNextLineSlice(const char * line)
+// своя strtok
+char *getNextLineSlice(const char *line)
 {
     while (isspace(*line))
         line++;
 
-
     size_t number_of_separators = 4;
     char separator[] = {' ', '\n', '\t', '\0'};
 
-    const char ** next_separator = (const char **)calloc(number_of_separators, sizeof(const char *));
-    size_t * shifts = (size_t *)calloc(number_of_separators, sizeof(size_t));
+    const char **next_separator = (const char **)calloc(number_of_separators, sizeof(const char *));
+    size_t *shifts = (size_t *)calloc(number_of_separators, sizeof(size_t));
 
     size_t min_shift = strlen(line);
 
@@ -69,8 +67,8 @@ char * getNextLineSlice(const char * line)
         {
             shifts[counter] = next_separator[counter] - line;
             // printf("shift[%d] = %d\n", counter, shifts[counter]);
-
-        }else
+        }
+        else
         {
             continue;
         }
@@ -79,30 +77,28 @@ char * getNextLineSlice(const char * line)
         {
             min_shift = shifts[counter];
         }
-
     }
 
     // printf("%d\n", min_shift);
 
-    char * processed_line = (char *)calloc(min_shift, sizeof(char *));
+    char *processed_line = (char *)calloc(min_shift, sizeof(char *));
     strncpy(processed_line, line, min_shift);
 
     free(next_separator);
     free(shifts);
 
     return processed_line;
-
 }
 
-char * getStrTok(char * line)
+char *getStrTok(char *line)
 {
     return strtok(line, " \n\0");
 }
 
-#define PRINT_ERROR(error_specifier)                                    \
-        fprintf(lexer_log, "%s", #error_specifier);
+#define PRINT_ERROR(error_specifier) \
+    fprintf(lexer_log, "%s", #error_specifier);
 
-static FILE * lexer_log = 0;
+static FILE *lexer_log = 0;
 
 static int openLexLogs()
 {
@@ -125,282 +121,261 @@ static int closeLexLogs()
 
 int handleProgramPiece(char *line, Program_tokens *program_tokens)
 {
-    size_t shift = 0;
-
     Value val = {};
+
+    size_t visible_len = 1;
+
+    char * initial_line_ptr = line;
     size_t initial_len = strlen(line);
 
-    while (line[shift] != '\0' && shift < initial_len)
+    while (line - initial_line_ptr < initial_len)
     {
-
-        val.dbl_value = checkForNum(&line[shift], &shift, program_tokens);
-        if (!isnan(val.dbl_value))
+        if (isalpha(*line) && !isalpha(line[visible_len]))
         {
-            // DBG_OUT;
-            program_tokens->tokens[program_tokens->size++] = tokenCtor(NUM, val);
-            continue;
-        }
+            val.key_value = checkForKeyWord(line, visible_len);
+            if (val.key_value != NOT_KEY)
+            {
+                // DBG_OUT;
+                program_tokens->tokens[program_tokens->size++] = tokenCtor(KEY_WORD, val);
+                
+                line += visible_len;
+                visible_len = 1;
 
-        val.key_value = checkForKeyWord(&line[shift], &shift, program_tokens);
-        if (val.key_value != NOT_KEY)
-        {
-            // DBG_OUT;
-            program_tokens->tokens[program_tokens->size++] = tokenCtor(KEY_WORD, val);         
-            continue;
-        }
+                continue;
+            }
 
-        val.var.name = checkForVar(&line[shift], &shift, program_tokens);
-        if (val.var.name != nullptr)
-        {
-            // DBG_OUT;
-            program_tokens->tokens[program_tokens->size++] = tokenCtor(val.var.name);      
-            continue;
-        }
+            val.var.name = checkForVar(line, visible_len);
+            if (val.var.name != nullptr)
+            {
+                // DBG_OUT;
+                program_tokens->tokens[program_tokens->size++] = tokenCtor(val.var.name);
+                
+                line += visible_len;
+                visible_len = 1;
 
-        val.sep_value = checkForSeparator(&line[shift], &shift, program_tokens);
-        if (val.sep_value != NOT_SEP)
-        {
-            // DBG_OUT;
-            program_tokens->tokens[program_tokens->size++] = tokenCtor(SEPARATOR, val);         
-            continue;
-        }
+                continue;
+            }
 
-        val.op_value = checkForOperator(&line[shift], &shift, program_tokens);
-        if (val.op_value != NOT_OP)
+        } else if (isdigit(*line) && !isdigit(line[visible_len]))
         {
-            // DBG_OUT;
-            program_tokens->tokens[program_tokens->size++] = tokenCtor(OP, val);         
-            continue;
+            val.dbl_value = checkForNum(line, visible_len);
+            if (!isnan(val.dbl_value))
+            {
+                // DBG_OUT;
+                program_tokens->tokens[program_tokens->size++] = tokenCtor(NUM, val);
+                
+                line += visible_len;
+                visible_len = 1;
+
+                continue;
+            }          
+
+        } else if (!isalnum(*line))
+        {
+            val.op_value = checkForOperator(line, visible_len);
+            if (val.op_value != NOT_OP)
+            {
+                // DBG_OUT;
+                program_tokens->tokens[program_tokens->size++] = tokenCtor(OP, val);
+                
+                line += visible_len;
+                visible_len = 1;
+                
+                continue;
+            }
+
+            val.sep_value = checkForSeparator(line, visible_len);
+            if (val.sep_value != NOT_SEP)
+            {
+                // DBG_OUT;
+                program_tokens->tokens[program_tokens->size++] = tokenCtor(SEPARATOR, val);
+                
+                line += visible_len;
+                visible_len = 1;
+
+                continue;
+            }
+
+            visible_len++;
+            // PRINT_ERROR_CONSOLE();
+
+        } else 
+        {
+            visible_len++;
         }
-        
-        // break;TODO
     }
 
     return 0;
 }
 
-double checkForNum(char *line, size_t * shift, Program_tokens *program_tokens)
-{
-    double result = NAN;
 
-    if (isdigit(*line))
-    {
-        char * end_position = nullptr;
-
-        result = strtod(line, &end_position);
-        
-        if (end_position != nullptr)
-        {
-            *shift +=(end_position - line);
-
-            // fprintf(lexer_log, "end_pos %c\n", *end_position);
-
-            if (!isspace(*end_position))
-                PRINT_ERROR(LANG_ERROR_VAR_STARTS_WITH_NUMBER);
-
-        }
-
+#define DEF_OP(op_name, priority, op_code, name_in_lang)                      \
+    else if (op_name != NOT_OP && stringEquals(name_in_lang, processed_line)) \
+    {                                                                         \
+        result = op_name;                                                     \
     }
-        
-    return result;
 
-}
-
-#define DEF_OP(op_name, priority, op_code, name_in_lang)                               \
-            else if(op_name != NOT_OP && stringEquals(name_in_lang, processed_line))   \
-            {                                                                          \
-                result = op_name;                                                      \
-            }                                                                          \
-        
-Operator checkForOperator(char *line, size_t * shift, Program_tokens *program_tokens)
+Operator checkForOperator(char *line, size_t visible_len)
 {
     Operator result = NOT_OP;
 
-    if(!(*line))
+    if (!(*line))
         return result;
 
 #ifdef LEX_DEBUG
     STRING_DUMP(line);
 #endif
 
-    char * processed_line = strtok(line, " \n\0");
+    char processed_line[MAX_SEP_OPER_LENGTH] = {};
+    strncpy(processed_line, line, visible_len);
 
     if (0)
-    {}
-    #include "operations.h"
-
-    if (result != NOT_OP)
-        *shift += strlen(processed_line) + 1;
+    {
+    }
+#include "operations.h"
 
 #ifdef LEX_DEBUG
     STRING_DUMP(processed_line);
 #endif
     return result;
-
 }
 
 #undef DEF_OP
 
-#define DEF_KEY(key_name, key_code, name_in_lang)                                        \
-            else if(key_name != NOT_KEY && stringEquals(name_in_lang, processed_line))   \
-            {                                                                            \
-                result = key_name;                                                       \
-            }                                                                            \
-        
-Key_word checkForKeyWord(char *line, size_t * shift, Program_tokens *program_tokens)
+#define DEF_KEY(key_name, key_code, name_in_lang)                               \
+    else if (key_name != NOT_KEY && stringEquals(name_in_lang, processed_line)) \
+    {                                                                           \
+        result = key_name;                                                      \
+    }
+
+Key_word checkForKeyWord(char *line, size_t visible_len)
 {
     Key_word result = NOT_KEY;
 
-    if(!(*line))
+    if (!(*line))
         return result;
 
 #ifdef LEX_DEBUG
     STRING_DUMP(line);
 #endif
 
-    char * processed_line = strtok(line, " \n\0");
+    char processed_line[MAX_WORD_LENGTH] = {};
+    strncpy(processed_line, line, visible_len);
 
-    if (0)
-    {}
+        if (0)
+        {
+        }
     #include "key_words.h"
-
-    if (result != NOT_KEY)
-        *shift += strlen(processed_line) + 1;
 
 #ifdef LEX_DEBUG
     STRING_DUMP(processed_line);
 #endif
 
     return result;
-
 }
 
 #undef DEF_KEY
 
-#define DEF_SEP(sep_name, sep_code, name_in_lang)                                        \
-            else if(sep_name != NOT_SEP && stringEquals(name_in_lang, processed_line))   \
-            {                                                                            \
-                result = sep_name;                                                       \
-            }                                                                            \
-        
-Separator checkForSeparator(char *line, size_t * shift, Program_tokens *program_tokens)
+#define DEF_SEP(sep_name, sep_code, name_in_lang)                               \
+    else if (sep_name != NOT_SEP && stringEquals(name_in_lang, processed_line)) \
+    {                                                                           \
+        result = sep_name;                                                      \
+    }
+
+// len of separator is 1
+Separator checkForSeparator(char *line, size_t visible_len)
 {
     Separator result = NOT_SEP;
 
-    if(!(*line))
+    if (!(*line))
         return result;
 
 #ifdef LEX_DEBUG
     STRING_DUMP(line);
 #endif
 
-    char * processed_line = strtok(line, " \n\0");
+    char processed_line[MAX_SEP_OPER_LENGTH] = {};
+    strncpy(processed_line, line, visible_len);
 
     if (0)
-    {}
-    #include "separators.h"
-
-    if (result != NOT_SEP)
-        *shift += strlen(processed_line) + 1;
+    {
+    }
+#include "separators.h"
 
 #ifdef LEX_DEBUG
     STRING_DUMP(processed_line);
 #endif
 
     return result;
-
 }
 
 #undef DEF_SEP
 
-#define DEF_OP(op_name, priority, op_code, name_in_lang)                     \
-    else if(token->val.op_value == op_name)                                \
-    {                                                                        \
-        return priority;                                                     \
-    }                                                                        \
+#define DEF_OP(op_name, priority, op_code, name_in_lang) \
+    else if (token->val.op_value == op_name)             \
+    {                                                    \
+        return priority;                                 \
+    }
 
-int getPriority(const Token * token)
+int getPriority(const Token *token)
 {
     if (0)
-    {}
-        #include "operations.h"
+    {
+    }
+#include "operations.h"
 
     return 0;
 }
 
 #undef DEF_OP
 
-char * checkForVar(char *line, size_t * shift, Program_tokens *program_tokens)
+char *checkForVar(char *line, size_t visible_len)
 {
-    if(!(*line))
+    if (!(*line))
         return nullptr;
 
-    size_t local_shift = *shift;
-    Value val = {};
-
-    // val.sep_value = checkForSeparator(&line[local_shift], &local_shift, program_tokens);
-    // if (val.sep_value != NOT_SEP)
-    // {
-    //     program_tokens->tokens[program_tokens->size++] = tokenCtor(SEPARATOR, val);         
-    // }
-
-    // val.op_value = checkForOperator(&line[local_shift], &local_shift, program_tokens);
-    // if (val.op_value != NOT_OP)
-    // {
-    //     program_tokens->tokens[program_tokens->size++] = tokenCtor(OP, val);         
-    // }
+    char *var_name = (char *)calloc(visible_len + 1, sizeof(char));
+    strncpy(var_name, line, visible_len);
 
 #ifdef LEX_DEBUG
-    STRING_DUMP(line);
+    STRING_DUMP(var_name);
 #endif
 
-    char * resulted_name = strtok(line, " \n");
-    local_shift += strlen(resulted_name) + 1;
-
-#ifdef LEX_DEBUG
-    STRING_DUMP(resulted_name);
-#endif
-
-    // val.sep_value = checkForSeparator(&line[local_shift], &local_shift, program_tokens);
-    // if (val.sep_value != NOT_SEP)
-    // {
-    //     program_tokens->tokens[program_tokens->size++] = tokenCtor(SEPARATOR, val);         
-    // }
-
-    // val.op_value = checkForOperator(&line[local_shift], &local_shift, program_tokens);
-    // if (val.op_value != NOT_OP)
-    // {
-    //     program_tokens->tokens[program_tokens->size++] = tokenCtor(OP, val);         
-    // }
-
-
-    local_shift = *shift;
-
-    return resulted_name;
-
+    return var_name;
 }
 
-Token * tokenCtor(Node_type type, Value val)
+double checkForNum(char *line, size_t visible_len)
 {
-    Token * result = (Token *)calloc(1, sizeof(Token));
+    double result = NAN;
+
+    char *end_position = nullptr;
+
+    result = strtod(line, &end_position);
+
+    return result;
+}
+
+Token *tokenCtor(Node_type type, Value val)
+{
+    Token *result = (Token *)calloc(1, sizeof(Token));
 
     result->type = type;
-    result->val  = val;
+    result->val = val;
 
     return result;
 }
 
-Token * tokenCtor(const char * var_name)
+Token *tokenCtor(const char *var_name)
 {
-    Token * result = (Token *)calloc(1, sizeof(Token));
+    Token *result = (Token *)calloc(1, sizeof(Token));
 
     result->type = VAR;
-    result->val.var.name  = strdup(var_name);
+    result->val.var.name = strdup(var_name);
 
     return result;
 }
 
-int tokenDtor(Token * token)
+int tokenDtor(Token *token)
 {
     if (!token)
         return 0;
@@ -415,16 +390,16 @@ int tokenDtor(Token * token)
     return 0;
 }
 
-int programTokensCtor(const char * input_line, Program_tokens *program_tokens)
+int programTokensCtor(const char *input_line, Program_tokens *program_tokens)
 {
-    char * line = strdup(input_line);
-    char * line_start = line;   
+    char *line = strdup(input_line);
+    char *line_start = line;
     size_t initial_len = strlen(line);
 
     openLexLogs();
 
-    program_tokens->tokens = (Token **)calloc(INITIAL_TOKEN_NUMBER, sizeof(Token*));
-    program_tokens->size   = 0;
+    program_tokens->tokens = (Token **)calloc(INITIAL_TOKEN_NUMBER, sizeof(Token *));
+    program_tokens->size = 0;
     program_tokens->current = 0;
 
     size_t shift = 0;
@@ -436,14 +411,14 @@ int programTokensCtor(const char * input_line, Program_tokens *program_tokens)
         {
             shift++;
         }
-        
-        char * tmp_line = getStrTok(&line[shift]);
-        STRING_DUMP(tmp_line);
+
+        char *tmp_line = getStrTok(&line[shift]);
+        // STRING_DUMP(tmp_line);
 
         handleProgramPiece(tmp_line, program_tokens);
 
         size_t strtok_len = strlen(tmp_line);
-        printf("shift = %lu, strtok_len = %lu\n", shift, strtok_len);
+        // printf("shift = %lu, strtok_len = %lu\n", shift, strtok_len);
 
         shift += strtok_len + 1;
 
@@ -453,10 +428,7 @@ int programTokensCtor(const char * input_line, Program_tokens *program_tokens)
 
     free(line_start);
 
-    abort;
-
     return 0;
-
 }
 
 int programTokensDump(Program_tokens *program_tokens)
@@ -469,76 +441,72 @@ int programTokensDump(Program_tokens *program_tokens)
     return 0;
 }
 
-int tokenDump(const Token * token)
+int tokenDump(const Token *token)
 {
     if (!token)
         return -1;
-    
+
     fprintf(lexer_log, "\n\ttoken %p\n", token);
 
-    switch(token->type)
+    switch (token->type)
     {
-        case OP:
-            fprintf(lexer_log, "OPERATION %c\n", token->val.op_value);
-            break;
-        case KEY_WORD:
-            fprintf(lexer_log, "KEY_WORD %c\n", token->val.key_value);
-            break;
-        case SEPARATOR:
-            fprintf(lexer_log, "SEPARATOR %c\n", token->val.sep_value);
-            break;
-        case NUM:
-            fprintf(lexer_log, "NUMBER %g\n", token->val.dbl_value);
-            break;
-        case VAR:
-            fprintf(lexer_log, "VARIABLE \"%s\"\n", token->val.var.name);
-            break;
-        default:
-            fprintf(lexer_log, "smth cringe\n");
-            break;
-
+    case OP:
+        fprintf(lexer_log, "OPERATION %c\n", token->val.op_value);
+        break;
+    case KEY_WORD:
+        fprintf(lexer_log, "KEY_WORD %c\n", token->val.key_value);
+        break;
+    case SEPARATOR:
+        fprintf(lexer_log, "SEPARATOR %c\n", token->val.sep_value);
+        break;
+    case NUM:
+        fprintf(lexer_log, "NUMBER %g\n", token->val.dbl_value);
+        break;
+    case VAR:
+        fprintf(lexer_log, "VARIABLE \"%s\"\n", token->val.var.name);
+        break;
+    default:
+        fprintf(lexer_log, "smth cringe\n");
+        break;
     }
     return 0;
-
 }
 
-int tokenDumpConsole(const Token * token)
+int tokenDumpConsole(const Token *token)
 {
     if (!token)
         return -1;
-    
+
     printf("\ttoken %p\n", token);
 
-    switch(token->type)
+    switch (token->type)
     {
-        case OP:
-            printf("OPERATION %c\n", token->val.op_value);
-            break;
-        case KEY_WORD:
-            printf("KEY_WORD %c\n", token->val.key_value);
-            break;
-        case SEPARATOR:
-            printf("SEPARATOR %c\n", token->val.sep_value);
-            break;
-        case NUM:
-            printf("NUMBER %g\n", token->val.dbl_value);
-            break;
-        case VAR:
-            printf("VARIABLE \"%s\"\n", token->val.var.name);
-            break;
-        default:
-            printf("smth cringe\n");
-            break;
-
+    case OP:
+        printf("OPERATION %c\n", token->val.op_value);
+        break;
+    case KEY_WORD:
+        printf("KEY_WORD %c\n", token->val.key_value);
+        break;
+    case SEPARATOR:
+        printf("SEPARATOR %c\n", token->val.sep_value);
+        break;
+    case NUM:
+        printf("NUMBER %g\n", token->val.dbl_value);
+        break;
+    case VAR:
+        printf("VARIABLE \"%s\"\n", token->val.var.name);
+        break;
+    default:
+        printf("smth cringe\n");
+        break;
     }
     return 0;
-
 }
 
-int tokenDump(const Token * token, const char * name_of_var, const char * name_of_file, const char * name_of_func, int number_of_line)
+int tokenDump(const Token *token, const char *name_of_var, const char *name_of_file, const char *name_of_func, int number_of_line)
 {
 
-    printf("\e[0;32m\n%s\e[0m at %s at %s(%d)\n",  name_of_var, name_of_func,
+    printf("\e[0;32m\n%s\e[0m at %s at %s(%d)\n", name_of_var, name_of_func,
            name_of_file, number_of_line);
     tokenDumpConsole(token);
 
@@ -553,7 +521,6 @@ int tokenDump(const Token * token, const char * name_of_var, const char * name_o
 #endif
 
     return 0;
-
 }
 
 int programTokensDtor(Program_tokens *program_tokens)
@@ -564,7 +531,7 @@ int programTokensDtor(Program_tokens *program_tokens)
     }
 
     free(program_tokens->tokens);
-    
+
     closeLexLogs();
 
     return 0;
@@ -574,22 +541,23 @@ bool checkTokensForEnd(Program_tokens *program_tokens)
 {
     if (program_tokens->current == program_tokens->size)
     {
-        return true;    
-    } else
+        return true;
+    }
+    else
     {
         return false;
     }
-
 }
 
 bool checkForEndOfBlock(Program_tokens *program_tokens)
 {
-    Token * current_token = program_tokens->tokens[program_tokens->current];
-    
+    Token *current_token = program_tokens->tokens[program_tokens->current];
+
     if (current_token->type == SEPARATOR && current_token->val.sep_value == '}')
     {
         return true;
-    } else
+    }
+    else
     {
         return false;
     }
