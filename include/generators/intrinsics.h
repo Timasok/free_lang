@@ -1,4 +1,4 @@
-DEF_MACRO(PRINT, "print", 
+DEF_INTRINSIC(PRINT, "print", 
 {
     Node * arg = func->l_son;
 
@@ -14,7 +14,7 @@ DEF_MACRO(PRINT, "print",
   
 })
 
-DEF_MACRO(PRINT_LINE, "print_line", 
+DEF_INTRINSIC(PRINT_LINE, "print_line", 
 {
     Node * arg = func->l_son;
 
@@ -54,7 +54,7 @@ DEF_MACRO(PRINT_LINE, "print_line",
 
 })
 
-DEF_MACRO(INPUT, "input", 
+DEF_INTRINSIC(INPUT, "input", 
 {
     Node * arg = func->l_son;
 
@@ -74,7 +74,7 @@ DEF_MACRO(INPUT, "input",
   
 })
 
-DEF_MACRO(RETURN, "return", 
+DEF_INTRINSIC(RETURN, "return", 
 {
     Node * arg = func->l_son;
 

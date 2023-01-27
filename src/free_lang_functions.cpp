@@ -6,7 +6,7 @@
 #include "tree.h"
 #include "text_funcs.h"
 #include "tree_debug.h"
-#include "free_lang_f.h"
+#include "free_lang_functions.h"
 
 #include "lexical_analysis.h"
 #include "syntax_analysis.h"
@@ -19,9 +19,18 @@ static FILE * output_file  = 0;
 static int if_else_counter = 0;
 static int while_counter = 0;
 
-static int DefReg(def_change_mode mode)
+#define PRINT_COMPARASION_SIGN(comparasion_operator, asm_transcription)                 \
+    do {                                                                                \
+        case comparasion_operator:                                                      \
+        {                                                                               \
+            fprintf(output_file, #asm_transcription);                                   \
+            break;                                                                      \
+        }                                                                               \
+    } while (0)                                                                         \
+
+//enter func or exit func
+static int increaseOrDecreaseRegister(def_change_mode mode)
 {
-    char line[MAX_BUFFER_LENGTH] = {};
     const char * operation = nullptr;
 
     switch (mode)
@@ -38,13 +47,11 @@ static int DefReg(def_change_mode mode)
         }
     }
 
-    sprintf(line,"\npush %s\n"
-                 "push %d\n"
-                 "%s\n"
-                 "pop %s\n\n"
-                , def_reg, SHIFT_IN_DEF, operation, def_reg);
-
-    fputs(line, output_file);
+    fprintf(output_file, "\npush %s\n"
+                         "push %d\n"
+                         "%s\n"
+                         "pop %s\n\n"
+                        , def_reg, SHIFT_IN_DEF, operation, def_reg);
 
     return 0;
 }
@@ -68,7 +75,6 @@ Translation_result translateLanguage(const char *input_file_name, const char *ou
 
     programTokensDtor(&program_tokens);
     
-
     // TREE_DUMP_OPTIONAL(main_node, "initial tree"); 
 
     output_file = fopen(output_file_name, "w+");
@@ -76,16 +82,7 @@ Translation_result translateLanguage(const char *input_file_name, const char *ou
     if (output_file == nullptr)
         return TRANSLATION_TERMINATED_SAVE_FILE_ERROR;
 
-    fprintf(output_file,"push %d\n"
-                        "pop %s\n", VAR_IN_FUNCCALL_INDEX, call_reg);
-
-    fprintf(output_file,"push %d\n"
-                        "pop %s\n", VAR_IN_DEF_INDEX, def_reg);
-
-    fprintf(output_file,"call :main \n"
-                        "hlt\n");
-
-    handleProgram(main_node);
+    translateToAST(main_node);
 
     fclose(output_file);
 
@@ -98,10 +95,25 @@ Translation_result translateLanguage(const char *input_file_name, const char *ou
 
 }
 
+int translateToAST(Node *node)
+{
+    fprintf(output_file,"push %d\n"
+                        "pop %s\n", VAR_IN_FUNCCALL_INDEX, call_reg);
+
+    fprintf(output_file,"push %d\n"
+                        "pop %s\n", VAR_IN_DEF_INDEX, def_reg);
+
+    fprintf(output_file,"call :main \n"
+                        "hlt\n");
+
+    handleProgram(node);
+
+    return 0;
+}
+
 int handleProgram(Node *node)
 {
-    if (!node)
-        return 0;
+    BASIC_PTR_ASSERT(node);    
 
     if (node->l_son)
         handleDefinition(node->l_son);
@@ -120,7 +132,7 @@ int handleDefinition(Node *node)
 
     fprintf(output_file,"\n%s:\n", func_name->value.var.name);
 
-    DefReg(INCREASE);
+    increaseOrDecreaseRegister(INCREASE);
 
     if (func_name->r_son)
     {
@@ -135,7 +147,7 @@ int handleDefinition(Node *node)
 
     }
 
-    DefReg(DECREASE);
+    increaseOrDecreaseRegister(DECREASE);
     fprintf(output_file,"ret\n");
 
     return 0;
@@ -143,8 +155,7 @@ int handleDefinition(Node *node)
 
 int handleFunc(Node *node, Var variables[])
 {
-    if (!node)
-        return 0;
+    BASIC_PTR_ASSERT(node);   
 
     if (node->l_son)
         handleLangTree(node->l_son, variables);
@@ -163,8 +174,7 @@ int handleFunc(Node *node, Var variables[])
 
 int handleLangTree(Node *node, Var variables[])
 {
-    if (!node)
-        return 0;
+    BASIC_PTR_ASSERT(node);   
 
     int var_index = -1;
 
@@ -270,7 +280,7 @@ int handleFunccall(Node * func, Var variables[])
 {
     fprintf(output_file, ";calling function %s\n", func->value.var.name);
     
-    if (handleMacro(func, variables))
+    if (handleIntrinsic(func, variables))
         return 0;
     
     Node * arg = func->l_son;
@@ -322,36 +332,13 @@ int handleComparision(Node * node, Var variables[])
 
     switch(node->value.op_value)
     {
-        case EQUAlS:
-        {
-            fprintf(output_file, "jne");
-            break;
-        }
-        case NOT_EQUAlS:
-        {
-            fprintf(output_file, "je");
-            break;
-        }
-        case BELOW_OR_EQUALS:
-        {
-            fprintf(output_file, "ja");
-            break;
-        }
-        case ABOVE_OR_EQUALS:
-        {
-            fprintf(output_file, "jb");
-            break;
-        }
-        case BELOW:
-        {
-            fprintf(output_file, "jae");
-            break;
-        }
-        case ABOVE:
-        {
-            fprintf(output_file, "jbe");
-            break;
-        }
+        PRINT_COMPARASION_SIGN(EQUALS, jne);
+        PRINT_COMPARASION_SIGN(NOT_EQUALS, je);
+        PRINT_COMPARASION_SIGN(BELOW_OR_EQUALS, ja);
+        PRINT_COMPARASION_SIGN(ABOVE_OR_EQUALS, jb);
+        PRINT_COMPARASION_SIGN(BELOW, jae);
+        PRINT_COMPARASION_SIGN(ABOVE, jbe);
+
     };
 
     return 0;
@@ -359,8 +346,7 @@ int handleComparision(Node * node, Var variables[])
 
 int handleIfElse(Node * if_node, Var variables[])
 {
-    if (!if_node->r_son)
-        return 0;
+    BASIC_PTR_ASSERT(if_node->r_son);
 
     int current_if_else = if_else_counter;
     if_else_counter++;
@@ -396,8 +382,7 @@ int handleIfElse(Node * if_node, Var variables[])
 
 int handleWhile(Node * if_node, Var variables[])
 {
-    if (!if_node->r_son)
-        return 0;
+    BASIC_PTR_ASSERT(if_node->r_son);
 
     int current_while = while_counter;
     while_counter++;
@@ -427,20 +412,20 @@ int handleWhile(Node * if_node, Var variables[])
 
 }
 
-#define DEF_MACRO(macro_name, name_in_lang, code)                                   \
+#define DEF_INTRINSIC(macro_name, name_in_lang, code)                               \
     else if (stringEquals(func_name, name_in_lang))                                 \
     {                                                                               \
         result = true;                                                              \
         code                                                                        \
     }                                                                               \
 
-bool handleMacro(Node * func, Var variables[])
+bool handleIntrinsic(Node * func, Var variables[])
 {
     bool result = false;
     const char * func_name = func->value.var.name;
 
     if (0){}
-    #include "macros.h"
+    #include "intrinsics.h"
 
     return result;
 }
@@ -461,11 +446,11 @@ int pushArgInFuncall(Node *arg, Var variables[])
     
     } else
     {   
-        PRINT_ERROR_CONSOLE(LANG_ERROR_INCORRECT_ARGUMENT);
+        PRINT_ERROR_CONSOLE("LANG_ERROR_INCORRECT_ARGUMENT");
         return -1;
     }
 
     return 0;
 }
 
-#undef DEF_MACRO
+#undef DEF_INTRINSIC

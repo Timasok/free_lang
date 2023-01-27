@@ -10,6 +10,16 @@ static Program_tokens * program_tokens;
 
 const int MAX_VARIABLE_LEN = 15;
 
+#define CREATE_COMPARASION_NODE(comparasion_operator)                                   \
+    do {                                                                                \
+        case comparasion_operator:                                                      \
+        {                                                                               \
+            value.op_value = comparasion_operator;                                      \
+            result = nodeConnect(OP, value, result, tmp_result);                        \
+            break;                                                                      \
+        }                                                                               \
+    } while (0)                                                                         \
+
 Node * getGeneral(Program_tokens * tokens)
 {
     program_tokens = tokens;
@@ -394,7 +404,7 @@ Node * getExpression()
 #endif
 
         while (current_token->type == OP && (current_token->val.op_value == '>' || current_token->val.op_value == '<' 
-        || current_token->val.op_value == EQUAlS || current_token->val.op_value == BELOW_OR_EQUALS 
+        || current_token->val.op_value == EQUALS || current_token->val.op_value == BELOW_OR_EQUALS 
         || current_token->val.op_value == ABOVE_OR_EQUALS))
         {
             INCREMENT_TOKENS;
@@ -406,42 +416,12 @@ Node * getExpression()
 #endif
             switch(current_token->val.op_value)
             {
-                case EQUAlS:
-                {
-                    value.op_value = EQUAlS;
-                    result = nodeConnect(OP, value, result, tmp_result);
-                    break;
-                }
-                case NOT_EQUAlS:
-                {
-                    value.op_value = NOT_EQUAlS;
-                    result = nodeConnect(OP, value, result, tmp_result);
-                    break;
-                }
-                case BELOW_OR_EQUALS:
-                {
-                    value.op_value = BELOW_OR_EQUALS;
-                    result = nodeConnect(OP, value, result, tmp_result);
-                    break;
-                }
-                case ABOVE_OR_EQUALS:
-                {
-                    value.op_value = ABOVE_OR_EQUALS;
-                    result = nodeConnect(OP, value, result, tmp_result);
-                    break;
-                }
-                case BELOW:
-                {
-                    value.op_value = BELOW;
-                    result = nodeConnect(OP, value, result, tmp_result);
-                    break; 
-                }
-                case ABOVE:
-                {
-                    value.op_value = ABOVE;
-                    result = nodeConnect(OP, value, result, tmp_result);
-                    break;
-                }
+                CREATE_COMPARASION_NODE(EQUALS);
+                CREATE_COMPARASION_NODE(NOT_EQUALS);
+                CREATE_COMPARASION_NODE(BELOW_OR_EQUALS);
+                CREATE_COMPARASION_NODE(ABOVE_OR_EQUALS);
+                CREATE_COMPARASION_NODE(BELOW);
+                CREATE_COMPARASION_NODE(ABOVE);
             };
 
             current_token = program_tokens->tokens[program_tokens->current];
@@ -449,7 +429,6 @@ Node * getExpression()
 #ifdef SYNTAX_DEBUG
             WHILE_VERIFY(current_token->type == OP && (current_token->val.op_value == '+' || current_token->val.op_value == '-'));
 #endif
-        
         
         }
     }

@@ -18,8 +18,7 @@ static int prevNumber = 0;
 
 int dumpExpNode(const Node * node)
 {
-    if (!node)
-        return -1;
+    BASIC_PTR_ASSERT(node);
 
     switch(node->type)
     {
@@ -86,8 +85,7 @@ int getDumpNumber()
 
 int findNext(const Node* node, int (*oper)(const Node *))
 {
-    if (!node)
-        return 0;
+    BASIC_PTR_ASSERT(node);
 
     int currentNumber = ++nodeNumber;    
     oper(node);

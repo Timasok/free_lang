@@ -106,7 +106,7 @@ static int openLexLogs()
 
     if (!lexer_log)
     {
-        PRINT_ERROR_CONSOLE(LANG_ERROR_CAN_T_OPEN_LOGS);
+        PRINT_ERROR_CONSOLE("LANG_ERROR_CAN_T_OPEN_LOGS");
         return LANG_ERROR_CAN_T_OPEN_LOGS;
     }
 
@@ -443,72 +443,48 @@ int programTokensDump(Program_tokens *program_tokens)
 
 int tokenDump(const Token *token)
 {
-    if (!token)
-        return -1;
+    tokenDumpInFile(token, lexer_log);
 
-    fprintf(lexer_log, "\n\ttoken %p\n", token);
-
-    switch (token->type)
-    {
-    case OP:
-        fprintf(lexer_log, "OPERATION %c\n", token->val.op_value);
-        break;
-    case KEY_WORD:
-        fprintf(lexer_log, "KEY_WORD %c\n", token->val.key_value);
-        break;
-    case SEPARATOR:
-        fprintf(lexer_log, "SEPARATOR %c\n", token->val.sep_value);
-        break;
-    case NUM:
-        fprintf(lexer_log, "NUMBER %g\n", token->val.dbl_value);
-        break;
-    case VAR:
-        fprintf(lexer_log, "VARIABLE \"%s\"\n", token->val.var.name);
-        break;
-    default:
-        fprintf(lexer_log, "smth cringe\n");
-        break;
-    }
     return 0;
 }
 
-int tokenDumpConsole(const Token *token)
+int tokenDumpInFile(const Token *token, FILE * file)
 {
     if (!token)
         return -1;
 
-    printf("\ttoken %p\n", token);
+    fprintf(file, "\n\ttoken %p\n", token);
 
     switch (token->type)
     {
     case OP:
-        printf("OPERATION %c\n", token->val.op_value);
+        fprintf(file, "OPERATION %c\n", token->val.op_value);
         break;
     case KEY_WORD:
-        printf("KEY_WORD %c\n", token->val.key_value);
+        fprintf(file, "KEY_WORD %c\n", token->val.key_value);
         break;
     case SEPARATOR:
-        printf("SEPARATOR %c\n", token->val.sep_value);
+        fprintf(file, "SEPARATOR %c\n", token->val.sep_value);
         break;
     case NUM:
-        printf("NUMBER %g\n", token->val.dbl_value);
+        fprintf(file, "NUMBER %g\n", token->val.dbl_value);
         break;
     case VAR:
-        printf("VARIABLE \"%s\"\n", token->val.var.name);
+        fprintf(file, "VARIABLE \"%s\"\n", token->val.var.name);
         break;
     default:
-        printf("smth cringe\n");
+        fprintf(file, "smth cringe-wrong_token\n");
         break;
     }
     return 0;
 }
 
-int tokenDump(const Token *token, const char *name_of_var, const char *name_of_file, const char *name_of_func, int number_of_line)
+int tokenDumpExtended(const Token *token, const char *name_of_var, const char *name_of_file, const char *name_of_func, int number_of_line)
 {
 
     printf("\e[0;32m\n%s\e[0m at %s at %s(%d)\n", name_of_var, name_of_func,
            name_of_file, number_of_line);
-    tokenDumpConsole(token);
+    tokenDumpInFile(token, stdout);
 
 #ifndef SYNTAX_DEBUG
     // fprintf(lexer_log, "\n%s at %s at %s(%d)\n",  name_of_var, name_of_func,

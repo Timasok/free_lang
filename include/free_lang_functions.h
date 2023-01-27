@@ -31,6 +31,8 @@ enum Translation_result
 };
 
 Translation_result translateLanguage(const char *input_file_name, const char *output_file_name);
+
+int translateToAST(Node *node);
 int handleProgram(Node *node);
 
 int copyFromFunccallMemory(Node * func, Var variables[]);
@@ -42,7 +44,7 @@ int handleLangTree(Node *node, Var variables[]);
 int handleASG(Node *node, Var variables[]);
 int handleFunccall(Node * func, Var variables[]);
 
-bool handleMacro(Node * func, Var variables[]);
+bool handleIntrinsic(Node * func, Var variables[]);
 int pushArgInFuncall(Node *arg, Var variables[]);
 int handleIfElse(Node * if_node, Var variables[]);
 int handleWhile(Node * if_node, Var variables[]);

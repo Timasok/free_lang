@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "free_lang_f.h"
+#include "free_lang_functions.h"
 
 int main(int argc, const char* argv[])
 {
@@ -15,21 +15,14 @@ int main(int argc, const char* argv[])
         
     }
 
-    switch (translateLanguage(input_file, output_file))
+    if (translateLanguage(input_file, output_file) == TRANSLATION_SUCCEEDEED)
     {
-        case TRANSLATION_SUCCEEDEED: 
-        {
-            char command[MAX_COMMAND_LENGTH] = {};
-            sprintf(command, "./Make %s", output_file);
-            system(command);
-         
-            break;
-        }
-        default:
-        {
-
-            break;
-        }
+        char command[MAX_COMMAND_LENGTH] = {};
+        sprintf(command, "./Make %s", output_file);
+        system(command);
+        
+    } else {
+        PRINT_ERROR_CONSOLE("can not execute your program, fix the source file");
     }
 
     return 0;

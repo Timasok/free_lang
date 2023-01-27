@@ -38,11 +38,11 @@ Token * tokenCtor(Node_type type, Value val);
 Token * tokenCtor(const char * var_name);
 
 #define TOKEN_DUMP(token)                                                       \
-            tokenDump(token, #token, __FILE__, __PRETTY_FUNCTION__, __LINE__)   \
+            tokenDumpExtended(token, #token, __FILE__, __PRETTY_FUNCTION__, __LINE__)   \
 
 int tokenDump(const Token * token);
-int tokenDumpConsole(const Token * token);
-int tokenDump(const Token * token, const char * name_of_var, const char * name_of_file, const char * name_of_func, int number_of_line);
+int tokenDumpInFile(const Token *token, FILE * file);
+int tokenDumpExtended(const Token * token, const char * name_of_var, const char * name_of_file, const char * name_of_func, int number_of_line);
 
 int getPriority(const Token * token);
 int tokenDtor(Token * token);

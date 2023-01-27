@@ -471,8 +471,7 @@ Node * createOp(int operation)
 
 bool isTerminal(Node *node)
 {
-    if (!node)
-        return false;
+    BASIC_PTR_ASSERT(node);
 
     if (!node->l_son && !node->r_son)
     {
@@ -604,8 +603,7 @@ void printIn(const Node * node)
 
 int nodeDtor(Node *node)
 {
-    if (!node)
-        return 0;
+    BASIC_PTR_ASSERT(node);
 
     while(1)
     {
