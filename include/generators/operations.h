@@ -22,7 +22,7 @@ DEF_OP(ABS, 2, 'A', "abs")
 
 DEF_OP(NOT_EQUALS, 1, 'N', "!=")
 
-DEF_OP(EQUALS, 1, 'E', "==")
+DEF_OP(EQUALS, 1, 'E', "&")
 
 DEF_OP(BELOW_OR_EQUALS, 1, 'B', "<=")
 

@@ -74,25 +74,40 @@ Translation_result translateLanguage(const char *input_file_name, const char *ou
     Node * main_node = getGeneral(&program_tokens);
 
     programTokensDtor(&program_tokens);
+
+    if (main_node == nullptr)
+    {
+        dtorDuringTrandslation(&main_node, &text1);
+        return TRANSLATION_TERMINATED_SYNTAX_ERROR;
+    }
     
     // TREE_DUMP_OPTIONAL(main_node, "initial tree"); 
 
     output_file = fopen(output_file_name, "w+");
 
     if (output_file == nullptr)
+    {
+        dtorDuringTrandslation(&main_node, &text1);
         return TRANSLATION_TERMINATED_SAVE_FILE_ERROR;
+    }
 
     translateToAST(main_node);
 
     fclose(output_file);
 
-    closeLogs();
-
-    nodeDtorComplete(&main_node);
-    textDtor(&text1);
+    dtorDuringTrandslation(&main_node, &text1);
 
     return TRANSLATION_SUCCEEDEED;
 
+}
+
+int dtorDuringTrandslation(Node **main_node, Text_info * text)
+{
+    closeLogs();
+    nodeDtorComplete(main_node);
+    textDtor(text);
+
+    return 0;
 }
 
 int translateToAST(Node *node)

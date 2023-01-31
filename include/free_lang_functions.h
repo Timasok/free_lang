@@ -4,13 +4,14 @@
 #include <stdio.h>
 
 #include "tree.h"
+#include "text_funcs.h"
 
 const int MAX_FILE_NAME_LENGTH = 128;
 const int MAX_COMMAND_LENGTH   = 128;
 const int MAX_LINE_LENGTH      = 1024;
 
 const int VAR_IN_FUNCCALL_INDEX = 1032;//14336;
-const int VAR_IN_DEF_INDEX      = 1064;//10240;
+const int VAR_IN_DEF_INDEX      = 1096;//10240;
 const int SHIFT_IN_DEF          = 32;
 
 const int COMPAR                = 47;
@@ -31,6 +32,7 @@ enum Translation_result
 };
 
 Translation_result translateLanguage(const char *input_file_name, const char *output_file_name);
+int dtorDuringTrandslation(Node **main_node, Text_info * text);
 
 int translateToAST(Node *node);
 int handleProgram(Node *node);

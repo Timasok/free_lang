@@ -7,6 +7,7 @@
 #include "syntax_analysis.h"
 
 static Program_tokens * program_tokens;
+static Node * root_node;
 
 const int MAX_VARIABLE_LEN = 15;
 
@@ -20,11 +21,24 @@ const int MAX_VARIABLE_LEN = 15;
         }                                                                               \
     } while (0)                                                                         \
 
+#undef ASSERT
+#define ASSERT(condition)                                                       \
+    do{                                                                         \
+        if (!condition)                                                         \
+        {                                                                       \
+            fprintf(stderr, "\e[0;31m%s failed at %s at %s(%d)\e[0m\n",         \
+                     #condition, __PRETTY_FUNCTION__, __FILE__, __LINE__);      \
+            return nullptr;                                                     \
+        }                                                                       \
+    } while(0)                                                                  \
+
+
 Node * getGeneral(Program_tokens * tokens)
 {
     program_tokens = tokens;
 
     Node * main_node = createEmpty();
+    root_node = main_node;
 
     getLangTree(main_node);
 
@@ -36,6 +50,9 @@ Node * getGeneral(Program_tokens * tokens)
 
 int getLangTree(Node * predecessor)
 {
+    if(!predecessor)
+        return 0;
+
     Node * left  = getAssignment();
     Node * right = nullptr;
 
@@ -50,7 +67,7 @@ int getLangTree(Node * predecessor)
     IF_VERIFY(!checkTokensForEnd(program_tokens) && !checkForEndOfBlock(program_tokens));
 #endif
 
-    if (!checkTokensForEnd(program_tokens) && !checkForEndOfBlock(program_tokens))
+    if (!checkTokensForEnd(program_tokens) && !checkForEndOfBlock(program_tokens) && left)
     {
         right = createEmpty();
         getLangTree(right);
@@ -122,6 +139,8 @@ Node * getAssignment()
         result = getExpression();   
     }
 
+    ASSERT(result != NULL);
+
     return result;
 }
 
@@ -159,6 +178,8 @@ Node * getKeyWord()
         TOKEN_DUMP(current_token);
 #endif     
             condition = getExpression();
+
+            ASSERT(condition != NULL);
             // DBG_OUT;
 
             current_token = program_tokens->tokens[program_tokens->current];        
@@ -390,7 +411,9 @@ Node * getBlock()
 
 Node * getExpression()
 {
-    Node * result = getComparison();
+    Node * result = getComparisonParts();
+
+    ASSERT(result != NULL);
 
     if (!checkTokensForEnd(program_tokens))
     {
@@ -409,7 +432,7 @@ Node * getExpression()
         {
             INCREMENT_TOKENS;
             
-            Node * tmp_result = getComparison();
+            Node * tmp_result = getComparisonParts();
 
 #ifdef SYNTAX_DEBUG
             IF_VERIFY(current_token->val.op_value == '+');
@@ -482,9 +505,11 @@ Node * getExpression()
     return result;
 }
 
-Node * getComparison()
+Node * getComparisonParts()
 {
     Node * result = getTerm();
+
+    ASSERT(result != NULL);
 
     if (!checkTokensForEnd(program_tokens))
     {
@@ -540,6 +565,8 @@ Node * getTerm()
 {
     Node * result = getDegree();
 
+    ASSERT(result != NULL);
+
     if (!checkTokensForEnd(program_tokens))
     {
         Value value = {};
@@ -590,6 +617,7 @@ Node * getDegree()
 {
     Node * result = getStaples();
     
+    ASSERT(result != NULL);
     // DBG_OUT;
 
     if (!checkTokensForEnd(program_tokens))
@@ -611,6 +639,8 @@ Node * getDegree()
 #endif
             INCREMENT_TOKENS;
             Node * tmp_result = getStaples();
+
+            ASSERT(tmp_result != NULL);//TODO
 
             value.op_value = POW;
             result = nodeConnect(OP, value, result, tmp_result);
@@ -650,6 +680,8 @@ Node * getStaples()
         program_tokens->current++;
 
         result = getExpression();
+        ASSERT(result != NULL);//TODO
+
         current_token = program_tokens->tokens[program_tokens->current];
         
 #ifdef SYNTAX_DEBUG
@@ -668,6 +700,7 @@ Node * getStaples()
         IF_VERIFY(current_token->type == OP || current_token->type == KEY_WORD || current_token->type == VAR);
 #endif
         result = getUnarOperation();
+        ASSERT(result != NULL);//TODO
 
     }else if (current_token->type == NUM)
     {
@@ -676,10 +709,12 @@ Node * getStaples()
         IF_VERIFY(current_token->type == NUM);
 #endif
         result = getNumber();
+        ASSERT(result != NULL);//TODO
 
     } else
     {
         DBG_OUT;
+        result = nullptr;
     }
     return result;
 }
@@ -768,3 +803,5 @@ Node * getNumber()
 
     return result;
 }
+
+#undef ASSERT

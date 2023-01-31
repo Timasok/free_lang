@@ -157,7 +157,7 @@ int handleProgramPiece(char *line, Program_tokens *program_tokens)
                 continue;
             }
 
-        } else if (isdigit(*line) && !isdigit(line[visible_len]))
+        } else if ((isdigit(*line) || *line == '.') && !(isdigit(line[visible_len]) || line[visible_len] == '.'))
         {
             val.dbl_value = checkForNum(line, visible_len);
             if (!isnan(val.dbl_value))
@@ -208,7 +208,6 @@ int handleProgramPiece(char *line, Program_tokens *program_tokens)
 
     return 0;
 }
-
 
 #define DEF_OP(op_name, priority, op_code, name_in_lang)                      \
     else if (op_name != NOT_OP && stringEquals(name_in_lang, processed_line)) \
@@ -397,8 +396,6 @@ int programTokensCtor(const char *input_line, Program_tokens *program_tokens)
     char *line_start = line;
     size_t initial_len = strlen(line);
 
-    openLexLogs();
-
     program_tokens->tokens = (Token **)calloc(INITIAL_TOKEN_NUMBER, sizeof(Token *));
     program_tokens->size = 0;
     program_tokens->current = 0;
@@ -434,10 +431,15 @@ int programTokensCtor(const char *input_line, Program_tokens *program_tokens)
 
 int programTokensDump(Program_tokens *program_tokens)
 {
+
+    openLexLogs();
+
     for (int idx = 0; idx < program_tokens->size; idx++)
     {
         tokenDump(program_tokens->tokens[idx]);
     }
+
+    closeLexLogs();
 
     return 0;
 }
@@ -482,7 +484,6 @@ int tokenDumpInFile(const Token *token, FILE * file)
 
 int tokenDumpExtended(const Token *token, const char *name_of_var, const char *name_of_file, const char *name_of_func, int number_of_line)
 {
-
     printf("\e[0;32m\n%s\e[0m at %s at %s(%d)\n", name_of_var, name_of_func,
            name_of_file, number_of_line);
     tokenDumpInFile(token, stdout);
@@ -508,8 +509,6 @@ int programTokensDtor(Program_tokens *program_tokens)
     }
 
     free(program_tokens->tokens);
-
-    closeLexLogs();
 
     return 0;
 }

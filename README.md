@@ -43,10 +43,42 @@ My language requires following constructions:
         separator             -> key_word -> separator
         separator or operator -> variable -> separator or operator
         operator              -> number   -> separator or operator
-3.
+3. Then a special module called syntax analysator creates tree, based on array of tokens and grammatics - rules of tree-building. Here I'll show you my grammar.
+
+NT - nextToken
+CT - currentToken
+
+
+getGeneral        ::= getLangTree assert(tokensend)
+    Creates main empty node and calls function that handles program body - getLangTree
+
+getLangTree       ::= l-getAssignment, r-nullptr ?((tokenEnd == false) -> right = createEmpty,getLangTree(right)) linktoPredecessor
+    Is a recursive function that calls itself if program body consist next line
+
+getAssignment     ::= if(NT == '='){
+    getVariable, getFunc || getExpression, create Assignment node, connect and return
+}else{
+    KEYWORD || FUNCCALL || EXPRESSION
+} 
+    Handles assignment - operation with highest priority. It's visibility zone is 2 tokens from the last line's separator - semicolon. As long as every line(program piece separated with semicolon) has at least expression and semicolon itself there is no need to check it.
+
+getKeyWord        ::= DEF?->getDef else-> create node condition-getExpression block-getBlock(for if special function getIfElseBlocks)
+
+getExpression     ::=
+getComparison     ::=
+getTerm           ::=
+getDegree         ::=
+getStaples        ::=
+getVariable       ::=
+getUnarOperation  ::=
+getNumber         ::=
+getBlock          ::=
+getFuncDefinition ::=
+getArgumentsNames ::=
+getFunc           ::=
+getArguments      ::=
+getIfElseBlocks   ::=
+
 4.
 
----------------------
-What do I need to fix? What exact parts of this program should I optimize, decastylize?
-
--Make possible divide tokens without spaces.
+5.

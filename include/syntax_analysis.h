@@ -4,23 +4,23 @@
 #include "text_funcs.h"
 #include "lexical_analysis.h"
 
-Node * getGeneral       (Program_tokens * tokens);
-Node * getExpression    ();
-Node * getComparison    ();
-Node * getTerm          ();
-Node * getDegree        ();
-Node * getStaples       ();
-Node * getVariable      ();
-Node * getUnarOperation ();
-Node * getNumber        ();
-Node * getAssignment    ();
-Node * getKeyWord       ();
-Node * getBlock         ();
-Node * getFuncDefinition();
-Node * getArgumentsNames();
-Node * getFunc          ();
-Node * getArguments     ();
-Node * getIfElseBlocks  ();
+Node * getGeneral         (Program_tokens * tokens);
+Node * getExpression      ();
+Node * getComparisonParts ();
+Node * getTerm            ();
+Node * getDegree          ();
+Node * getStaples         ();
+Node * getVariable        ();
+Node * getUnarOperation   ();
+Node * getNumber          ();
+Node * getAssignment      ();
+Node * getKeyWord         ();
+Node * getBlock           ();
+Node * getFuncDefinition  ();
+Node * getArgumentsNames  ();
+Node * getFunc            ();
+Node * getArguments       ();
+Node * getIfElseBlocks    ();
 
 int getLangTree(Node * predecessor);
 

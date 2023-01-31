@@ -1,37 +1,18 @@
-def main(  ){  
+def main(){  
 
-    res = akkerman(2,3);
+    input(x);
+ 
+    res = equal((x);
     print(res);
 
 };
 
-def akkerman(n,m)
+def equal(a)
 {
-    if(n<0)
+    if(a>4)
     {
-        print_line(error);
+        return(1);
+    }else{
+        return(0);
     };
-
-    if(m<0)
-    {
-        print_line(error);
-    };
-
-    if(n)
-    {}else 
-    {
-        new_m = m+1;
-        return(new_m);
-    };
-
-    if(m)
-    {}else 
-    {
-        x = akkerman(n-1,1);
-        return(x);
-    };
-
-    new_m = akkerman(n,m-1);
-    x = akkerman(n, new_m);
-    return(x);    
 };
