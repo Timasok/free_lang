@@ -3,6 +3,8 @@ ASM_DIR = ./lib/ASM/src/
 CPU_DIR = ./lib/CPU/src/
 LIB_DIR = ./lib/
 LANG_DIR = ./src/
+ASS_PROGS = ./assembler_progs/
+TIM_SOURCES = ./timasok_sources/
 
 LOGS_DIR = ./logs/
 GRAPH_DUMP_DIR = ./graph_dumps/
@@ -30,7 +32,7 @@ CPU_OBJ  := $(patsubst $(CPU_DIR)%.cpp,  $(OBJ_DIR)%.o, $(CPU_SRC))
 LIB_OBJ  := $(patsubst $(LIB_DIR)%.cpp,  $(OBJ_DIR)%.o, $(LIB_SRC))
 LANG_OBJ := $(patsubst $(LANG_DIR)%.cpp, $(OBJ_DIR)%.o, $(LANG_SRC))
 
-all : $(ASM_EXE) $(CPU_EXE) $(LANG_EXE)
+all : mkdir $(ASM_EXE) $(CPU_EXE) $(LANG_EXE)
 
 $(ASM_EXE) : $(ASM_OBJ) $(STK_OBJ) $(LIB_OBJ)
 	@$(CC) $(CFLAGS_NO_SANITIZER) $(ASM_OBJ) $(STK_OBJ) $(LIB_OBJ) -o $(ASM_EXE)
@@ -61,6 +63,8 @@ mkdir :
 	@mkdir -p $(GRAPH_DUMP_DIR)
 	@mkdir -p $(OBJ_DIR)
 	@mkdir -p $(LOGS_DIR)
+	@mkdir -p $(ASS_PROGS)
+	@mkdir -p $(TIM_SOURCES)
 
 clean :
 	@rm $(LANG_EXE) $(OBJ_DIR)*.o 
