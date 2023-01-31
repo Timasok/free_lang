@@ -32,7 +32,9 @@ CPU_OBJ  := $(patsubst $(CPU_DIR)%.cpp,  $(OBJ_DIR)%.o, $(CPU_SRC))
 LIB_OBJ  := $(patsubst $(LIB_DIR)%.cpp,  $(OBJ_DIR)%.o, $(LIB_SRC))
 LANG_OBJ := $(patsubst $(LANG_DIR)%.cpp, $(OBJ_DIR)%.o, $(LANG_SRC))
 
-all : mkdir $(ASM_EXE) $(CPU_EXE) $(LANG_EXE)
+all : 
+	g++ Make.cpp -o Make
+	mkdir $(ASM_EXE) $(CPU_EXE) $(LANG_EXE) 
 
 $(ASM_EXE) : $(ASM_OBJ) $(STK_OBJ) $(LIB_OBJ)
 	@$(CC) $(CFLAGS_NO_SANITIZER) $(ASM_OBJ) $(STK_OBJ) $(LIB_OBJ) -o $(ASM_EXE)
