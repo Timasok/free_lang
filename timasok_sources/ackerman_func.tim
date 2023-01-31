@@ -1,0 +1,38 @@
+def main(  ){  
+
+    input(a,b);
+
+    res = ackerman(a,b);
+    print(res);
+
+};
+
+def ackerman(n,m)
+{
+
+    if(n)
+    {
+        if(m)
+        {
+            tmp_m = m-1;
+            tmp_m = ackerman(n, tmp_m);
+            tmp_n = n-1;
+
+            x = ackerman(tmp_n, tmp_m);
+            
+            return(x);
+
+        }else 
+        {
+            tmp_N = n-1;
+            x = ackerman(tmp_N,1);
+            return(x);
+        };
+
+    }else 
+    {
+        x = m+1;
+        return(x);
+    };
+
+};
