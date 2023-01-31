@@ -147,7 +147,7 @@ int copyNodeData(const Node *src_node, Node *dest_node);
 int copySingle(const Node *node, Node *new_node);
 
 int nodeDtor(Node *node);
-int nodeDtor(Node **node);
+int nodeDtorComplete(Node **node);
 
 void printPre(const Node *node);
 void printIn(const Node *node);

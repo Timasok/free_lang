@@ -662,7 +662,7 @@ int nodeDtor(Node *node)
     return 0;
 }
 
-int nodeDtor(Node **node)
+int nodeDtorComplete(Node **node)
 {
     nodeDtor(*node);
     free(*node);

@@ -88,7 +88,7 @@ Translation_result translateLanguage(const char *input_file_name, const char *ou
 
     closeLogs();
 
-    nodeDtor(&main_node);
+    nodeDtorComplete(&main_node);
     textDtor(&text1);
 
     return TRANSLATION_SUCCEEDEED;
@@ -330,6 +330,40 @@ int handleComparision(Node * node, Var variables[])
     if (node->r_son)
         handleLangTree(node->r_son, variables);
 
+    // switch(node->value.op_value)
+    // {
+    //     case EQUALS:
+    //     {
+    //         fprintf(output_file, "jne");
+    //         break;
+    //     }
+    //     case NOT_EQUALS:
+    //     {
+    //         fprintf(output_file, "je");
+    //         break;
+    //     }
+    //     case BELOW_OR_EQUALS:
+    //     {
+    //         fprintf(output_file, "ja");
+    //         break;
+    //     }
+    //     case ABOVE_OR_EQUALS:
+    //     {
+    //         fprintf(output_file, "jb");
+    //         break;
+    //     }
+    //     case BELOW:
+    //     {
+    //         fprintf(output_file, "jae");
+    //         break;
+    //     }
+    //     case ABOVE:
+    //     {
+    //         fprintf(output_file, "jbe");
+    //         break;
+    //     }
+    // };
+
     switch(node->value.op_value)
     {
         PRINT_COMPARASION_SIGN(EQUALS, jne);
@@ -338,7 +372,6 @@ int handleComparision(Node * node, Var variables[])
         PRINT_COMPARASION_SIGN(ABOVE_OR_EQUALS, jb);
         PRINT_COMPARASION_SIGN(BELOW, jae);
         PRINT_COMPARASION_SIGN(ABOVE, jbe);
-
     };
 
     return 0;

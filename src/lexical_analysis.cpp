@@ -130,7 +130,7 @@ int handleProgramPiece(char *line, Program_tokens *program_tokens)
 
     while (line - initial_line_ptr < initial_len)
     {
-        if (isalpha(*line) && !isalpha(line[visible_len]))
+        if ((isalpha(*line) || *line == '_') && !(isalpha(line[visible_len]) || line[visible_len] == '_'))
         {
             val.key_value = checkForKeyWord(line, visible_len);
             if (val.key_value != NOT_KEY)
@@ -149,7 +149,8 @@ int handleProgramPiece(char *line, Program_tokens *program_tokens)
             {
                 // DBG_OUT;
                 program_tokens->tokens[program_tokens->size++] = tokenCtor(val.var.name);
-                
+                free(val.var.name);
+
                 line += visible_len;
                 visible_len = 1;
 
@@ -170,7 +171,7 @@ int handleProgramPiece(char *line, Program_tokens *program_tokens)
                 continue;
             }          
 
-        } else if (!isalnum(*line))
+        } else if (!isalnum(*line) && *line != '_')
         {
             val.op_value = checkForOperator(line, visible_len);
             if (val.op_value != NOT_OP)

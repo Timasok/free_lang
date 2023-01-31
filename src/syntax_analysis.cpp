@@ -416,13 +416,53 @@ Node * getExpression()
 #endif
             switch(current_token->val.op_value)
             {
-                CREATE_COMPARASION_NODE(EQUALS);
-                CREATE_COMPARASION_NODE(NOT_EQUALS);
-                CREATE_COMPARASION_NODE(BELOW_OR_EQUALS);
-                CREATE_COMPARASION_NODE(ABOVE_OR_EQUALS);
-                CREATE_COMPARASION_NODE(BELOW);
-                CREATE_COMPARASION_NODE(ABOVE);
+                case EQUALS:
+                {
+                    value.op_value = EQUALS;
+                    result = nodeConnect(OP, value, result, tmp_result);
+                    break;
+                }
+                case NOT_EQUALS:
+                {
+                    value.op_value = NOT_EQUALS;
+                    result = nodeConnect(OP, value, result, tmp_result);
+                    break;
+                }
+                case BELOW_OR_EQUALS:
+                {
+                    value.op_value = BELOW_OR_EQUALS;
+                    result = nodeConnect(OP, value, result, tmp_result);
+                    break;
+                }
+                case ABOVE_OR_EQUALS:
+                {
+                    value.op_value = ABOVE_OR_EQUALS;
+                    result = nodeConnect(OP, value, result, tmp_result);
+                    break;
+                }
+                case BELOW:
+                {
+                    value.op_value = BELOW;
+                    result = nodeConnect(OP, value, result, tmp_result);
+                    break; 
+                }
+                case ABOVE:
+                {
+                    value.op_value = ABOVE;
+                    result = nodeConnect(OP, value, result, tmp_result);
+                    break;
+                }
             };
+
+            // switch(current_token->val.op_value)
+            // {
+            //     CREATE_COMPARASION_NODE(EQUALS);
+            //     CREATE_COMPARASION_NODE(NOT_EQUALS);
+            //     CREATE_COMPARASION_NODE(BELOW);
+            //     CREATE_COMPARASION_NODE(ABOVE);
+            //     CREATE_COMPARASION_NODE(BELOW_OR_EQUALS);
+            //     CREATE_COMPARASION_NODE(ABOVE_OR_EQUALS);
+            // };
 
             current_token = program_tokens->tokens[program_tokens->current];
 
