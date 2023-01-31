@@ -81,5 +81,6 @@ DEF_INTRINSIC(RETURN, "return",
     pushArgInFuncall(arg, variables);
 
     fprintf(output_file, "pop %s\n", ret_reg);
-    fprintf(output_file, "ret\n");
+    increaseOrDecreaseRegister(DECREASE);
+    fprintf(output_file,"ret\n");
 })
